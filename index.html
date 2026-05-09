@@ -1,0 +1,5473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wave Langkawi — Car Rental &amp; Island Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --purple-deep: #1a1140;
+      --purple-soft: #2d1f5c;
+      --accent-red: #e63946;
+      --accent-orange: #ff8c42;
+      --accent-yellow: #ffc857;
+      --bg-page: #faf8f5;
+      --bg-warm: #fff5eb;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --white: #ffffff;
+      --radius-lg: 28px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --shadow: 0 24px 60px rgba(26, 17, 64, 0.12);
+      --font: "Plus Jakarta Sans", system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-page);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      overflow-x: hidden;
+    }
+
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-blobs::before,
+    .bg-blobs::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.35;
+    }
+
+    .bg-blobs::before {
+      width: 420px;
+      height: 420px;
+      background: rgba(134, 239, 172, 0.25);
+      top: -120px;
+      right: -80px;
+    }
+
+    .bg-blobs::after {
+      width: 380px;
+      height: 380px;
+      background: rgba(74, 222, 128, 0.2);
+      bottom: 20%;
+      left: -100px;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    @media (max-width: 480px) {
+      .wrap {
+        padding: 0 16px;
+      }
+    }
+
+    /* Header */
+    header {
+      padding: 20px 0 8px;
+      position: relative;
+      z-index: 200;
+      background: var(--bg-page);
+    }
+
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-red) 0%, #2563eb 100%);
+      box-shadow: 0 4px 14px rgba(230, 57, 70, 0.35);
+    }
+
+    .logo-text {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex: 1;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent-red);
+    }
+
+    nav a.nav-highlight {
+      color: var(--accent-red);
+      font-weight: 600;
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 1px solid rgba(26, 26, 46, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      min-width: 220px;
+    }
+
+    .search-wrap svg {
+      flex-shrink: 0;
+      opacity: 0.45;
+    }
+
+    .search-wrap input {
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      color: var(--text-muted);
+    }
+
+    .search-wrap input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Introduction — first screen (not car rental) */
+    .intro-section {
+      padding: 40px 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .intro-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      margin-bottom: 14px;
+    }
+
+    .intro-section .intro-headline {
+      font-size: clamp(2rem, 4.5vw, 2.85rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+
+    .intro-lead {
+      font-size: 1.06rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 12px;
+      max-width: 540px;
+    }
+
+    .intro-lead-secondary {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 26px;
+      max-width: 540px;
+    }
+
+    .intro-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .btn-intro-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 999px;
+      border: 2px solid var(--purple-deep);
+      background: var(--white);
+      color: var(--purple-deep);
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-intro-outline:hover {
+      background: linear-gradient(145deg, var(--purple-deep) 0%, var(--purple-soft) 55%, #3d2a6b 100%);
+      color: var(--white);
+    }
+
+    .intro-mini {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 36px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(26, 26, 46, 0.08);
+    }
+
+    .intro-mini div strong {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--purple-deep);
+      letter-spacing: -0.02em;
+    }
+
+    .intro-mini div span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .intro-visual {
+      position: relative;
+    }
+
+    .intro-visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      aspect-ratio: 5/4;
+      object-fit: cover;
+    }
+
+    .intro-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.96);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--purple-deep);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      max-width: calc(100% - 40px);
+      line-height: 1.35;
+      word-wrap: break-word;
+    }
+
+    .intro-scroll-hint {
+      text-align: center;
+      padding: 28px 16px 8px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 36rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .intro-scroll-hint a {
+      color: var(--accent-red);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .intro-scroll-hint a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .intro-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .intro-lead,
+      .intro-lead-secondary {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .intro-actions {
+        justify-content: center;
+      }
+
+      .intro-mini {
+        justify-content: center;
+      }
+
+      .intro-visual {
+        order: -1;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      margin-top: 12px;
+      background: linear-gradient(145deg, var(--purple-deep) 0%, var(--purple-soft) 55%, #3d2a6b 100%);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px 56px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-deco {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-deco .plane {
+      position: absolute;
+      left: 8%;
+      top: 22%;
+      font-size: 2rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .hero-deco .pin {
+      position: absolute;
+      right: 12%;
+      top: 28%;
+      font-size: 2rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .hero-deco .path {
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      top: 38%;
+      height: 80px;
+      border: 2px dashed rgba(255, 255, 255, 0.25);
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-widget {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+      }
+
+      .hero-copy p.lead {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 28px 18px 32px;
+        border-radius: 22px;
+        margin-top: 8px;
+      }
+
+      .hero-deco .plane {
+        left: 4%;
+        top: 10%;
+        font-size: 1.5rem;
+        opacity: 0.85;
+      }
+
+      .hero-deco .pin {
+        right: 4%;
+        top: 14%;
+        font-size: 1.5rem;
+        opacity: 0.85;
+      }
+
+      .hero-deco .path {
+        opacity: 0.25;
+        top: 42%;
+        height: 64px;
+      }
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .hero-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      aspect-ratio: 4/5;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    .float-card {
+      position: absolute;
+      bottom: 12%;
+      right: 8px;
+      left: auto;
+      max-width: calc(100% - 24px);
+      background: var(--white);
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--purple-deep);
+    }
+
+    .float-card .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 480px) {
+      .float-card {
+        bottom: 8%;
+        right: 50%;
+        transform: translateX(50%);
+        max-width: calc(100% - 32px);
+        font-size: 0.78rem;
+        padding: 10px 12px;
+      }
+
+      .float-card .icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+      }
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(1.85rem, 4vw, 2.75rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero-copy p.lead {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 1.05rem;
+      max-width: 460px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-red);
+      color: var(--white);
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 8px 24px rgba(230, 57, 70, 0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(230, 57, 70, 0.5);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
+
+    .btn-ghost .play {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+    }
+
+    .hero-widget {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      max-width: 420px;
+    }
+
+    .hero-widget h3 {
+      color: var(--white);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .search-cars {
+      display: grid;
+      gap: 12px;
+    }
+
+    .search-cars-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .search-cars input,
+    .search-cars select {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.95);
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .search-cars .btn-primary {
+      width: 100%;
+      justify-content: center;
+      margin-top: 4px;
+      box-shadow: none;
+    }
+
+    @media (max-width: 768px) {
+      .search-cars input[type="text"],
+      .search-cars input[type="date"],
+      .search-cars select {
+        font-size: 16px;
+        min-height: 48px;
+      }
+
+      .search-cars-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sections */
+    section {
+      padding: 72px 0;
+    }
+
+    @media (max-width: 640px) {
+      section {
+        padding: 48px 0;
+      }
+
+      #car-rental.wrap {
+        padding-top: 16px;
+      }
+
+      #story.wrap {
+        padding-top: 32px !important;
+      }
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.5rem, 3vw, 1.85rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .carousel-nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .carousel-nav button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(26, 26, 46, 0.12);
+      background: var(--white);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .carousel-nav button:hover {
+      background: linear-gradient(145deg, var(--purple-deep) 0%, var(--purple-soft) 55%, #3d2a6b 100%);
+      color: var(--white);
+      border-color: var(--purple-deep);
+    }
+
+    .cards-scroll {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .tour-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      min-height: 300px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .tour-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .tour-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26, 17, 64, 0.82) 0%, transparent 52%);
+    }
+
+    .tour-card .pill {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .tour-card .pill span.pin {
+      color: var(--accent-red);
+    }
+
+    .tour-card h3 {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      z-index: 2;
+      color: var(--white);
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    /* Why us */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (max-width: 850px) {
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .why-visual {
+      position: relative;
+    }
+
+    .why-visual img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      display: block;
+    }
+
+    .why-badge {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: var(--accent-yellow);
+      color: var(--purple-deep);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .feature {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .feature .fi {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--bg-warm);
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+    }
+
+    .feature h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .feature p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .view-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-red);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+    }
+
+    /* Reviews */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .review-card {
+      background: var(--white);
+      padding: 28px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .stars {
+      color: var(--accent-yellow);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .review-card p.quote {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .reviewer .name {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .reviewer .role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(145deg, var(--purple-deep) 0%, var(--purple-soft) 55%, #3d2a6b 100%);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 56px 0 32px;
+      margin-top: 24px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    footer h5 {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: block;
+      padding: 6px 0;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--white);
+    }
+
+    footer button.footer-link-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 6px 0;
+      font-family: inherit;
+      text-align: left;
+      display: block;
+      width: 100%;
+      transition: color 0.2s;
+    }
+
+    footer button.footer-link-btn:hover {
+      color: var(--white);
+    }
+
+    .footer-grid > div:first-child a {
+      color: rgba(255, 255, 255, 0.95);
+      text-decoration: none;
+    }
+
+    .footer-grid > div:first-child a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .footer-copy {
+      text-align: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Mobile nav */
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid rgba(26, 26, 46, 0.12);
+      background: var(--white);
+      cursor: pointer;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    @media (max-width: 960px) {
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .nav-row nav {
+        display: none;
+        width: 100%;
+        order: 10;
+        flex-direction: column;
+        padding: 16px;
+        gap: 8px;
+        background: var(--white);
+        border-radius: var(--radius-md);
+        box-shadow: 0 16px 48px rgba(26, 17, 64, 0.12);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        margin-top: 4px;
+      }
+
+      .nav-row nav.is-open {
+        display: flex;
+      }
+
+      .nav-row nav a {
+        padding: 10px 4px;
+        border-radius: 8px;
+      }
+
+      .nav-row nav a:active {
+        background: var(--bg-page);
+      }
+
+      .search-wrap {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+
+    /* Horizontal carousel */
+    .carousel-shell {
+      position: relative;
+    }
+
+    #vacations .cards-scroll.carousel-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 6px 2px 14px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      cursor: grab;
+      user-select: none;
+    }
+
+    #vacations .cards-scroll.carousel-track:active {
+      cursor: grabbing;
+    }
+
+    #vacations .cards-scroll.carousel-track .tour-card {
+      flex: 0 0 clamp(240px, 28vw, 320px);
+      min-height: 300px;
+      scroll-snap-align: start;
+    }
+
+    #vacations .cards-scroll.carousel-track::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    #vacations .cards-scroll.carousel-track::-webkit-scrollbar-thumb {
+      background: rgba(26, 17, 64, 0.2);
+      border-radius: 999px;
+    }
+
+    @media (max-width: 900px) {
+      #vacations .cards-scroll.carousel-track .tour-card {
+        flex-basis: min(74vw, 320px);
+      }
+    }
+
+    .filter-hidden {
+      display: none !important;
+    }
+
+    /* Car search results */
+    .results-panel {
+      margin-top: 24px;
+      padding: 24px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .results-panel.is-visible {
+      display: block;
+    }
+
+    .results-panel h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+    }
+
+    .result-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-page);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    @media (max-width: 540px) {
+      .result-row {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+
+      .result-row > div:last-child {
+        text-align: left;
+      }
+
+      .result-row .btn-primary {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .result-row strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .result-row span.meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Vehicle showroom */
+    .showroom-section {
+      padding: 40px 0 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .showroom-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      max-width: 560px;
+    }
+
+    .showroom-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .showroom-toolbar span.hint {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .showroom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .showroom-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .showroom-section {
+        padding: 28px 0 40px;
+      }
+
+      .showroom-card:hover {
+        transform: none;
+      }
+    }
+
+    .showroom-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      box-shadow: 0 14px 44px rgba(26, 17, 64, 0.08);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .showroom-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(26, 17, 64, 0.12);
+    }
+
+    .showroom-card .sc-img-wrap {
+      position: relative;
+      background: linear-gradient(180deg, #f0f0f5 0%, #e8e8ef 100%);
+    }
+
+    .showroom-card .sc-img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+    }
+
+    .showroom-card .sc-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--purple-deep);
+    }
+
+    .showroom-card .sc-body {
+      padding: 20px 20px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .showroom-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .showroom-card .sc-pkg {
+      font-size: 0.88rem;
+      color: var(--accent-red);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .showroom-card .sc-meta {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .showroom-card .sc-price {
+      margin-top: 14px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent-red);
+    }
+
+    .showroom-card .sc-price small {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .showroom-card .book-now {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(145deg, var(--purple-deep) 0%, var(--purple-soft) 55%, #3d2a6b 100%);
+      color: var(--white);
+      font-weight: 700;
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .showroom-card .book-now:hover {
+      background: var(--purple-soft);
+    }
+
+    /* Package detail modal (before checkout) */
+    .modal-package {
+      max-width: 920px;
+    }
+
+    .pkg-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 0 24px 24px;
+    }
+
+    @media (max-width: 768px) {
+      .pkg-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pkg-visual img {
+      width: 100%;
+      border-radius: var(--radius-md);
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .pkg-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      margin-bottom: 8px;
+    }
+
+    .pkg-layout h4 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .pkg-tagline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .pkg-includes-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .pkg-includes {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .pkg-includes li {
+      padding: 6px 0 6px 26px;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .pkg-includes li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #059669;
+      font-weight: 800;
+    }
+
+    .pkg-fields {
+      background: var(--bg-page);
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      margin-bottom: 16px;
+    }
+
+    .pkg-fields label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .pkg-fields select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+      background: var(--white);
+    }
+
+    .pkg-fields select:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .pkg-estimate {
+      font-size: 0.92rem;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(22, 163, 74, 0.1);
+      margin-bottom: 16px;
+      line-height: 1.55;
+    }
+
+    .pkg-estimate strong {
+      color: var(--accent-red);
+      font-size: 1.1rem;
+    }
+
+    .pkg-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .form-msg {
+      font-size: 0.85rem;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .form-msg.is-error {
+      display: block;
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .form-msg.is-success {
+      display: block;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 17, 64, 0.65);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      overscroll-behavior: contain;
+    }
+
+    .modal-overlay.is-open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 880px;
+      width: 100%;
+      max-height: min(92vh, 92dvh);
+      overflow: auto;
+      position: relative;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 10px;
+      background: var(--bg-page);
+      cursor: pointer;
+      font-size: 1.25rem;
+      line-height: 1;
+      z-index: 2;
+    }
+
+    @media (max-width: 480px) {
+      .modal-box {
+        max-height: min(94vh, 94dvh);
+      }
+
+      .modal-close {
+        top: 8px;
+        right: 8px;
+      }
+    }
+
+    .modal-box h3 {
+      padding: 20px 24px 0;
+      font-size: 1.15rem;
+    }
+
+    .modal-video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      margin: 16px 24px 24px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #000;
+    }
+
+    .modal-video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Tour packages — “Our popular tours” style carousel */
+    #tour-packages.tp-popular-wrap {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px 28px 48px;
+      margin-top: 32px;
+      box-shadow: 0 16px 48px rgba(26, 17, 64, 0.07);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .tp-popular-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tp-popular-head h2 {
+      font-size: clamp(1.45rem, 3vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--purple-deep);
+    }
+
+    .tp-carousel-nav {
+      display: flex;
+      gap: 12px;
+    }
+
+    .tp-carousel-nav button {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(26, 26, 46, 0.12);
+      background: var(--white);
+      cursor: pointer;
+      font-size: 1.35rem;
+      line-height: 1;
+      color: var(--purple-deep);
+      display: grid;
+      place-items: center;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s, border-color 0.15s;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .tp-carousel-nav button:hover {
+      transform: scale(1.05);
+    }
+
+    .tp-carousel-nav button.tp-nav-next {
+      background: var(--accent-red);
+      color: var(--white);
+      border-color: transparent;
+      box-shadow: 0 8px 24px rgba(230, 57, 70, 0.4);
+    }
+
+    .tp-carousel-shell {
+      margin-top: 20px;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .tp-carousel-track {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 16px 4px 28px 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .tp-carousel-track::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .tp-carousel-track::-webkit-scrollbar-thumb {
+      background: rgba(26, 17, 64, 0.2);
+      border-radius: 999px;
+    }
+
+    .tp-card {
+      position: relative;
+      flex: 0 0 min(280px, 78vw);
+      border-radius: 22px;
+      overflow: hidden;
+      scroll-snap-align: start;
+      box-shadow: 0 20px 50px rgba(26, 17, 64, 0.12);
+    }
+
+    .tp-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26, 17, 64, 0.82) 0%, transparent 52%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .tp-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tp-card .tp-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.96);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #64748b;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .tp-card .tp-badge .tp-pin {
+      color: var(--accent-red);
+      font-size: 0.85rem;
+    }
+
+    .tp-card h3 {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      right: 18px;
+      z-index: 2;
+      color: var(--white);
+      font-size: 1.12rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Staggered heights (masonry-style row) */
+    .tp-card.tp-h-tall {
+      height: 420px;
+      margin-top: 0;
+    }
+
+    .tp-card.tp-h-mid {
+      height: 340px;
+      margin-top: 48px;
+    }
+
+    .tp-card.tp-h-tall2 {
+      height: 395px;
+      margin-top: 0;
+    }
+
+    .tp-card.tp-h-short {
+      height: 265px;
+      margin-top: 92px;
+    }
+
+    @media (max-width: 600px) {
+      .tp-card.tp-h-tall {
+        height: 360px;
+      }
+
+      .tp-card.tp-h-mid {
+        height: 300px;
+        margin-top: 28px;
+      }
+
+      .tp-card.tp-h-tall2 {
+        height: 340px;
+      }
+
+      .tp-card.tp-h-short {
+        height: 240px;
+        margin-top: 56px;
+      }
+
+      #tour-packages.tp-popular-wrap {
+        padding: 28px 18px 36px;
+        margin-top: 24px;
+        border-radius: 22px;
+      }
+
+      .tp-popular-head {
+        margin-bottom: 4px;
+      }
+
+      .tp-carousel-nav button {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+      }
+
+      .tp-card {
+        flex: 0 0 min(260px, 85vw);
+      }
+
+      .tp-card h3 {
+        font-size: 1.02rem;
+        bottom: 14px;
+        left: 14px;
+        right: 14px;
+      }
+
+      .tp-card .tp-badge {
+        top: 12px;
+        right: 12px;
+        padding: 6px 11px;
+        font-size: 0.72rem;
+        max-width: calc(100% - 24px);
+      }
+    }
+
+    /* Info sections */
+    .info-band {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .info-band h3 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .step-card {
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-warm);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, var(--purple-deep) 0%, var(--purple-soft) 55%, #3d2a6b 100%);
+      color: var(--white);
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .check-list {
+      list-style: none;
+    }
+
+    .check-list li {
+      padding: 8px 0 8px 28px;
+      position: relative;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #059669;
+      font-weight: 800;
+    }
+
+    /* FAQ */
+    .faq-list {
+      max-width: 800px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      padding: 18px 8px 18px 0;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      color: var(--text);
+    }
+
+    .faq-q span.icon {
+      flex-shrink: 0;
+      transition: transform 0.2s;
+      color: var(--accent-red);
+      font-size: 1.25rem;
+    }
+
+    .faq-item.is-open .faq-q span.icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-a-inner {
+      padding: 0 0 18px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .faq-item.is-open .faq-a {
+      max-height: 420px;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .contact-card {
+      background: var(--white);
+      padding: 24px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .contact-card a {
+      color: var(--accent-red);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 28px;
+      justify-content: center;
+      padding: 24px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .trust-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Blog teaser */
+    .blog-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .blog-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      text-align: left;
+    }
+
+    .blog-card button {
+      width: 100%;
+      border: none;
+      background: var(--white);
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      padding: 0;
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+
+    .blog-card .bc-inner {
+      padding: 18px;
+    }
+
+    .blog-card h4 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .blog-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Toast */
+    #toast-root {
+      position: fixed;
+      bottom: max(96px, calc(env(safe-area-inset-bottom) + 88px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4500;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      pointer-events: none;
+      max-width: 90vw;
+    }
+
+    .toast {
+      background: linear-gradient(145deg, var(--purple-deep) 0%, var(--purple-soft) 55%, #3d2a6b 100%);
+      color: var(--white);
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+      animation: toast-in 0.35s ease;
+      pointer-events: auto;
+    }
+
+    .toast.success {
+      background: #047857;
+    }
+
+    @keyframes toast-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* FAB */
+    .fab {
+      position: fixed;
+      bottom: max(24px, env(safe-area-inset-bottom));
+      right: max(24px, env(safe-area-inset-right));
+      z-index: 2600;
+      padding: 14px 22px;
+      border-radius: 999px;
+      background: var(--accent-red);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 12px 32px rgba(230, 57, 70, 0.45);
+      transition: transform 0.15s;
+    }
+
+    .fab:hover {
+      transform: scale(1.03);
+    }
+
+    .fab-whatsapp {
+      position: fixed;
+      bottom: max(24px, env(safe-area-inset-bottom));
+      left: max(24px, env(safe-area-inset-left));
+      z-index: 2600;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.45);
+      transition: transform 0.15s ease;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .fab-whatsapp:hover {
+      transform: scale(1.06);
+    }
+
+    @media (max-width: 520px) {
+      .fab {
+        bottom: max(16px, env(safe-area-inset-bottom));
+        right: max(16px, env(safe-area-inset-right));
+        padding: 12px 18px;
+        font-size: 0.88rem;
+      }
+
+      .fab-whatsapp {
+        bottom: max(16px, env(safe-area-inset-bottom));
+        left: max(16px, env(safe-area-inset-left));
+        width: 52px;
+        height: 52px;
+      }
+
+      body {
+        padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+      }
+    }
+
+    /* Booking modal */
+    .modal-box.modal-wide {
+      max-width: 560px;
+    }
+
+    .booking-progress {
+      display: flex;
+      gap: 8px;
+      margin: 0 24px 20px;
+      flex-wrap: wrap;
+    }
+
+    .booking-progress span {
+      flex: 1;
+      min-width: 60px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-progress span.done {
+      background: var(--accent-red);
+    }
+
+    .booking-pane {
+      display: none;
+      padding: 0 24px 24px;
+    }
+
+    .booking-pane.is-active {
+      display: block;
+    }
+
+    .booking-pane label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 14px;
+      color: var(--text);
+    }
+
+    .booking-pane label:first-of-type {
+      margin-top: 0;
+    }
+
+    .booking-pane input[type="text"],
+    .booking-pane input[type="email"],
+    .booking-pane input[type="tel"],
+    .booking-pane textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .booking-pane textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    @media (max-width: 768px) {
+      .booking-pane {
+        padding: 0 16px 20px;
+      }
+
+      .booking-pane input[type="text"],
+      .booking-pane input[type="email"],
+      .booking-pane input[type="tel"],
+      .booking-pane textarea {
+        font-size: 16px;
+        min-height: 48px;
+      }
+
+      .booking-pane textarea {
+        min-height: 88px;
+      }
+
+      .booking-progress {
+        margin-left: 16px;
+        margin-right: 16px;
+      }
+
+      .modal-box.modal-wide h3:first-of-type,
+      .modal-box.modal-package h3:first-of-type {
+        padding-left: 16px;
+        padding-right: 52px;
+      }
+
+      .pkg-layout {
+        padding: 0 16px 20px;
+        gap: 20px;
+      }
+
+      .pkg-fields select {
+        font-size: 16px;
+        min-height: 48px;
+      }
+
+      .search-wrap input {
+        font-size: 16px;
+      }
+    }
+
+    .extra-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .extra-row:last-child {
+      border-bottom: none;
+    }
+
+    .booking-summary {
+      background: var(--bg-page);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    .booking-summary strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn-secondary {
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 2px solid var(--purple-deep);
+      background: transparent;
+      color: var(--purple-deep);
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-warm);
+    }
+
+    .legal-box {
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 0 24px 24px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .legal-box h4 {
+      color: var(--text);
+      margin: 16px 0 8px;
+      font-size: 0.95rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* ===================================================
+       ANIMATIONS & SCROLL REVEALS
+    =================================================== */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(-8deg); }
+      50% { transform: translateY(-14px) rotate(6deg); }
+    }
+    @keyframes floatPin {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(36px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-32px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(32px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 8px 24px rgba(230,57,70,0.45); }
+      50%       { box-shadow: 0 8px 36px rgba(230,57,70,0.75); }
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes dash-move {
+      from { stroke-dashoffset: 0; }
+      to   { stroke-dashoffset: -40; }
+    }
+    @keyframes pathFloat {
+      0%, 100% { opacity: 0.5; transform: scaleX(1); }
+      50%       { opacity: 0.8; transform: scaleX(1.04); }
+    }
+
+    /* Scroll-reveal base */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.65s cubic-bezier(.22,.68,0,1.2), transform 0.65s cubic-bezier(.22,.68,0,1.2);
+    }
+    .reveal.from-left  { transform: translateX(-40px); }
+    .reveal.from-right { transform: translateX(40px); }
+    .reveal.scale      { transform: scale(0.9); }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* Hero deco animations */
+    .hero-deco .plane {
+      animation: float 3.2s ease-in-out infinite;
+      display: inline-block;
+    }
+    .hero-deco .pin {
+      animation: floatPin 2.6s ease-in-out infinite 0.6s;
+      display: inline-block;
+    }
+    .hero-deco .path {
+      animation: pathFloat 4s ease-in-out infinite;
+    }
+
+    /* Button pulse */
+    .btn-primary {
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    .btn-primary:hover {
+      animation: none;
+    }
+
+    /* Float card animation */
+    .float-card {
+      animation: fadeInLeft 0.8s cubic-bezier(.22,.68,0,1.2) 0.4s both;
+    }
+
+    /* Logo mark spin on hover */
+    .logo:hover .logo-mark {
+      animation: spin-slow 1s linear;
+    }
+
+    /* Tour card hover */
+    .tour-card {
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(.22,.68,0,1.2), box-shadow 0.3s ease;
+    }
+    .tour-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 24px 56px rgba(0,0,0,0.18);
+    }
+    .tour-card img {
+      transition: transform 0.5s ease;
+    }
+    .tour-card:hover img {
+      transform: scale(1.07);
+    }
+
+    /* ===================================================
+       IMPROVED NAVBAR
+    =================================================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 800;
+      width: 100%;
+      max-width: none !important;
+      margin: 0;
+      padding-top: max(12px, env(safe-area-inset-top));
+      padding-bottom: 10px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(250,248,245,0.9) !important;
+      border-bottom: 1px solid rgba(26,26,46,0.06);
+      transition: box-shadow 0.3s;
+    }
+    /* Keep navbar pinned - always fixed at top */
+    header .nav-row.wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    header.scrolled {
+      box-shadow: 0 4px 24px rgba(26,17,64,0.1);
+    }
+    main {
+      padding-top: 104px;
+    }
+    @media (max-width: 960px) {
+      main {
+        padding-top: 96px;
+      }
+    }
+    @media (max-width: 520px) {
+      main {
+        padding-top: 88px;
+      }
+    }
+
+    /* ===================================================
+       IMPROVED HERO LAYOUT
+    =================================================== */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-visual { order: -1; }
+      .hero-actions { justify-content: center; }
+      .hero-copy p.lead { margin-left: auto; margin-right: auto; }
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(1.85rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.13;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.7s ease both;
+    }
+    .hero-copy p.lead {
+      animation: fadeInUp 0.7s ease 0.15s both;
+    }
+    .hero-actions {
+      animation: fadeInUp 0.7s ease 0.3s both;
+    }
+
+    /* 24/7 badge */
+    .badge-247 {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(12px);
+      padding: 10px 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.7s ease 0.05s both;
+    }
+    .badge-247 .badge-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .badge-247 strong {
+      display: block;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .badge-247 span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ===================================================
+       INTRO SECTION ENHANCEMENTS
+    =================================================== */
+    .intro-section {
+      animation: fadeInUp 0.8s ease both;
+    }
+
+    /* ===================================================
+       SECTION HEADING ENHANCEMENTS
+    =================================================== */
+    .section-head h2 {
+      position: relative;
+    }
+    .section-head h2::after {
+      content: "";
+      display: block;
+      width: 48px;
+      height: 4px;
+      background: var(--accent-red);
+      border-radius: 999px;
+      margin-top: 10px;
+    }
+    .section-head.centered h2::after { margin-left: auto; margin-right: auto; }
+
+    /* ===================================================
+       REVIEW CARDS ENHANCEMENTS
+    =================================================== */
+    .review-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .review-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 56px rgba(0,0,0,0.1);
+    }
+
+    /* ===================================================
+       WHY CHOOSE US ENHANCEMENTS
+    =================================================== */
+    .feature .fi {
+      transition: transform 0.3s cubic-bezier(.22,.68,0,1.2), background 0.2s;
+    }
+    .feature:hover .fi {
+      transform: scale(1.15) rotate(-6deg);
+      background: rgba(230,57,70,0.1);
+    }
+
+    /* ===================================================
+       STEP CARDS
+    =================================================== */
+    .step-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 44px rgba(26,17,64,0.1);
+    }
+
+    /* ===================================================
+       SHOWROOM CARD ENHANCEMENTS
+    =================================================== */
+    .showroom-card .book-now {
+      transition: background 0.2s, transform 0.15s;
+    }
+    .showroom-card .book-now:hover {
+      transform: scale(1.02);
+    }
+
+    /* ===================================================
+       SCROLLBAR STYLING
+    =================================================== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(26,17,64,0.2); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(26,17,64,0.35); }
+
+    /* ===================================================
+       TOUR SPECIALTY CARDS (Naturally Nomadic style)
+    =================================================== */
+    .tours-specialty-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .tours-specialty-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .tours-specialty-grid { grid-template-columns: 1fr; gap: 18px; }
+    }
+
+    .specialty-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      min-height: 360px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .specialty-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(.22,.68,0,1.2);
+    }
+    .specialty-card:hover img { transform: scale(1.08); }
+
+    .specialty-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,27,42,0.88) 0%, rgba(13,27,42,0.3) 100%);
+      transition: opacity 0.3s;
+    }
+    .specialty-card:hover .specialty-overlay { opacity: 0.95; }
+
+    .specialty-body {
+      position: relative;
+      z-index: 2;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      flex: 1;
+      min-height: 360px;
+    }
+
+    .specialty-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .best-value-badge {
+      background: #f59e0b;
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .specialty-card h3 {
+      font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.03em;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .specialty-card p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.55;
+      margin-bottom: 18px;
+      max-width: 320px;
+      transform: translateY(0);
+      opacity: 1;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .specialty-card:hover p {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .specialty-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0097a7;
+      color: #fff;
+      border: none;
+      padding: 11px 22px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 3px;
+      width: fit-content;
+      transition: background 0.2s, transform 0.15s;
+      animation: none !important;
+      box-shadow: none !important;
+    }
+    .specialty-btn::after { content: " →"; }
+    .specialty-btn:hover {
+      background: #006064;
+      transform: translateX(3px);
+    }
+    .specialty-btn--gold {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: #000;
+    }
+    .specialty-btn--gold:hover { background: #b45309; color: #fff; }
+
+    .specialty-card--featured {
+      grid-column: span 1;
+    }
+
+    /* ===================================================
+       TOUR PACKAGE MODALS
+    =================================================== */
+    .tp-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 6000;
+      background: rgba(13,27,42,0.7);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+    .tp-modal-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .tp-modal-overlay[hidden] { display: none; }
+
+    .tp-modal-box {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 880px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.35);
+      position: relative;
+      max-height: min(96vh, 96dvh);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0;
+      transform: translateY(10px) scale(0.985);
+      transition: transform 0.24s ease;
+    }
+    .tp-modal-overlay.is-open .tp-modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .tp-modal-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      z-index: 10;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.95);
+      color: #0d1b2a;
+      font-size: 1.3rem;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+      margin: 12px 12px 0 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .tp-modal-close:hover { background: #f0f0f0; }
+
+    .tp-modal-hero {
+      min-height: clamp(180px, 32vh, 280px);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-color: #0d1b2a;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+    }
+    @media (max-width: 640px) {
+      .tp-modal-overlay {
+        padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+      }
+      .tp-modal-box {
+        max-height: min(98vh, 98dvh);
+        border-radius: 14px;
+      }
+      .tp-modal-hero {
+        min-height: clamp(150px, 26vh, 210px);
+      }
+    }
+
+    .tp-modal-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,27,42,0.88) 0%, rgba(13,27,42,0.3) 100%);
+    }
+    .tp-modal-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 28px 32px;
+    }
+    @media (max-width: 480px) { .tp-modal-hero-content { padding: 20px; } }
+
+    .tp-modal-tag {
+      display: inline-block;
+      background: #0097a7;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .tp-modal-hero-content h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+    .tp-modal-tagline {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    .tp-modal-body {
+      padding: 32px;
+    }
+    @media (max-width: 640px) { .tp-modal-body { padding: 20px; } }
+
+    .tp-modal-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+    @media (max-width: 720px) {
+      .tp-modal-cols { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    .tp-includes-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 14px;
+    }
+
+    .tp-includes-list {
+      list-style: none;
+      margin: 0 0 24px 0;
+      padding: 0;
+    }
+    .tp-includes-list li {
+      padding: 7px 0;
+      font-size: 0.9rem;
+      color: #374151;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      line-height: 1.45;
+    }
+    .tp-includes-list li:last-child { border-bottom: none; }
+
+    .tp-highlight-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .tp-highlight {
+      flex: 1;
+      min-width: 80px;
+      background: #f8f9fa;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .tp-highlight strong {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0d1b2a;
+      margin-bottom: 4px;
+    }
+    .tp-highlight span {
+      font-size: 0.72rem;
+      color: #6b7280;
+      font-weight: 600;
+    }
+
+    /* Booking form */
+    .tp-booking-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .tp-form-row { display: flex; flex-direction: column; gap: 6px; }
+    .tp-form-row label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+
+    .tp-form-row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .tp-input {
+      padding: 12px 14px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: #0d1b2a;
+      background: #fff;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .tp-input:focus { border-color: #0097a7; }
+
+    .tp-textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .tp-counter {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 10px;
+      overflow: hidden;
+      width: fit-content;
+    }
+    .tp-count-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: #f8f9fa;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #0d1b2a;
+      font-family: inherit;
+      animation: none !important;
+      box-shadow: none !important;
+      transition: background 0.15s;
+    }
+    .tp-count-btn:hover { background: #e5e7eb; }
+    .tp-count-btn:active { background: #d1d5db; }
+
+    .tp-counter > span {
+      min-width: 44px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0d1b2a;
+      background: #fff;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tp-price-estimate {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f0f9ff;
+      border: 1.5px solid #bae6fd;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 4px;
+    }
+    .tp-price-estimate span {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #6b7280;
+    }
+    .tp-price-estimate strong {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #0d1b2a;
+    }
+
+    .tp-book-btn {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #0097a7;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      animation: none !important;
+      box-shadow: none !important;
+    }
+    .tp-book-btn:hover {
+      background: #006064;
+      transform: translateY(-1px);
+    }
+    .tp-book-btn:active { transform: translateY(0); }
+
+    .tp-note {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ===================================================
+       PAGE LOAD ANIMATION
+    =================================================== */
+    body { animation: fadeInUp 0.5s ease both; }
+
+  </style>
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true"></div>
+
+  <header>
+    <div class="nav-row wrap">
+      <a href="#intro" class="logo" aria-label="Wave Langkawi home">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span class="logo-text">WAVE LANGKAWI</span>
+      </a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+        ☰
+      </button>
+      <nav id="main-nav" aria-label="Primary">
+        <a href="#intro">Home</a>
+        <a href="#car-rental" class="nav-highlight">Car rental</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#tour-packages">Tour packages</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="search-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="M21 21l-4.35-4.35" />
+        </svg>
+        <input type="search" id="site-search" placeholder="Search Langkawi…" autocomplete="off" aria-label="Search site content" />
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap intro-section filterable" id="intro" data-search="langkawi welcome island geopark langkawi travel introduction pantai">
+      <div class="intro-grid">
+        <div class="reveal from-left">
+          <p class="intro-eyebrow">Welcome to Langkawi</p>
+          <h1 class="intro-headline">Malaysia’s island of legends — jungle, beaches, and mangroves in one easy loop.</h1>
+          <p class="intro-lead">
+            Langkawi is a UNESCO Global Geopark: limestone peaks, telaga waterfalls, and fishing villages between stretches of Andaman blue. Whether it’s your first visit or your fifth, the island is best explored slowly — with room to stop for coconut ice cream or a sudden sunset.
+          </p>
+          <p class="intro-lead-secondary">
+            <strong style="color: var(--text); font-weight: 700;">Wave Langkawi</strong> is your local host for island travel: routes, tips, and when you’re ready — a straightforward car rental desk at LGK and Pantai Cenang so you can drive on your own schedule.
+          </p>
+          <div class="intro-actions">
+            <a class="btn-intro-outline" href="#tour-packages">Browse tour packages</a>
+            <a class="btn-primary" href="#car-rental">Rent a car — next section ›</a>
+          </div>
+          <div class="intro-mini">
+            <div>
+              <strong>99</strong>
+              <span>Islands in the archipelago</span>
+            </div>
+            <div>
+              <strong>Geopark</strong>
+              <span>Kilim &amp; Machinchang</span>
+            </div>
+            <div>
+              <strong>LGK</strong>
+              <span>Direct flights regionally</span>
+            </div>
+          </div>
+        </div>
+        <div class="intro-visual reveal from-right">
+          <img
+            src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1000&q=80"
+            alt="Tropical coastline and blue sea — Langkawi"
+            width="800"
+            height="640"
+          />
+          <div class="intro-badge">Pantai Cenang to Kilim — one island, many moods</div>
+        </div>
+      </div>
+      <p class="intro-scroll-hint">
+        Scroll down for <a href="#car-rental">car rental &amp; booking</a> · or see <a href="#tour-packages">tour packages</a> · <a href="#vacations">drives &amp; spots</a>
+      </p>
+    </section>
+
+    <section class="wrap" id="car-rental" style="padding-bottom: 0; padding-top: 24px;">
+      <div class="hero">
+        <div class="hero-deco" aria-hidden="true">
+          <span class="plane">✈️</span>
+          <span class="pin">📍</span>
+          <div class="path"></div>
+        </div>
+        <div class="hero-inner">
+          <div class="hero-visual">
+            <div class="hero-img-wrap">
+              <img
+                src="https://images.unsplash.com/photo-1449965408869-eaa3f617e34f?w=800&q=80"
+                alt="Driving along a tropical coast — ideal for exploring Langkawi by car"
+                width="680"
+                height="850"
+              />
+              <div class="float-card">
+                <span class="icon" aria-hidden="true">🛡️</span>
+                <span>24/7 support &amp; insurance</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-copy">
+            <p class="intro-eyebrow" style="color: rgba(255,255,255,0.75); margin-bottom: 10px;">Car rental in Langkawi</p>
+            <div class="badge-247">
+              <span class="badge-icon" aria-hidden="true">🛡️</span>
+              <div>
+                <strong>24/7</strong>
+                <span>Guide support</span>
+              </div>
+            </div>
+            <h1>Your wheels.<br>Your island route.</h1>
+            <p class="lead">
+              Compare vehicles, see totals in RM, and pick up at the airport or your hotel — then take the coastal road, Telaga Tujuh, or Kilim without watching the clock.
+            </p>
+            <div class="hero-actions">
+              <a class="btn-primary" href="#search-widget">Book a car ›</a>
+              <button type="button" class="btn-ghost" id="open-video" style="border: none; background: none; cursor: pointer; font-family: inherit;">
+                <span class="play" aria-hidden="true">▶</span>
+                Watch our story
+              </button>
+            </div>
+            <div class="hero-widget" id="search-widget">
+              <h3>Search for cars</h3>
+              <form class="search-cars" id="car-search-form" action="#" method="get" novalidate>
+                <input type="text" name="pickup" id="pickup" placeholder="Pickup location (e.g. LGK, Pantai Cenang)" required autocomplete="street-address" aria-label="Pickup location" />
+                <div class="search-cars-row">
+                  <input type="date" name="start" id="date-start" required aria-label="Pick-up date" />
+                  <input type="date" name="end" id="date-end" required aria-label="Return date" />
+                </div>
+                <select name="class" id="car-class" aria-label="Vehicle category">
+                  <option value="">All categories</option>
+                  <option value="economy">Economy (Myvi, Axia)</option>
+                  <option value="mpv">MPV / SUV</option>
+                  <option value="luxury">Luxury</option>
+                </select>
+                <button type="submit" class="btn-primary">Filter showroom</button>
+                <p class="form-msg" id="car-form-msg" role="alert"></p>
+              </form>
+              <p style="font-size: 0.82rem; color: rgba(255,255,255,0.75); margin-top: 14px; line-height: 1.45;">
+                Vehicles appear in the showroom below. Set dates &amp; pickup for an estimate — then choose a car and tap <strong style="color:#fff">Book now</strong> to review your package.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showroom-section filterable" id="car-showroom" data-search="showroom car rental vehicle myvi axia avanza book langkawi fleet">
+        <div class="section-head" style="margin-bottom: 12px;">
+          <div>
+            <h2 style="font-size: clamp(1.45rem, 3vw, 1.85rem); font-weight: 800;">Vehicle showroom</h2>
+            <p class="showroom-sub">Every model includes a clear rental package. Press <strong>Book now</strong> to see what’s included, set number of passengers &amp; bags, then continue to checkout.</p>
+          </div>
+        </div>
+        <div class="showroom-toolbar">
+          <button type="button" class="btn-secondary" id="show-all-cars">Show all vehicles</button>
+          <span class="hint">Tip: use <strong>Filter showroom</strong> above to narrow by category.</span>
+        </div>
+        <div class="showroom-grid" id="showroom-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="tour-packages" style="padding: 80px 0; background: #f8f9fa;">
+      <div class="wrap">
+        <div style="text-align:center; margin-bottom:52px;" class="reveal">
+          <p style="font-size:0.82rem;letter-spacing:0.14em;text-transform:uppercase;color:#0097a7;font-weight:700;margin-bottom:10px;">Langkawi Adventures</p>
+          <h2 style="font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.02em;color:#0d1b2a;margin-bottom:16px;">Our Tour Packages</h2>
+          <p style="color:#6b7280;font-size:1.05rem;max-width:560px;margin:0 auto;line-height:1.7;">Handpicked island experiences — from serene mangroves to thrilling water sports. All packages include a local guide and hassle-free pickup.</p>
+        </div>
+
+        <div class="tours-specialty-grid">
+          <!-- Sunset Cruise -->
+          <article class="specialty-card reveal reveal-delay-1" data-pkg="sunset">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80" alt="Sunset cruise Langkawi" />
+            <div class="specialty-overlay"></div>
+            <div class="specialty-body">
+              <div class="specialty-tag">2 Hours · From RM 120/pax</div>
+              <h3>SUNSET CRUISE</h3>
+              <p>Drift along the Andaman Sea as the sky blazes gold — drinks, snacks, and memories included.</p>
+              <button class="specialty-btn" data-pkg="sunset" aria-label="Learn more about Sunset Cruise">LEARN MORE</button>
+            </div>
+          </article>
+
+          <!-- Mangrove Cruise -->
+          <article class="specialty-card reveal reveal-delay-2" data-pkg="mangrove">
+            <img src="https://images.unsplash.com/photo-1539650116574-75c0c6d88631?w=900&q=80" alt="Mangrove cruise Kilim" />
+            <div class="specialty-overlay"></div>
+            <div class="specialty-body">
+              <div class="specialty-tag">3 Hours · From RM 85/pax</div>
+              <h3>MANGROVE CRUISE</h3>
+              <p>Glide through Kilim Geoforest's ancient mangroves, spot eagles, and visit a floating fish farm.</p>
+              <button class="specialty-btn" data-pkg="mangrove" aria-label="Learn more about Mangrove Cruise">LEARN MORE</button>
+            </div>
+          </article>
+
+          <!-- ATV Ride -->
+          <article class="specialty-card reveal reveal-delay-3" data-pkg="atv">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80" alt="ATV ride adventure" />
+            <div class="specialty-overlay"></div>
+            <div class="specialty-body">
+              <div class="specialty-tag">1–2 Hours · From RM 150/pax</div>
+              <h3>ATV RIDE</h3>
+              <p>Mud, jungle trails, and pure adrenaline — our ATV adventure is great for groups and families.</p>
+              <button class="specialty-btn" data-pkg="atv" aria-label="Learn more about ATV Ride">LEARN MORE</button>
+            </div>
+          </article>
+
+          <!-- Private Tour -->
+          <article class="specialty-card reveal reveal-delay-1" data-pkg="private">
+            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&q=80" alt="Private island tour" />
+            <div class="specialty-overlay"></div>
+            <div class="specialty-body">
+              <div class="specialty-tag">Full Day · From RM 350/pax</div>
+              <h3>PRIVATE TOUR</h3>
+              <p>Your itinerary, your pace. A dedicated guide and private vehicle take you anywhere on the island.</p>
+              <button class="specialty-btn" data-pkg="private" aria-label="Learn more about Private Tour">LEARN MORE</button>
+            </div>
+          </article>
+
+          <!-- Jetski Tour -->
+          <article class="specialty-card reveal reveal-delay-2" data-pkg="jetski">
+            <img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=900&q=80" alt="Jetski water sports" />
+            <div class="specialty-overlay"></div>
+            <div class="specialty-body">
+              <div class="specialty-tag">30–60 Min · From RM 180/session</div>
+              <h3>JETSKI TOUR</h3>
+              <p>Race across crystal-clear waters and explore sea caves and hidden coves at full throttle.</p>
+              <button class="specialty-btn" data-pkg="jetski" aria-label="Learn more about Jetski Tour">LEARN MORE</button>
+            </div>
+          </article>
+
+          <!-- 3-in-1 Package -->
+          <article class="specialty-card specialty-card--featured reveal reveal-delay-3" data-pkg="3in1">
+            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900&q=80" alt="3 in 1 Langkawi package" />
+            <div class="specialty-overlay"></div>
+            <div class="specialty-body">
+              <div class="specialty-tag">Full Day · From RM 280/pax <span class="best-value-badge">BEST VALUE</span></div>
+              <h3>3 IN 1 PACKAGE</h3>
+              <p>Mangrove Cruise + ATV Ride + Sunset Cruise — the ultimate Langkawi day, all in one booking.</p>
+              <button class="specialty-btn specialty-btn--gold" data-pkg="3in1" aria-label="Learn more about 3 in 1 Package">LEARN MORE</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TOUR PACKAGE MODALS ===== -->
+
+    <!-- Sunset Cruise Modal -->
+    <div class="tp-modal-overlay" id="tp-modal-sunset" role="dialog" aria-modal="true" aria-labelledby="tp-title-sunset" hidden>
+      <div class="tp-modal-box">
+        <button class="tp-modal-close" id="tp-close-sunset" aria-label="Close">×</button>
+        <div class="tp-modal-hero" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85')">
+          <div class="tp-modal-hero-overlay"></div>
+          <div class="tp-modal-hero-content">
+            <span class="tp-modal-tag">🌅 Langkawi · 2 Hours</span>
+            <h2 id="tp-title-sunset">Sunset Cruise</h2>
+            <p class="tp-modal-tagline">Watch the sky turn gold over the Andaman Sea — drinks, snacks &amp; memories on board.</p>
+          </div>
+        </div>
+        <div class="tp-modal-body">
+          <div class="tp-modal-cols">
+            <div class="tp-modal-left">
+              <h4 class="tp-includes-title">What's Included</h4>
+              <ul class="tp-includes-list">
+                <li>✓ 2-hour private boat cruise at golden hour</li>
+                <li>✓ Welcome drink (coconut / soft drink)</li>
+                <li>✓ Light snacks &amp; fresh fruits</li>
+                <li>✓ Life jackets &amp; safety briefing</li>
+                <li>✓ Professional photographer (upon request)</li>
+                <li>✓ Hotel pickup &amp; drop-off (Pantai Cenang area)</li>
+              </ul>
+              <div class="tp-highlight-row">
+                <div class="tp-highlight">
+                  <strong>RM 120</strong>
+                  <span>per adult</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>RM 80</strong>
+                  <span>per child (under 12)</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>5:30 PM</strong>
+                  <span>departure time</span>
+                </div>
+              </div>
+            </div>
+            <div class="tp-modal-right">
+              <h4 class="tp-includes-title">Book This Package</h4>
+              <div class="tp-booking-form" id="form-sunset">
+                <div class="tp-form-row">
+                  <label>Tour Date</label>
+                  <input type="date" class="tp-input" id="sunset-date" />
+                </div>
+                <div class="tp-form-row2">
+                  <div class="tp-form-row">
+                    <label>Adults</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="sunset-adults" data-action="minus">−</button>
+                      <span id="sunset-adults">2</span>
+                      <button type="button" class="tp-count-btn" data-field="sunset-adults" data-action="plus">+</button>
+                    </div>
+                  </div>
+                  <div class="tp-form-row">
+                    <label>Children</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="sunset-children" data-action="minus">−</button>
+                      <span id="sunset-children">0</span>
+                      <button type="button" class="tp-count-btn" data-field="sunset-children" data-action="plus">+</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tp-form-row">
+                  <label>Special Requests (optional)</label>
+                  <textarea class="tp-input tp-textarea" id="sunset-notes" placeholder="Anniversaries, dietary needs, photographer…"></textarea>
+                </div>
+                <div class="tp-price-estimate" id="est-sunset">
+                  <span>Estimated Total</span>
+                  <strong id="est-sunset-val">RM 240</strong>
+                </div>
+                <button class="tp-book-btn" id="book-sunset">BOOK NOW — CONFIRM DETAILS</button>
+                <p class="tp-note">No payment now. Our team will WhatsApp you within 2 hours to confirm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mangrove Cruise Modal -->
+    <div class="tp-modal-overlay" id="tp-modal-mangrove" role="dialog" aria-modal="true" aria-labelledby="tp-title-mangrove" hidden>
+      <div class="tp-modal-box">
+        <button class="tp-modal-close" id="tp-close-mangrove" aria-label="Close">×</button>
+        <div class="tp-modal-hero" style="background-image:url('https://images.unsplash.com/photo-1539650116574-75c0c6d88631?w=1200&q=85')">
+          <div class="tp-modal-hero-overlay"></div>
+          <div class="tp-modal-hero-content">
+            <span class="tp-modal-tag">🦅 Kilim Geoforest · 3 Hours</span>
+            <h2 id="tp-title-mangrove">Mangrove Cruise</h2>
+            <p class="tp-modal-tagline">Ancient mangroves, wild eagles, and a floating fish farm — Langkawi's best-kept secret.</p>
+          </div>
+        </div>
+        <div class="tp-modal-body">
+          <div class="tp-modal-cols">
+            <div class="tp-modal-left">
+              <h4 class="tp-includes-title">What's Included</h4>
+              <ul class="tp-includes-list">
+                <li>✓ 3-hour guided boat tour through Kilim Geoforest</li>
+                <li>✓ Eagle feeding experience</li>
+                <li>✓ Visit to floating fish farm</li>
+                <li>✓ Bat cave exploration</li>
+                <li>✓ Refreshments on board</li>
+                <li>✓ Hotel pickup &amp; drop-off</li>
+              </ul>
+              <div class="tp-highlight-row">
+                <div class="tp-highlight">
+                  <strong>RM 85</strong>
+                  <span>per adult</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>RM 55</strong>
+                  <span>per child (under 12)</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>9:00 AM</strong>
+                  <span>departure time</span>
+                </div>
+              </div>
+            </div>
+            <div class="tp-modal-right">
+              <h4 class="tp-includes-title">Book This Package</h4>
+              <div class="tp-booking-form" id="form-mangrove">
+                <div class="tp-form-row">
+                  <label>Tour Date</label>
+                  <input type="date" class="tp-input" id="mangrove-date" />
+                </div>
+                <div class="tp-form-row2">
+                  <div class="tp-form-row">
+                    <label>Adults</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="mangrove-adults" data-action="minus">−</button>
+                      <span id="mangrove-adults">2</span>
+                      <button type="button" class="tp-count-btn" data-field="mangrove-adults" data-action="plus">+</button>
+                    </div>
+                  </div>
+                  <div class="tp-form-row">
+                    <label>Children</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="mangrove-children" data-action="minus">−</button>
+                      <span id="mangrove-children">0</span>
+                      <button type="button" class="tp-count-btn" data-field="mangrove-children" data-action="plus">+</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tp-form-row">
+                  <label>Session</label>
+                  <select class="tp-input" id="mangrove-session">
+                    <option value="morning">Morning (9:00 AM)</option>
+                    <option value="afternoon">Afternoon (2:00 PM)</option>
+                  </select>
+                </div>
+                <div class="tp-price-estimate" id="est-mangrove">
+                  <span>Estimated Total</span>
+                  <strong id="est-mangrove-val">RM 170</strong>
+                </div>
+                <button class="tp-book-btn" id="book-mangrove">BOOK NOW — CONFIRM DETAILS</button>
+                <p class="tp-note">No payment now. Our team will WhatsApp you within 2 hours to confirm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ATV Ride Modal -->
+    <div class="tp-modal-overlay" id="tp-modal-atv" role="dialog" aria-modal="true" aria-labelledby="tp-title-atv" hidden>
+      <div class="tp-modal-box">
+        <button class="tp-modal-close" id="tp-close-atv" aria-label="Close">×</button>
+        <div class="tp-modal-hero" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85')">
+          <div class="tp-modal-hero-overlay"></div>
+          <div class="tp-modal-hero-content">
+            <span class="tp-modal-tag">🏍️ Langkawi · 1–2 Hours</span>
+            <h2 id="tp-title-atv">ATV Ride</h2>
+            <p class="tp-modal-tagline">Tear through jungle trails and muddy paths — pure adrenaline for all ages.</p>
+          </div>
+        </div>
+        <div class="tp-modal-body">
+          <div class="tp-modal-cols">
+            <div class="tp-modal-left">
+              <h4 class="tp-includes-title">What's Included</h4>
+              <ul class="tp-includes-list">
+                <li>✓ Safety helmet, gloves &amp; gear provided</li>
+                <li>✓ Guided trail ride through jungle &amp; beach paths</li>
+                <li>✓ Beginner briefing &amp; practice lap</li>
+                <li>✓ 1-hour or 2-hour options available</li>
+                <li>✓ GoPro video (add-on available)</li>
+                <li>✓ Minimum age: 8 years (kids ride with adult)</li>
+              </ul>
+              <div class="tp-highlight-row">
+                <div class="tp-highlight">
+                  <strong>RM 150</strong>
+                  <span>1-hour / pax</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>RM 220</strong>
+                  <span>2-hour / pax</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>Daily</strong>
+                  <span>9 AM – 5 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="tp-modal-right">
+              <h4 class="tp-includes-title">Book This Package</h4>
+              <div class="tp-booking-form" id="form-atv">
+                <div class="tp-form-row">
+                  <label>Preferred Date</label>
+                  <input type="date" class="tp-input" id="atv-date" />
+                </div>
+                <div class="tp-form-row">
+                  <label>Duration</label>
+                  <select class="tp-input" id="atv-duration">
+                    <option value="1">1 Hour — RM 150/pax</option>
+                    <option value="2">2 Hours — RM 220/pax</option>
+                  </select>
+                </div>
+                <div class="tp-form-row2">
+                  <div class="tp-form-row">
+                    <label>Adults</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="atv-adults" data-action="minus">−</button>
+                      <span id="atv-adults">1</span>
+                      <button type="button" class="tp-count-btn" data-field="atv-adults" data-action="plus">+</button>
+                    </div>
+                  </div>
+                  <div class="tp-form-row">
+                    <label>Children (8+)</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="atv-children" data-action="minus">−</button>
+                      <span id="atv-children">0</span>
+                      <button type="button" class="tp-count-btn" data-field="atv-children" data-action="plus">+</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tp-price-estimate" id="est-atv">
+                  <span>Estimated Total</span>
+                  <strong id="est-atv-val">RM 150</strong>
+                </div>
+                <button class="tp-book-btn" id="book-atv">BOOK NOW — CONFIRM DETAILS</button>
+                <p class="tp-note">No payment now. Our team will WhatsApp you within 2 hours to confirm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Private Tour Modal -->
+    <div class="tp-modal-overlay" id="tp-modal-private" role="dialog" aria-modal="true" aria-labelledby="tp-title-private" hidden>
+      <div class="tp-modal-box">
+        <button class="tp-modal-close" id="tp-close-private" aria-label="Close">×</button>
+        <div class="tp-modal-hero" style="background-image:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=85')">
+          <div class="tp-modal-hero-overlay"></div>
+          <div class="tp-modal-hero-content">
+            <span class="tp-modal-tag">🚗 Langkawi · Full Day (8 hrs)</span>
+            <h2 id="tp-title-private">Private Tour</h2>
+            <p class="tp-modal-tagline">Your island, your pace. A private guide and vehicle — go wherever the mood takes you.</p>
+          </div>
+        </div>
+        <div class="tp-modal-body">
+          <div class="tp-modal-cols">
+            <div class="tp-modal-left">
+              <h4 class="tp-includes-title">What's Included</h4>
+              <ul class="tp-includes-list">
+                <li>✓ 8-hour private air-conditioned vehicle</li>
+                <li>✓ Experienced English-speaking island guide</li>
+                <li>✓ Customisable itinerary (you choose the stops)</li>
+                <li>✓ Hotel pickup &amp; drop-off</li>
+                <li>✓ Entry tickets for 3 attractions (included)</li>
+                <li>✓ Lunch stop at a recommended local restaurant</li>
+              </ul>
+              <div class="tp-highlight-row">
+                <div class="tp-highlight">
+                  <strong>RM 350</strong>
+                  <span>per adult</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>RM 200</strong>
+                  <span>per child (under 12)</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>8:00 AM</strong>
+                  <span>pickup time</span>
+                </div>
+              </div>
+            </div>
+            <div class="tp-modal-right">
+              <h4 class="tp-includes-title">Book This Package</h4>
+              <div class="tp-booking-form" id="form-private">
+                <div class="tp-form-row">
+                  <label>Tour Date</label>
+                  <input type="date" class="tp-input" id="private-date" />
+                </div>
+                <div class="tp-form-row2">
+                  <div class="tp-form-row">
+                    <label>Adults</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="private-adults" data-action="minus">−</button>
+                      <span id="private-adults">2</span>
+                      <button type="button" class="tp-count-btn" data-field="private-adults" data-action="plus">+</button>
+                    </div>
+                  </div>
+                  <div class="tp-form-row">
+                    <label>Children</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="private-children" data-action="minus">−</button>
+                      <span id="private-children">0</span>
+                      <button type="button" class="tp-count-btn" data-field="private-children" data-action="plus">+</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tp-form-row">
+                  <label>Preferred stops (optional)</label>
+                  <textarea class="tp-input tp-textarea" id="private-notes" placeholder="e.g. Sky Bridge, Datai Bay, Kilim, local market…"></textarea>
+                </div>
+                <div class="tp-price-estimate" id="est-private">
+                  <span>Estimated Total</span>
+                  <strong id="est-private-val">RM 700</strong>
+                </div>
+                <button class="tp-book-btn" id="book-private">BOOK NOW — CONFIRM DETAILS</button>
+                <p class="tp-note">No payment now. Our team will WhatsApp you within 2 hours to confirm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Jetski Tour Modal -->
+    <div class="tp-modal-overlay" id="tp-modal-jetski" role="dialog" aria-modal="true" aria-labelledby="tp-title-jetski" hidden>
+      <div class="tp-modal-box">
+        <button class="tp-modal-close" id="tp-close-jetski" aria-label="Close">×</button>
+        <div class="tp-modal-hero" style="background-image:url('https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=1200&q=85')">
+          <div class="tp-modal-hero-overlay"></div>
+          <div class="tp-modal-hero-content">
+            <span class="tp-modal-tag">🌊 Pantai Cenang · 30–60 Min</span>
+            <h2 id="tp-title-jetski">Jetski Tour</h2>
+            <p class="tp-modal-tagline">Race across crystal-clear waters, explore hidden sea caves, and feel the spray.</p>
+          </div>
+        </div>
+        <div class="tp-modal-body">
+          <div class="tp-modal-cols">
+            <div class="tp-modal-left">
+              <h4 class="tp-includes-title">What's Included</h4>
+              <ul class="tp-includes-list">
+                <li>✓ High-powered Sea-Doo jetski rental</li>
+                <li>✓ Life jacket &amp; safety gear provided</li>
+                <li>✓ Safety briefing &amp; guided route map</li>
+                <li>✓ Explore sea caves &amp; offshore islands</li>
+                <li>✓ Minimum age: 16 years (solo) / 8 years (with adult)</li>
+                <li>✓ Beach-side launch from Pantai Cenang</li>
+              </ul>
+              <div class="tp-highlight-row">
+                <div class="tp-highlight">
+                  <strong>RM 180</strong>
+                  <span>30-min session</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>RM 300</strong>
+                  <span>60-min session</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>Daily</strong>
+                  <span>10 AM – 5 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="tp-modal-right">
+              <h4 class="tp-includes-title">Book This Package</h4>
+              <div class="tp-booking-form" id="form-jetski">
+                <div class="tp-form-row">
+                  <label>Preferred Date</label>
+                  <input type="date" class="tp-input" id="jetski-date" />
+                </div>
+                <div class="tp-form-row">
+                  <label>Session Duration</label>
+                  <select class="tp-input" id="jetski-duration">
+                    <option value="30">30 Minutes — RM 180/jetski</option>
+                    <option value="60">60 Minutes — RM 300/jetski</option>
+                  </select>
+                </div>
+                <div class="tp-form-row">
+                  <label>Number of Jetskis</label>
+                  <div class="tp-counter">
+                    <button type="button" class="tp-count-btn" data-field="jetski-count" data-action="minus">−</button>
+                    <span id="jetski-count">1</span>
+                    <button type="button" class="tp-count-btn" data-field="jetski-count" data-action="plus">+</button>
+                  </div>
+                </div>
+                <div class="tp-price-estimate" id="est-jetski">
+                  <span>Estimated Total</span>
+                  <strong id="est-jetski-val">RM 180</strong>
+                </div>
+                <button class="tp-book-btn" id="book-jetski">BOOK NOW — CONFIRM DETAILS</button>
+                <p class="tp-note">No payment now. Our team will WhatsApp you within 2 hours to confirm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3-in-1 Package Modal -->
+    <div class="tp-modal-overlay" id="tp-modal-3in1" role="dialog" aria-modal="true" aria-labelledby="tp-title-3in1" hidden>
+      <div class="tp-modal-box">
+        <button class="tp-modal-close" id="tp-close-3in1" aria-label="Close">×</button>
+        <div class="tp-modal-hero" style="background-image:url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&q=85')">
+          <div class="tp-modal-hero-overlay" style="background:linear-gradient(to top, rgba(13,27,42,0.92) 0%, rgba(13,27,42,0.45) 100%)"></div>
+          <div class="tp-modal-hero-content">
+            <span class="tp-modal-tag" style="background:#f59e0b;color:#000;">⭐ BEST VALUE · Full Day</span>
+            <h2 id="tp-title-3in1">3 In 1 Package</h2>
+            <p class="tp-modal-tagline">Mangrove Cruise + ATV Ride + Sunset Cruise — the ultimate Langkawi day, one price.</p>
+          </div>
+        </div>
+        <div class="tp-modal-body">
+          <div class="tp-modal-cols">
+            <div class="tp-modal-left">
+              <h4 class="tp-includes-title">What's Included (All 3 Activities)</h4>
+              <ul class="tp-includes-list">
+                <li>✓ <strong>Mangrove Cruise (3h)</strong> — Kilim Geoforest, eagle feeding, fish farm</li>
+                <li>✓ <strong>ATV Ride (1h)</strong> — guided jungle trail with safety gear</li>
+                <li>✓ <strong>Sunset Cruise (2h)</strong> — drinks, snacks &amp; photography</li>
+                <li>✓ Full-day guided coordination — no logistics stress</li>
+                <li>✓ Lunch included at local restaurant</li>
+                <li>✓ Hotel pickup &amp; drop-off throughout the day</li>
+              </ul>
+              <div class="tp-highlight-row">
+                <div class="tp-highlight" style="background:rgba(245,158,11,0.12); border-color: #f59e0b;">
+                  <strong style="color:#b45309;">RM 280</strong>
+                  <span>per adult (save RM 75)</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>RM 180</strong>
+                  <span>per child (under 12)</span>
+                </div>
+                <div class="tp-highlight">
+                  <strong>9 AM–8 PM</strong>
+                  <span>full day activity</span>
+                </div>
+              </div>
+            </div>
+            <div class="tp-modal-right">
+              <h4 class="tp-includes-title">Book The Full Day</h4>
+              <div class="tp-booking-form" id="form-3in1">
+                <div class="tp-form-row">
+                  <label>Tour Date</label>
+                  <input type="date" class="tp-input" id="3in1-date" />
+                </div>
+                <div class="tp-form-row2">
+                  <div class="tp-form-row">
+                    <label>Adults</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="3in1-adults" data-action="minus">−</button>
+                      <span id="3in1-adults">2</span>
+                      <button type="button" class="tp-count-btn" data-field="3in1-adults" data-action="plus">+</button>
+                    </div>
+                  </div>
+                  <div class="tp-form-row">
+                    <label>Children</label>
+                    <div class="tp-counter">
+                      <button type="button" class="tp-count-btn" data-field="3in1-children" data-action="minus">−</button>
+                      <span id="3in1-children">0</span>
+                      <button type="button" class="tp-count-btn" data-field="3in1-children" data-action="plus">+</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="tp-form-row">
+                  <label>Dietary / Special Needs</label>
+                  <textarea class="tp-input tp-textarea" id="3in1-notes" placeholder="Vegetarian, allergies, accessibility needs…"></textarea>
+                </div>
+                <div class="tp-price-estimate" id="est-3in1" style="border-color:#f59e0b; background:rgba(245,158,11,0.06);">
+                  <span>Estimated Total</span>
+                  <strong id="est-3in1-val" style="color:#b45309;">RM 560</strong>
+                </div>
+                <button class="tp-book-btn" id="book-3in1" style="background:linear-gradient(135deg,#f59e0b,#d97706);">BOOK NOW — BEST VALUE DAY</button>
+                <p class="tp-note">No payment now. Our team will WhatsApp you within 2 hours to confirm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOUR BOOKING SUCCESS MODAL -->
+    <div class="tp-modal-overlay" id="tp-success-modal" role="dialog" aria-modal="true" aria-labelledby="tp-success-title" hidden>
+      <div class="tp-modal-box" style="max-width:480px; text-align:center; padding:48px 32px;">
+        <div style="font-size:3.5rem; margin-bottom:20px;">🎉</div>
+        <h2 id="tp-success-title" style="font-size:1.6rem;font-weight:800;color:#0d1b2a;margin-bottom:12px;">Booking Request Sent!</h2>
+        <p id="tp-success-msg" style="color:#6b7280;font-size:0.97rem;line-height:1.65;margin-bottom:24px;"></p>
+        <div id="tp-success-ref" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:16px;margin-bottom:28px;font-size:0.9rem;"></div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a href="https://wa.me/60112345678" target="_blank" rel="noopener" class="tp-book-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;background:#25d366;">💬 WhatsApp Us</a>
+          <button class="tp-book-btn" id="tp-success-close" style="background:var(--purple-deep);">Done</button>
+        </div>
+      </div>
+    </div>
+
+
+
+    <section class="wrap" id="vacations">
+      <div class="section-head reveal">
+        <h2>Popular drives &amp; spots in Langkawi 🌈</h2>
+        <div class="carousel-nav" aria-label="Tour carousel">
+          <button type="button" id="carousel-prev" aria-label="Previous">‹</button>
+          <button type="button" id="carousel-next" aria-label="Next">›</button>
+        </div>
+      </div>
+      <div class="carousel-shell">
+        <div class="cards-scroll carousel-track" id="tours-carousel" tabindex="0">
+          <article class="tour-card filterable" data-search="sky bridge cable car machinchang langkawi">
+            <img src="https://images.unsplash.com/photo-1596422846543-75c6fc79f578?w=800&q=80" alt="Langkawi Sky Bridge" width="400" height="500" />
+            <span class="pill"><span class="pin">📍</span> Machinchang</span>
+            <h3>Sky Bridge &amp; Cable Car</h3>
+          </article>
+          <article class="tour-card filterable" data-search="cenang beach sunset pantai">
+            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80" alt="Tropical beach Langkawi" width="400" height="500" />
+            <span class="pill"><span class="pin">📍</span> Pantai Cenang</span>
+            <h3>Sunset glow &amp; beach strip</h3>
+          </article>
+          <article class="tour-card filterable" data-search="tanjung rhu lagoon">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="Sandy beach Langkawi" width="400" height="500" />
+            <span class="pill"><span class="pin">📍</span> Tanjung Rhu</span>
+            <h3>Tanjung Rhu &amp; lagoon</h3>
+          </article>
+          <article class="tour-card filterable" data-search="kilim geoforest mangrove">
+            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80" alt="Boats in Kilim" width="400" height="500" />
+            <span class="pill"><span class="pin">📍</span> Kilim</span>
+            <h3>Kilim Geoforest Park</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="why-grid">
+        <div class="why-visual reveal from-left">
+          <img
+            src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&q=80"
+            alt="Traveler ready to explore with a backpack"
+            width="560"
+            height="640"
+          />
+          <span class="why-badge">EXPLORE</span>
+        </div>
+        <div class="reveal from-right">
+          <h2 style="font-size: clamp(1.5rem, 3vw, 1.85rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 28px;">Why choose us 🌴</h2>
+          <div class="features">
+            <div class="feature filterable" data-search="routes datai telaga local">
+              <span class="fi" aria-hidden="true">📍</span>
+              <div>
+                <h4>Unique Langkawi routes</h4>
+                <p>We suggest scenic drives: The Datai, Telaga Tujuh, and roadside stops so you do not miss local stories.</p>
+              </div>
+            </div>
+            <div class="feature filterable" data-search="price insurance deposit rm">
+              <span class="fi" aria-hidden="true">💰</span>
+              <div>
+                <h4>Transparent pricing</h4>
+                <p>Daily rates in RM, basic insurance, and mileage limits are clear before you pay a deposit.</p>
+              </div>
+            </div>
+            <div class="feature filterable" data-search="kuah jetty pantai tengah island">
+              <span class="fi" aria-hidden="true">🏝️</span>
+              <div>
+                <h4>Wonderful places around the island</h4>
+                <p>From Kuah Jetty to Pantai Tengah — pick up your car and set your own island pace.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="story" style="padding-top: 40px;">
+      <div class="section-head reveal">
+        <h2>Top reviews 😍 for Wave Langkawi</h2>
+      </div>
+      <div class="reviews-grid">
+        <article class="review-card reveal reveal-delay-1">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“Picked up our car at LGK early morning and drove to Pantai Cenang for breakfast. Fast handover and the team explained insurance clearly.”</p>
+          <div class="reviewer">
+            <img class="avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80" alt="Reviewer portrait" width="44" height="44" />
+            <div>
+              <div class="name">Aina Rahman</div>
+              <div class="role">Traveler from Kuala Lumpur</div>
+            </div>
+          </div>
+        </article>
+        <article class="review-card reveal reveal-delay-2">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“MPV for a family of five was comfortable to Kilim and back to Kuah. Pricing matched what was advertised.”</p>
+          <div class="reviewer">
+            <img class="avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80" alt="Reviewer portrait" width="44" height="44" />
+            <div>
+              <div class="name">Jason Lim</div>
+              <div class="role">Business traveler</div>
+            </div>
+          </div>
+        </article>
+        <article class="review-card reveal reveal-delay-3">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="quote">“First time driving in Langkawi — they suggested a route to avoid peak traffic in Kuah. Great experience!”</p>
+          <div class="reviewer">
+            <img class="avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80" alt="Reviewer portrait" width="44" height="44" />
+            <div>
+              <div class="name">Nadia Yusof</div>
+              <div class="role">Content creator</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="trust-heading">
+      <h2 id="trust-heading" class="sr-only">Trust and guarantees</h2>
+      <div class="trust-row">
+        <span>🛡️ Comprehensive insurance options</span>
+        <span>✓ No hidden fees on quoted rates</span>
+        <span>🕐 24/7 roadside hotline</span>
+        <span>📋 Free booking amendment up to 24h before pickup*</span>
+      </div>
+      <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: -16px; margin-bottom: 32px;">*Subject to vehicle availability. See <button type="button" class="view-all" id="open-terms-inline" style="display: inline; padding: 0;">terms</button>.</p>
+    </section>
+
+    <section class="wrap" id="how-it-works">
+      <div class="section-head reveal">
+        <h2>How booking works</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card filterable reveal reveal-delay-1" data-search="search dates vehicle">
+          <div class="step-num">1</div>
+          <h4>Search &amp; compare</h4>
+          <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 8px;">Enter pickup point (airport, hotel, or our Pantai Cenang desk), dates, and vehicle type.</p>
+        </div>
+        <div class="step-card filterable" data-search="extras gps child seat">
+          <div class="step-num">2</div>
+          <h4>Add extras</h4>
+          <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 8px;">Optional GPS, additional driver, or child seat — prices shown before you pay.</p>
+        </div>
+        <div class="step-card filterable" data-search="details license passport">
+          <div class="step-num">3</div>
+          <h4>Confirm details</h4>
+          <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 8px;">Your contact info and flight number help us hold the car if you are delayed.</p>
+        </div>
+        <div class="step-card filterable" data-search="pickup keys deposit">
+          <div class="step-num">4</div>
+          <h4>Pickup &amp; drive</h4>
+          <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 8px;">Pay balance at counter (card or cash). Inspect the car, sign, and explore Langkawi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="rates-inclusions">
+      <div class="two-col">
+        <div class="info-band">
+          <h3>What your rate includes</h3>
+          <ul class="check-list">
+            <li>Unlimited mileage on standard rentals (cars listed on this site)</li>
+            <li>Basic coverage as required by law; upgrades available at pickup</li>
+            <li>24/7 phone support and replacement vehicle in case of breakdown*</li>
+            <li>Free map &amp; recommended island routes from our team</li>
+          </ul>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 12px;">*Within Langkawi island. Full wording in rental agreement.</p>
+        </div>
+        <div class="info-band">
+          <h3>Typical fees (transparent)</h3>
+          <ul class="check-list" style="padding-left: 0;">
+            <li style="padding-left: 28px;"><strong style="color: var(--text);">Security deposit:</strong> RM 300–800 (pre-authorisation on card), released after return.</li>
+            <li style="padding-left: 28px;"><strong style="color: var(--text);">Late return:</strong> Charged per hour or full day at published daily rate.</li>
+            <li style="padding-left: 28px;"><strong style="color: var(--text);">Fuel:</strong> Return with same level as pickup; refuelling service available.</li>
+            <li style="padding-left: 28px;"><strong style="color: var(--text);">Cross-border:</strong> Vehicles may not leave Langkawi — ferries excluded.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="requirements">
+      <div class="info-band">
+        <h3>Driver requirements &amp; documents</h3>
+        <div class="two-col" style="margin-top: 12px; gap: 32px;">
+          <div>
+            <p style="font-weight: 700; margin-bottom: 10px;">You must have:</p>
+            <ul class="check-list">
+              <li>Valid driving licence held for at least 1 year (English or certified translation)</li>
+              <li>Passport or Malaysian NRIC for identity check</li>
+              <li>Credit or debit card for security deposit (some categories)</li>
+              <li>Minimum age 23 for economy / MPV; 25 for luxury (exceptions by approval)</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-weight: 700; margin-bottom: 10px;">Airport pickup (LGK):</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.65;">Our representative meets you in arrivals with a sign — include flight number and ETA when you book so we can track delays. After hours pickups may incur a small fee (shown before confirmation).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="faq">
+      <div class="section-head">
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false"><span>Can I pay fully online?</span><span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">You can pay a booking deposit online to hold your vehicle. The remaining balance and deposit pre-authorisation are usually completed at pickup by card or cash. Invoice by email is provided.</div></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false"><span>Is insurance included?</span><span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Basic statutory coverage is included. Collision Damage Waiver (CDW) with reduced excess is optional and recommended; our staff explains costs at pickup before you sign.</div></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false"><span>What if my flight is delayed?</span><span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">If you provided your flight number, we monitor arrivals and hold your booking during normal delay windows. Call or WhatsApp us if you miss the desk — we will re-schedule pickup where possible.</div></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false"><span>Can I cancel or change dates?</span><span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Free date changes up to 24 hours before pickup subject to vehicle availability. Cancellations: full refund of deposit if cancelled 48+ hours before; within 48 hours fees may apply as per terms.</div></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false"><span>Do you deliver to my hotel?</span><span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Yes — Pantai Cenang, Pantai Tengah, Kuah, and most resorts. Enter your hotel name as pickup location; surcharges for remote areas are quoted before you confirm.</div></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false"><span>Automatic or manual transmission?</span><span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">Most of our fleet is automatic. Request manual transmission in the notes when you complete booking — we will confirm availability.</div></div>
+        </div>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false"><span>International licence?</span><span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner">International Driving Permit (IDP) is recommended if your licence is not in English or Roman script. Malaysian licences are accepted as per JPJ rules.</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <div class="footer-brand">WAVE LANGKAWI</div>
+        <p style="font-size: 0.9rem; line-height: 1.7; max-width: 280px;">
+          Lot 12, Jalan Pantai Cenang,<br />
+          07000 Langkawi, Kedah<br /><br />
+          <a href="tel:+6049550000">+60 4-955 0000</a><br />
+          <a href="mailto:hello@wavelangkawi.my">hello@wavelangkawi.my</a>
+        </p>
+      </div>
+      <div>
+        <h5>EXPLORE</h5>
+        <ul>
+          <li><a href="#intro">Home</a></li>
+          <li><a href="#vacations">Vacations</a></li>
+          <li><a href="#vacations">City breaks</a></li>
+          <li><a href="#car-rental">Car rental</a></li>
+          <li><a href="#tour-packages">Tour packages</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>COMPANY</h5>
+        <ul>
+          <li><a href="#intro">About us</a></li>
+          <li><a href="#tour-packages">Tour packages</a></li>
+          <li><a href="#how-it-works">How it works</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>HELP CENTER</h5>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#car-rental">24/7 support</a></li>
+          <li><button type="button" class="footer-link-btn" id="footer-terms">Terms &amp; conditions</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap footer-copy">
+      © <span id="y"></span> Wave Langkawi. The legendary island, your journey.
+    </div>
+  </footer>
+
+  <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
+
+  <a
+    class="fab-whatsapp"
+    href="https://wa.me/60174888999?text=Hi%20Wave%20Langkawi%20-%20I%20need%20help%20with%20booking"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat on WhatsApp"
+    title="WhatsApp"
+  >💬</a>
+
+  <button type="button" class="fab" id="fab-book">Book a car</button>
+
+  <div class="modal-overlay" id="package-modal" role="dialog" aria-modal="true" aria-labelledby="package-modal-title" hidden>
+    <div class="modal-box modal-package">
+      <button type="button" class="modal-close" id="close-package" aria-label="Close package details">×</button>
+      <h3 id="package-modal-title" style="padding: 20px 24px 0;">Rental package</h3>
+      <div class="pkg-layout">
+        <div class="pkg-visual">
+          <img id="pkg-img" src="" alt="" width="480" height="360" />
+        </div>
+        <div>
+          <p class="pkg-eyebrow" id="pkg-eyebrow">Wave Langkawi</p>
+          <h4 id="pkg-title">Vehicle</h4>
+          <p class="pkg-tagline" id="pkg-tagline"></p>
+          <p class="pkg-includes-title">Package includes</p>
+          <ul class="pkg-includes" id="pkg-includes"></ul>
+          <div class="pkg-fields">
+            <label for="pkg-passengers">Number of passengers</label>
+            <select id="pkg-passengers" aria-label="Number of passengers"></select>
+            <label for="pkg-bags">Luggage</label>
+            <select id="pkg-bags" aria-label="Luggage amount">
+              <option value="light">Light — day packs only</option>
+              <option value="medium" selected>Medium — typical holiday luggage</option>
+              <option value="heavy">Heavy — multiple large bags / gear</option>
+            </select>
+          </div>
+          <div class="pkg-estimate" id="pkg-estimate"></div>
+          <div class="pkg-actions">
+            <button type="button" class="btn-secondary" id="package-cancel">Cancel</button>
+            <button type="button" class="btn-primary" id="package-proceed">Proceed to complete booking ›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title" hidden>
+    <div class="modal-box modal-wide">
+      <button type="button" class="modal-close" id="close-booking" aria-label="Close booking">×</button>
+      <h3 id="booking-modal-title" style="padding: 20px 24px 0;">Complete your booking</h3>
+      <div class="booking-progress" id="booking-progress" aria-hidden="true">
+        <span class="done"></span><span></span><span></span><span></span>
+      </div>
+      <div class="booking-pane is-active" id="book-pane-1" data-step="1">
+        <div class="booking-summary" id="book-summary-1"></div>
+        <label for="book-flight">Flight number (optional)</label>
+        <input type="text" id="book-flight" placeholder="e.g. AK6308" autocomplete="off" />
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">Pickup and return dates match your search. To change them, close this window and update the form above.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-booking">Cancel</button>
+          <button type="button" class="btn-primary" id="to-step-2">Continue</button>
+        </div>
+      </div>
+      <div class="booking-pane" id="book-pane-2" data-step="2">
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">Optional add-ons (priced per rental)</p>
+        <div class="extra-row">
+          <label><input type="checkbox" id="extra-gps" /> GPS device</label>
+          <span>RM 15</span>
+        </div>
+        <div class="extra-row">
+          <label><input type="checkbox" id="extra-seat" /> Child seat (9–18 kg)</label>
+          <span>RM 40</span>
+        </div>
+        <div class="extra-row">
+          <label><input type="checkbox" id="extra-driver" /> Additional driver</label>
+          <span>RM 50</span>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="back-step-1">Back</button>
+          <button type="button" class="btn-primary" id="to-step-3">Continue</button>
+        </div>
+      </div>
+      <div class="booking-pane" id="book-pane-3" data-step="3">
+        <label for="book-name">Full name</label>
+        <input type="text" id="book-name" required autocomplete="name" />
+        <label for="book-email">Email</label>
+        <input type="email" id="book-email" required autocomplete="email" />
+        <label for="book-phone">Mobile number</label>
+        <input type="tel" id="book-phone" required autocomplete="tel" placeholder="+60 12-345 6789" />
+        <label for="book-notes">Special requests (optional)</label>
+        <textarea id="book-notes" placeholder="Hotel name, approximate arrival time…"></textarea>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="back-step-2">Back</button>
+          <button type="button" class="btn-primary" id="to-step-4">Continue</button>
+        </div>
+      </div>
+      <div class="booking-pane" id="book-pane-4" data-step="4">
+        <p style="font-size: 0.9rem; margin-bottom: 12px;">Payment preference</p>
+        <label style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><input type="radio" name="pay" id="pay-counter" value="counter" checked /> Pay full amount at pickup (card or cash)</label>
+        <label style="display:flex;align-items:center;gap:10px;"><input type="radio" name="pay" id="pay-deposit" value="deposit" /> Pay RM 100 deposit online now (link simulated)</label>
+        <label style="display:flex;align-items:flex-start;gap:10px;margin-top:16px;font-size:0.88rem;">
+          <input type="checkbox" id="terms-accept" required />
+          <span>I agree to the <button type="button" class="view-all" id="terms-from-booking" style="padding:0;display:inline;">terms &amp; conditions</button> and cancellation policy.</span>
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="back-step-3">Back</button>
+          <button type="button" class="btn-primary" id="confirm-booking">Confirm booking</button>
+        </div>
+      </div>
+      <div class="booking-pane" id="book-pane-5" data-step="5">
+        <div class="booking-summary" id="book-confirmation-msg"></div>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">A confirmation email would be sent in production. Your reference is saved below.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn-primary" id="close-after-book">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="terms-modal" role="dialog" aria-modal="true" aria-labelledby="terms-title" hidden>
+    <div class="modal-box modal-wide">
+      <button type="button" class="modal-close" id="close-terms" aria-label="Close terms">×</button>
+      <h3 id="terms-title" style="padding: 20px 24px 0;">Terms &amp; conditions</h3>
+      <div class="legal-box">
+        <p>These terms summarise a typical Langkawi car rental agreement. They are for demonstration on this website — replace with counsel-approved wording for production.</p>
+        <h4>Rental agreement</h4>
+        <p>The renter must comply with Malaysian traffic law and JPJ rules. The vehicle remains property of Wave Langkawi or its partners until full payment and checkout.</p>
+        <h4>Deposit</h4>
+        <p>A security deposit is pre-authorised on card or held in cash; it is released after return subject to damage inspection and toll/fuel adjustments.</p>
+        <h4>Cancellation</h4>
+        <p>Cancellations 48+ hours before pickup: deposit refunded in full. Within 48 hours: partial or full retention as stated at booking. No-show may forfeit full rental.</p>
+        <h4>Insurance</h4>
+        <p>Basic coverage is included as required. Optional CDW reduces excess; exclusions include tyre/rim damage, interior stains, lost keys, and driving under influence.</p>
+        <h4>Use of vehicle</h4>
+        <p>Vehicles are for roads on Langkawi island only; ferrying the car off-island is prohibited unless written approval is given.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title" hidden>
+    <div class="modal-box">
+      <button type="button" class="modal-close" id="close-video" aria-label="Close video">×</button>
+      <h3 id="video-modal-title">Discover Langkawi by car</h3>
+      <div class="modal-video-wrap">
+        <iframe
+          id="story-iframe"
+          title="Langkawi travel video"
+          src=""
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var FLEET = [
+        {
+          id: "1",
+          name: "Perodua Myvi",
+          category: "economy",
+          transmission: "Automatic",
+          seats: 5,
+          fuel: "Petrol",
+          price: 95,
+          image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=900&q=80",
+          packageTitle: "Economy Island Pack",
+          tagline: "Zippy around Kuah and Pantai Cenang — easy parking and low fuel use for two to four travellers.",
+          includes: [
+            "Unlimited mileage on Langkawi island roads",
+            "Basic statutory insurance (CDW optional at pickup)",
+            "Cross-bar roof note: soft bags only — upgrade to MPV for heavy luggage",
+            "24/7 phone support & breakdown coordination"
+          ]
+        },
+        {
+          id: "2",
+          name: "Perodua Axia",
+          category: "economy",
+          transmission: "Automatic",
+          seats: 5,
+          fuel: "Petrol",
+          price: 88,
+          image: "https://images.unsplash.com/photo-1550355291-bbee04a92027?w=900&q=80",
+          packageTitle: "Budget Explorer Pack",
+          tagline: "Our lowest daily rate — ideal for solo travellers or couples hopping short distances.",
+          includes: [
+            "Unlimited mileage (Langkawi only)",
+            "Basic insurance included; excess reduction available",
+            "Compact boot — choose passenger count honestly for comfort",
+            "Airport or hotel handover (same as all Wave rentals)"
+          ]
+        },
+        {
+          id: "3",
+          name: "Toyota Avanza",
+          category: "mpv",
+          transmission: "Automatic",
+          seats: 7,
+          fuel: "Petrol",
+          price: 180,
+          image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=900&q=80",
+          packageTitle: "Family MPV Pack",
+          tagline: "Seven seats and upright luggage space — Kilim, Tanjung Rhu, and hotel runs without squeezing.",
+          includes: [
+            "Up to 7 passengers (select exact count when booking)",
+            "Unlimited mileage + child-seat add-on available next step",
+            "Wide doors for elders & kids",
+            "Recommended when luggage is “heavy” in the package form"
+          ]
+        },
+        {
+          id: "4",
+          name: "Proton X70",
+          category: "mpv",
+          transmission: "Automatic",
+          seats: 5,
+          fuel: "Petrol",
+          price: 220,
+          image: "https://images.unsplash.com/photo-1533473355832-3155f4850716?w=900&q=80",
+          packageTitle: "SUV Comfort Pack",
+          tagline: "High seating position for scenic drives to Datai and the north coast.",
+          includes: [
+            "Spacious cabin & boot for 4 adults + luggage",
+            "Unlimited mileage island-wide",
+            "Basic insurance; SUV excess explained at desk",
+            "Great for medium/heavy luggage selections"
+          ]
+        },
+        {
+          id: "5",
+          name: "Honda City",
+          category: "luxury",
+          transmission: "Automatic",
+          seats: 5,
+          fuel: "Petrol",
+          price: 350,
+          image: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?w=900&q=80",
+          packageTitle: "Executive Sedan Pack",
+          tagline: "Quiet highway manners for business or a premium island weekend.",
+          includes: [
+            "Leather-style trim & rear AC vents on selected units",
+            "Unlimited mileage + premium support queue",
+            "Best paired with “medium” luggage for 2–3 guests",
+            "Meet & greet branding available on request"
+          ]
+        },
+        {
+          id: "6",
+          name: "Toyota Camry",
+          category: "luxury",
+          transmission: "Automatic",
+          seats: 5,
+          fuel: "Hybrid",
+          price: 420,
+          image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=900&q=80",
+          packageTitle: "Premium Hybrid Pack",
+          tagline: "Hybrid efficiency for longer coastal loops — maximum comfort for VIP transfers.",
+          includes: [
+            "Hybrid fuel savings on longer drives",
+            "Spacious rear seats — ideal for 2–3 passengers with executive luggage",
+            "Priority assistance line",
+            "All standard Wave inclusions (mileage, basic insurance, 24/7 support)"
+          ]
+        }
+      ];
+
+      var currentPackageVehicle = null;
+      var packageModal = document.getElementById("package-modal");
+      var carSavedScrollY = 0;
+      var carBodyLocked = false;
+
+      function lockCarModalScroll() {
+        if (carBodyLocked) return;
+        document.body.style.overflow = "hidden";
+        carBodyLocked = true;
+      }
+
+      function unlockCarModalScrollIfNoneOpen() {
+        var pkgOpen = packageModal && packageModal.classList.contains("is-open");
+        var bmEl = document.getElementById("booking-modal");
+        var tmEl = document.getElementById("terms-modal");
+        var bookingOpen = bmEl && bmEl.classList.contains("is-open");
+        var termsOpen = tmEl && tmEl.classList.contains("is-open");
+        if (pkgOpen || bookingOpen || termsOpen || !carBodyLocked) return;
+        document.body.style.overflow = "";
+        carBodyLocked = false;
+      }
+
+      var y = document.getElementById("y");
+      if (y) y.textContent = new Date().getFullYear();
+
+      /* Make sure all images still appear even if a URL fails. */
+      var fallbackImage = "https://picsum.photos/960/640?grayscale=0";
+      document.querySelectorAll("img").forEach(function (img) {
+        img.setAttribute("loading", "lazy");
+        img.setAttribute("decoding", "async");
+        img.setAttribute("referrerpolicy", "no-referrer");
+        img.addEventListener("error", function handleImgError() {
+          if (img.dataset.fallbackApplied === "1") return;
+          img.dataset.fallbackApplied = "1";
+          img.src = fallbackImage + "&seed=" + encodeURIComponent((img.alt || "langkawi").slice(0, 32));
+        });
+      });
+
+      function padDate(d) {
+        var m = (d.getMonth() + 1).toString().padStart(2, "0");
+        var day = d.getDate().toString().padStart(2, "0");
+        return d.getFullYear() + "-" + m + "-" + day;
+      }
+
+      function showToast(text, success) {
+        var root = document.getElementById("toast-root");
+        if (!root) return;
+        var t = document.createElement("div");
+        t.className = "toast" + (success ? " success" : "");
+        t.textContent = text;
+        root.appendChild(t);
+        setTimeout(function () {
+          t.style.opacity = "0";
+          t.style.transition = "opacity 0.3s";
+          setTimeout(function () { t.remove(); }, 320);
+        }, 4200);
+      }
+
+      var startInput = document.getElementById("date-start");
+      var endInput = document.getElementById("date-end");
+      var today = new Date();
+      today.setHours(0, 0, 0, 0);
+      var minStr = padDate(today);
+      if (startInput) {
+        startInput.min = minStr;
+        startInput.value = minStr;
+      }
+      if (endInput) {
+        var tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        endInput.min = padDate(tomorrow);
+        endInput.value = padDate(tomorrow);
+      }
+
+      if (startInput && endInput) {
+        startInput.addEventListener("change", function () {
+          var s = new Date(startInput.value + "T12:00:00");
+          if (isNaN(s.getTime())) return;
+          var next = new Date(s);
+          next.setDate(next.getDate() + 1);
+          endInput.min = padDate(next);
+          var e = new Date(endInput.value + "T12:00:00");
+          if (!endInput.value || e <= s) endInput.value = padDate(next);
+          schedulePkgEstimateRefresh();
+        });
+        endInput.addEventListener("change", function () {
+          schedulePkgEstimateRefresh();
+        });
+      }
+
+      function schedulePkgEstimateRefresh() {
+        setTimeout(function () {
+          if (
+            currentPackageVehicle &&
+            packageModal &&
+            packageModal.classList.contains("is-open") &&
+            typeof updatePkgEstimate === "function"
+          ) {
+            updatePkgEstimate(currentPackageVehicle);
+          }
+        }, 0);
+      }
+
+      var lastSearchContext = { pickup: "", start: "", end: "", days: 0 };
+
+      var form = document.getElementById("car-search-form");
+      var msg = document.getElementById("car-form-msg");
+
+      function showMsg(text, ok) {
+        if (!msg) return;
+        msg.textContent = text;
+        msg.classList.remove("is-error", "is-success");
+        msg.classList.add(ok ? "is-success" : "is-error");
+      }
+
+      function clearMsg() {
+        if (!msg) return;
+        msg.textContent = "";
+        msg.classList.remove("is-error", "is-success");
+      }
+
+      function escapeHtml(s) {
+        var d = document.createElement("div");
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      function getValidatedRentalDays() {
+        var pickup = document.getElementById("pickup") && document.getElementById("pickup").value.trim();
+        var ds = startInput && startInput.value;
+        var de = endInput && endInput.value;
+        if (!pickup || !ds || !de) return null;
+        var dStart = new Date(ds + "T12:00:00");
+        var dEnd = new Date(de + "T12:00:00");
+        if (isNaN(dStart.getTime()) || isNaN(dEnd.getTime()) || dEnd <= dStart) return null;
+        return {
+          pickup: pickup,
+          start: ds,
+          end: de,
+          days: Math.max(1, Math.ceil((dEnd - dStart) / 86400000))
+        };
+      }
+
+      function renderShowroom(list) {
+        var grid = document.getElementById("showroom-grid");
+        if (!grid) return;
+        grid.innerHTML = "";
+        list.forEach(function (v) {
+          var article = document.createElement("article");
+          article.className = "showroom-card filterable";
+          article.setAttribute(
+            "data-search",
+            (v.name + " " + v.category + " " + v.packageTitle + " " + v.tagline).toLowerCase()
+          );
+          var badge = v.category === "economy" ? "Economy" : v.category === "mpv" ? "MPV / SUV" : "Luxury";
+          article.innerHTML =
+            '<div class="sc-img-wrap">' +
+            '<span class="sc-badge">' +
+            badge +
+            "</span>" +
+            '<img class="sc-img" src="' +
+            v.image +
+            '" alt="' +
+            escapeHtml(v.name) +
+            '" loading="lazy" width="640" height="400" />' +
+            "</div>" +
+            '<div class="sc-body">' +
+            "<h3>" +
+            escapeHtml(v.name) +
+            "</h3>" +
+            '<p class="sc-pkg">' +
+            escapeHtml(v.packageTitle) +
+            "</p>" +
+            '<p class="sc-meta">' +
+            escapeHtml(v.transmission) +
+            " · " +
+            v.seats +
+            " seats · " +
+            escapeHtml(v.fuel) +
+            "</p>" +
+            '<p class="sc-price">RM ' +
+            v.price +
+            " <small>/ day</small></p>" +
+            '<button type="button" class="book-now" data-vehicle-id="' +
+            v.id +
+            '">Book now</button>' +
+            "</div>";
+          article.querySelector(".book-now").addEventListener("click", function () {
+            openPackageModal(v);
+          });
+          grid.appendChild(article);
+        });
+      }
+
+      function updatePkgEstimate(v) {
+        var est = document.getElementById("pkg-estimate");
+        if (!est || !v) return;
+        var ctx = getValidatedRentalDays();
+        if (!ctx) {
+          est.innerHTML =
+            '<strong style="color:var(--text);display:block;margin-bottom:8px">Price preview</strong>' +
+            "Base rate <strong>RM " +
+            v.price +
+            "</strong>/day. Add <strong>pick-up location &amp; dates</strong> in the purple section above for a full rental estimate.";
+          return;
+        }
+        var total = v.price * ctx.days;
+        est.innerHTML =
+          "<strong>Estimated rental total</strong><br>" +
+          "<strong>RM " +
+          total +
+          "</strong> for " +
+          ctx.days +
+          " day(s) × RM " +
+          v.price +
+          " · Pick-up <strong>" +
+          escapeHtml(ctx.pickup) +
+          "</strong><br>" +
+          '<span style="font-size:0.85rem;color:var(--text-muted)">' +
+          ctx.start +
+          " → " +
+          ctx.end +
+          " (add-ons on next screens)</span>";
+      }
+
+      function openPackageModal(v) {
+        currentPackageVehicle = v;
+        var img = document.getElementById("pkg-img");
+        if (img) {
+          img.src = v.image;
+          img.alt = v.name;
+        }
+        var titleEl = document.getElementById("pkg-title");
+        if (titleEl) titleEl.textContent = v.name;
+        var eyebrow = document.getElementById("pkg-eyebrow");
+        if (eyebrow) eyebrow.textContent = v.packageTitle;
+        var tag = document.getElementById("pkg-tagline");
+        if (tag) tag.textContent = v.tagline;
+        var ul = document.getElementById("pkg-includes");
+        if (ul) {
+          ul.innerHTML = v.includes
+            .map(function (line) {
+              return "<li>" + escapeHtml(line) + "</li>";
+            })
+            .join("");
+        }
+        var sel = document.getElementById("pkg-passengers");
+        if (sel) {
+          sel.innerHTML = "";
+          for (var i = 1; i <= v.seats; i++) {
+            var o = document.createElement("option");
+            o.value = String(i);
+            o.textContent = i === 1 ? "1 passenger" : String(i) + " passengers";
+            if (i === Math.min(4, v.seats)) o.selected = true;
+            sel.appendChild(o);
+          }
+        }
+        var bags = document.getElementById("pkg-bags");
+        if (bags) bags.value = "medium";
+        updatePkgEstimate(v);
+        if (!packageModal) return;
+        packageModal.classList.add("is-open");
+        packageModal.hidden = false;
+        packageModal.removeAttribute("hidden");
+        packageModal.style.display = "flex";
+        lockCarModalScroll();
+      }
+
+      function closePackageModal() {
+        if (!packageModal) return;
+        packageModal.classList.remove("is-open");
+        packageModal.hidden = true;
+        packageModal.setAttribute("hidden", "");
+        packageModal.style.display = "";
+        currentPackageVehicle = null;
+        unlockCarModalScrollIfNoneOpen();
+      }
+
+      function openBookingWithVehicle(v) {
+        var pickup = (document.getElementById("pickup") && document.getElementById("pickup").value.trim()) || "";
+        var ds = (startInput && startInput.value) || "";
+        var de = (endInput && endInput.value) || "";
+        var dStart = ds ? new Date(ds + "T12:00:00") : null;
+        var dEnd = de ? new Date(de + "T12:00:00") : null;
+        var validDates = dStart && dEnd && !isNaN(dStart) && !isNaN(dEnd) && dEnd > dStart;
+        var days = validDates ? Math.max(1, Math.ceil((dEnd - dStart) / 86400000)) : 1;
+        lastSearchContext = { pickup: pickup, start: ds, end: de, days: days };
+        var paxEl = document.getElementById("pkg-passengers");
+        var bagsEl = document.getElementById("pkg-bags");
+        var pax = paxEl ? parseInt(paxEl.value, 10) : Math.min(2, v.seats);
+        if (isNaN(pax) || pax < 1) pax = 1;
+        if (pax > v.seats) pax = v.seats;
+        var bagsVal = bagsEl ? bagsEl.value : "medium";
+        bookingState.vehicle = v;
+        bookingState.pickup = pickup;
+        bookingState.start = ds;
+        bookingState.end = de;
+        bookingState.days = days;
+        bookingState.baseTotal = v.price * days;
+        bookingState.extrasTotal = 0;
+        bookingState.passengers = pax;
+        bookingState.bags = bagsVal;
+        bookingState.packageTitle = v.packageTitle;
+        resetBookingFormFields();
+        showBookingStep(1);
+        updateBookingSummaryPane();
+        openBookingModal();
+      }
+
+      function resetBookingFormFields() {
+        var flight = document.getElementById("book-flight");
+        var name = document.getElementById("book-name");
+        var email = document.getElementById("book-email");
+        var phone = document.getElementById("book-phone");
+        var notes = document.getElementById("book-notes");
+        var gps = document.getElementById("extra-gps");
+        var seat = document.getElementById("extra-seat");
+        var driver = document.getElementById("extra-driver");
+        var terms = document.getElementById("terms-accept");
+        var payCounter = document.getElementById("pay-counter");
+        if (flight) flight.value = "";
+        if (name) name.value = "";
+        if (email) email.value = "";
+        if (phone) phone.value = "";
+        if (notes) notes.value = "";
+        if (gps) gps.checked = false;
+        if (seat) seat.checked = false;
+        if (driver) driver.checked = false;
+        if (terms) terms.checked = false;
+        if (payCounter) payCounter.checked = true;
+      }
+
+      var bookingModal = document.getElementById("booking-modal");
+      var bookingState = {
+        vehicle: null,
+        pickup: "",
+        start: "",
+        end: "",
+        days: 0,
+        baseTotal: 0,
+        extrasTotal: 0,
+        reference: "",
+        passengers: 2,
+        bags: "medium",
+        packageTitle: ""
+      };
+
+      function openBookingModal() {
+        if (!bookingModal) return;
+        bookingModal.classList.add("is-open");
+        bookingModal.removeAttribute("hidden");
+        lockCarModalScroll();
+      }
+
+      function closeBookingModal() {
+        if (!bookingModal) return;
+        bookingModal.classList.remove("is-open");
+        bookingModal.setAttribute("hidden", "");
+        unlockCarModalScrollIfNoneOpen();
+      }
+
+      function showBookingStep(step) {
+        for (var i = 1; i <= 5; i++) {
+          var pane = document.getElementById("book-pane-" + i);
+          if (pane) pane.classList.toggle("is-active", i === step);
+        }
+        var spans = document.querySelectorAll("#booking-progress span");
+        for (var j = 0; j < spans.length; j++) {
+          spans[j].classList.toggle("done", step > j + 1);
+        }
+      }
+
+      function updateBookingSummaryPane() {
+        var el = document.getElementById("book-summary-1");
+        if (!el || !bookingState.vehicle) return;
+        var bagLabel =
+          bookingState.bags === "light"
+            ? "Light luggage"
+            : bookingState.bags === "heavy"
+              ? "Heavy luggage / gear"
+              : "Medium luggage";
+        el.innerHTML =
+          "<strong>" +
+          bookingState.vehicle.name +
+          "</strong>" +
+          "<span style=\"font-size:0.82rem;color:var(--accent-red);display:block;margin-top:6px\">" +
+          escapeHtml(bookingState.packageTitle || "") +
+          "</span>" +
+          "<span style=\"font-size:0.88rem;color:var(--text-muted);display:block;margin-top:8px\">Passengers: <strong>" +
+          bookingState.passengers +
+          "</strong> · " +
+          bagLabel +
+          "</span>" +
+          "<span style=\"font-size:0.88rem;color:var(--text-muted);display:block;margin-top:6px\">Pick-up: " +
+          bookingState.start +
+          " · Return: " +
+          bookingState.end +
+          "</span>" +
+          "<span style=\"font-size:0.88rem;color:var(--text-muted);display:block\">Location: " +
+          escapeHtml(bookingState.pickup) +
+          "</span>" +
+          "<span style=\"font-size:0.95rem;margin-top:12px;display:block\">Rental: <strong style=\"color:var(--accent-red)\">RM " +
+          bookingState.baseTotal +
+          "</strong> (" +
+          bookingState.days +
+          " day" +
+          (bookingState.days !== 1 ? "s" : "") +
+          " × RM " +
+          bookingState.vehicle.price +
+          ")</span>";
+      }
+
+      function computeExtras() {
+        var x = 0;
+        if (document.getElementById("extra-gps") && document.getElementById("extra-gps").checked) x += 15;
+        if (document.getElementById("extra-seat") && document.getElementById("extra-seat").checked) x += 40;
+        if (document.getElementById("extra-driver") && document.getElementById("extra-driver").checked) x += 50;
+        return x;
+      }
+
+      document.getElementById("close-booking") &&
+        document.getElementById("close-booking").addEventListener("click", closeBookingModal);
+      document.getElementById("cancel-booking") &&
+        document.getElementById("cancel-booking").addEventListener("click", closeBookingModal);
+      document.getElementById("close-after-book") &&
+        document.getElementById("close-after-book").addEventListener("click", closeBookingModal);
+
+      if (bookingModal) {
+        bookingModal.addEventListener("click", function (ev) {
+          if (ev.target === bookingModal) closeBookingModal();
+        });
+      }
+
+      document.getElementById("to-step-2") &&
+        document.getElementById("to-step-2").addEventListener("click", function () {
+          showBookingStep(2);
+        });
+      document.getElementById("back-step-1") &&
+        document.getElementById("back-step-1").addEventListener("click", function () {
+          showBookingStep(1);
+        });
+      document.getElementById("to-step-3") &&
+        document.getElementById("to-step-3").addEventListener("click", function () {
+          showBookingStep(3);
+        });
+      document.getElementById("back-step-2") &&
+        document.getElementById("back-step-2").addEventListener("click", function () {
+          showBookingStep(2);
+        });
+      document.getElementById("to-step-4") &&
+        document.getElementById("to-step-4").addEventListener("click", function () {
+          var name = document.getElementById("book-name") && document.getElementById("book-name").value.trim();
+          var email = document.getElementById("book-email") && document.getElementById("book-email").value.trim();
+          var phone = document.getElementById("book-phone") && document.getElementById("book-phone").value.trim();
+          if (!name || !email || !phone) {
+            showToast("Please fill in name, email, and mobile number.", false);
+            return;
+          }
+          if (email.indexOf("@") === -1) {
+            showToast("Please enter a valid email address.", false);
+            return;
+          }
+          showBookingStep(4);
+        });
+      document.getElementById("back-step-3") &&
+        document.getElementById("back-step-3").addEventListener("click", function () {
+          showBookingStep(3);
+        });
+
+      document.getElementById("confirm-booking") &&
+        document.getElementById("confirm-booking").addEventListener("click", function () {
+          if (!document.getElementById("terms-accept").checked) {
+            showToast("Please accept the terms and conditions.", false);
+            return;
+          }
+          bookingState.extrasTotal = computeExtras();
+          var grand = bookingState.baseTotal + bookingState.extrasTotal;
+          bookingState.reference = "WL-" + Date.now().toString(36).toUpperCase().slice(-10);
+          var pay = document.querySelector('input[name="pay"]:checked');
+          var payNote = pay && pay.value === "deposit" ? "Deposit RM 100 (simulated — payment link in production)." : "Pay in full at pickup desk.";
+          function xc(id) {
+            var el = document.getElementById(id);
+            return el && el.checked;
+          }
+          var extrasLine =
+            (xc("extra-gps") ? "GPS " : "") +
+            (xc("extra-seat") ? "Child seat " : "") +
+            (xc("extra-driver") ? "Extra driver " : "");
+          var conf = document.getElementById("book-confirmation-msg");
+          if (conf) {
+            conf.innerHTML =
+              "<strong style=\"font-size:1.1rem;color:var(--accent-red)\">Booking confirmed</strong>" +
+              "<span style=\"display:block;margin-top:12px;font-size:0.92rem;color:var(--text)\">Reference: <strong>" +
+              bookingState.reference +
+              "</strong></span>" +
+              "<span style=\"display:block;margin-top:10px;font-size:0.88rem;color:var(--text-muted)\">" +
+              bookingState.vehicle.name +
+              " · " +
+              bookingState.passengers +
+              " pax · " +
+              bookingState.start +
+              " → " +
+              bookingState.end +
+              "</span>" +
+              "<span style=\"display:block;margin-top:8px;font-size:0.88rem\">Extras: " +
+              (extrasLine.trim() || "None") +
+              "</span>" +
+              "<span style=\"display:block;margin-top:12px;font-size:1rem\"><strong>Total: RM " +
+              grand +
+              "</strong> · " +
+              payNote +
+              "</span>";
+          }
+          showBookingStep(5);
+          showToast("Booking saved — reference " + bookingState.reference, true);
+        });
+
+      var termsModal = document.getElementById("terms-modal");
+      function openTermsModal() {
+        if (!termsModal) return;
+        termsModal.classList.add("is-open");
+        termsModal.removeAttribute("hidden");
+        lockCarModalScroll();
+      }
+      function closeTermsModal() {
+        if (!termsModal) return;
+        termsModal.classList.remove("is-open");
+        termsModal.setAttribute("hidden", "");
+        unlockCarModalScrollIfNoneOpen();
+      }
+
+      document.getElementById("close-terms") &&
+        document.getElementById("close-terms").addEventListener("click", closeTermsModal);
+      if (termsModal) {
+        termsModal.addEventListener("click", function (ev) {
+          if (ev.target === termsModal) closeTermsModal();
+        });
+      }
+      document.getElementById("footer-terms") &&
+        document.getElementById("footer-terms").addEventListener("click", openTermsModal);
+      document.getElementById("open-terms-inline") &&
+        document.getElementById("open-terms-inline").addEventListener("click", openTermsModal);
+      document.getElementById("terms-from-booking") &&
+        document.getElementById("terms-from-booking").addEventListener("click", openTermsModal);
+
+      if (form) {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          clearMsg();
+          var pickup = (document.getElementById("pickup") && document.getElementById("pickup").value.trim()) || "";
+          var ds = startInput && startInput.value;
+          var de = endInput && endInput.value;
+          var cat = document.getElementById("car-class") && document.getElementById("car-class").value;
+
+          if (!pickup) {
+            showMsg("Please enter a pickup location.", false);
+            return;
+          }
+          if (!ds || !de) {
+            showMsg("Please choose pick-up and return dates.", false);
+            return;
+          }
+          var dStart = new Date(ds + "T12:00:00");
+          var dEnd = new Date(de + "T12:00:00");
+          if (dEnd <= dStart) {
+            showMsg("Return date must be after pick-up date.", false);
+            return;
+          }
+
+          var days = Math.max(1, Math.ceil((dEnd - dStart) / 86400000));
+          lastSearchContext = { pickup: pickup, start: ds, end: de, days: days };
+          var filtered = FLEET.filter(function (v) {
+            return !cat || v.category === cat;
+          });
+          if (!filtered.length) filtered = FLEET.slice();
+
+          renderShowroom(filtered);
+          showMsg("Showing " + filtered.length + " vehicle(s) in the showroom.", true);
+          var showroomEl = document.getElementById("car-showroom");
+          if (showroomEl) showroomEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          showToast("Tap Book now on a vehicle for package details & passenger options.", true);
+          if (currentPackageVehicle) updatePkgEstimate(currentPackageVehicle);
+        });
+      }
+
+      document.getElementById("show-all-cars") &&
+        document.getElementById("show-all-cars").addEventListener("click", function () {
+          var sel = document.getElementById("car-class");
+          if (sel) sel.value = "";
+          renderShowroom(FLEET);
+          clearMsg();
+          showToast("All vehicles shown.", true);
+          var showroomEl = document.getElementById("car-showroom");
+          if (showroomEl) showroomEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+      document.getElementById("close-package") &&
+        document.getElementById("close-package").addEventListener("click", closePackageModal);
+      document.getElementById("package-cancel") &&
+        document.getElementById("package-cancel").addEventListener("click", closePackageModal);
+      if (packageModal) {
+        packageModal.addEventListener("click", function (ev) {
+          if (ev.target === packageModal) closePackageModal();
+        });
+      }
+      var showroomGridEl = document.getElementById("showroom-grid");
+      if (showroomGridEl) {
+        showroomGridEl.addEventListener("click", function (ev) {
+          var btn = ev.target && ev.target.closest ? ev.target.closest(".book-now") : null;
+          if (!btn) return;
+          var id = btn.getAttribute("data-vehicle-id");
+          var vehicle = FLEET.find(function (item) {
+            return item.id === id;
+          });
+          if (vehicle) openPackageModal(vehicle);
+        });
+      }
+
+      document.getElementById("package-proceed") &&
+        document.getElementById("package-proceed").addEventListener("click", function () {
+          var v = currentPackageVehicle;
+          if (!v) return;
+          closePackageModal();
+          openBookingWithVehicle(v);
+        });
+
+      document.getElementById("pkg-passengers") &&
+        document.getElementById("pkg-passengers").addEventListener("change", function () {
+          if (currentPackageVehicle) updatePkgEstimate(currentPackageVehicle);
+        });
+      document.getElementById("pkg-bags") &&
+        document.getElementById("pkg-bags").addEventListener("change", function () {
+          if (currentPackageVehicle) updatePkgEstimate(currentPackageVehicle);
+        });
+
+      document.getElementById("pickup") &&
+        document.getElementById("pickup").addEventListener("input", function () {
+          if (currentPackageVehicle) updatePkgEstimate(currentPackageVehicle);
+        });
+
+      renderShowroom(FLEET);
+
+      document.getElementById("fab-book") &&
+        document.getElementById("fab-book").addEventListener("click", function () {
+          document.getElementById("search-widget").scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+
+      document.querySelectorAll(".faq-q").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var item = btn.closest(".faq-item");
+          var open = item.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      });
+
+      var carousel = document.getElementById("tours-carousel");
+      var prevBtn = document.getElementById("carousel-prev");
+      var nextBtn = document.getElementById("carousel-next");
+
+      function scrollCarousel(dir) {
+        if (!carousel) return;
+        var card = carousel.querySelector(".tour-card");
+        var amount = card ? Math.round(card.getBoundingClientRect().width + 20) : 300;
+        carousel.scrollBy({ left: dir * amount, behavior: "smooth" });
+      }
+      if (prevBtn) prevBtn.addEventListener("click", function () { scrollCarousel(-1); });
+      if (nextBtn) nextBtn.addEventListener("click", function () { scrollCarousel(1); });
+      if (carousel) {
+        var isDown = false;
+        var startX = 0;
+        var startScroll = 0;
+        carousel.addEventListener("pointerdown", function (e) {
+          isDown = true;
+          startX = e.clientX;
+          startScroll = carousel.scrollLeft;
+          carousel.setPointerCapture(e.pointerId);
+        });
+        carousel.addEventListener("pointermove", function (e) {
+          if (!isDown) return;
+          var dx = e.clientX - startX;
+          carousel.scrollLeft = startScroll - dx;
+        });
+        function endDrag(e) {
+          if (!isDown) return;
+          isDown = false;
+          if (typeof e.pointerId === "number" && carousel.hasPointerCapture(e.pointerId)) {
+            carousel.releasePointerCapture(e.pointerId);
+          }
+        }
+        carousel.addEventListener("pointerup", endDrag);
+        carousel.addEventListener("pointercancel", endDrag);
+        carousel.addEventListener("pointerleave", endDrag);
+      }
+
+      var siteSearch = document.getElementById("site-search");
+      if (siteSearch) {
+        siteSearch.addEventListener("input", function () {
+          var q = siteSearch.value.trim().toLowerCase();
+          document.querySelectorAll(".filterable").forEach(function (el) {
+            var hay = (el.getAttribute("data-search") || "") + " " + (el.textContent || "");
+            hay = hay.toLowerCase();
+            var match = !q || hay.indexOf(q) !== -1;
+            el.classList.toggle("filter-hidden", q && !match);
+          });
+        });
+      }
+
+      var menuToggle = document.getElementById("menu-toggle");
+      var mainNav = document.getElementById("main-nav");
+      if (menuToggle && mainNav) {
+        menuToggle.addEventListener("click", function () {
+          var open = mainNav.classList.toggle("is-open");
+          menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+          menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        });
+        mainNav.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            mainNav.classList.remove("is-open");
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.setAttribute("aria-label", "Open menu");
+          });
+        });
+      }
+
+      var tpPkgTrack = document.getElementById("tp-packages-track");
+      var tpPkgPrev = document.getElementById("tp-pkg-prev");
+      var tpPkgNext = document.getElementById("tp-pkg-next");
+      function scrollTpPackages(dir) {
+        if (!tpPkgTrack) return;
+        var card = tpPkgTrack.querySelector(".tp-card:not(.filter-hidden)");
+        var amount = card ? card.offsetWidth + 22 : 300;
+        tpPkgTrack.scrollBy({ left: dir * amount, behavior: "smooth" });
+      }
+      if (tpPkgPrev) tpPkgPrev.addEventListener("click", function () { scrollTpPackages(-1); });
+      if (tpPkgNext) tpPkgNext.addEventListener("click", function () { scrollTpPackages(1); });
+
+      var videoModal = document.getElementById("video-modal");
+      var openVideo = document.getElementById("open-video");
+      var closeVideo = document.getElementById("close-video");
+      var storyIframe = document.getElementById("story-iframe");
+      var VIDEO_URL = "https://www.youtube.com/embed/rmoplUl0XTI?rel=0";
+
+      function openVideoModal() {
+        if (!videoModal) return;
+        videoModal.classList.add("is-open");
+        videoModal.removeAttribute("hidden");
+        if (storyIframe) storyIframe.src = VIDEO_URL;
+        document.body.style.overflow = "hidden";
+      }
+      function closeVideoModal() {
+        if (!videoModal) return;
+        videoModal.classList.remove("is-open");
+        videoModal.setAttribute("hidden", "");
+        if (storyIframe) storyIframe.src = "";
+        if (
+          !bookingModal.classList.contains("is-open") &&
+          !termsModal.classList.contains("is-open") &&
+          (!packageModal || !packageModal.classList.contains("is-open"))
+        ) {
+          document.body.style.overflow = "";
+        }
+      }
+
+      if (openVideo) openVideo.addEventListener("click", openVideoModal);
+      if (closeVideo) closeVideo.addEventListener("click", closeVideoModal);
+      if (videoModal) {
+        videoModal.addEventListener("click", function (ev) {
+          if (ev.target === videoModal) closeVideoModal();
+        });
+      }
+
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key !== "Escape") return;
+        if (packageModal && packageModal.classList.contains("is-open")) {
+          closePackageModal();
+          return;
+        }
+        if (termsModal && termsModal.classList.contains("is-open")) {
+          closeTermsModal();
+          return;
+        }
+        if (bookingModal && bookingModal.classList.contains("is-open")) {
+          closeBookingModal();
+          return;
+        }
+        if (videoModal && videoModal.classList.contains("is-open")) {
+          closeVideoModal();
+        }
+      });
+
+      /* ===================================================
+         SCROLL REVEAL - IntersectionObserver
+      =================================================== */
+      (function () {
+        var revealEls = document.querySelectorAll(".reveal");
+        if (!revealEls.length) return;
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+        revealEls.forEach(function (el) { io.observe(el); });
+      })();
+
+      /* ===================================================
+         STICKY HEADER SHADOW ON SCROLL
+      =================================================== */
+      (function () {
+        var hdr = document.querySelector("header");
+        if (!hdr) return;
+        window.addEventListener("scroll", function () {
+          if (window.scrollY > 24) {
+            hdr.classList.add("scrolled");
+          } else {
+            hdr.classList.remove("scrolled");
+          }
+        }, { passive: true });
+      })();
+
+      /* ===================================================
+         TOUR PACKAGE MODALS & BOOKING LOGIC
+      =================================================== */
+      (function () {
+        // Pricing config
+        var PKG_CONFIG = {
+          sunset:   { adultPrice: 120, childPrice: 80, fields: { adults: 2, children: 0 }, estId: "est-sunset-val" },
+          mangrove: { adultPrice: 85,  childPrice: 55, fields: { adults: 2, children: 0 }, estId: "est-mangrove-val" },
+          atv:      { adultPrice: 150, childPrice: 150, fields: { adults: 1, children: 0 }, estId: "est-atv-val", durationEl: "atv-duration", durationPrices: { "1": 150, "2": 220 } },
+          private:  { adultPrice: 350, childPrice: 200, fields: { adults: 2, children: 0 }, estId: "est-private-val" },
+          jetski:   { adultPrice: 180, childPrice: 180, fields: { count: 1 }, estId: "est-jetski-val", durationEl: "jetski-duration", durationPrices: { "30": 180, "60": 300 }, countField: "jetski-count" },
+          "3in1":   { adultPrice: 280, childPrice: 180, fields: { adults: 2, children: 0 }, estId: "est-3in1-val" }
+        };
+
+        // Counter state
+        var counterState = {};
+
+        // Initialize counters from config
+        Object.keys(PKG_CONFIG).forEach(function(pkg) {
+          var cfg = PKG_CONFIG[pkg];
+          Object.keys(cfg.fields).forEach(function(f) {
+            counterState[pkg + "-" + f] = cfg.fields[f];
+          });
+        });
+
+        function updateEstimate(pkg) {
+          var cfg = PKG_CONFIG[pkg];
+          if (!cfg) return;
+          var total = 0;
+          if (cfg.countField) {
+            // Jetski — price per jetski
+            var dur = document.getElementById(cfg.durationEl);
+            var price = dur ? (cfg.durationPrices[dur.value] || cfg.adultPrice) : cfg.adultPrice;
+            var count = counterState[cfg.countField] || 1;
+            total = price * count;
+          } else if (cfg.durationEl) {
+            // ATV — price per pax by duration
+            var durEl = document.getElementById(cfg.durationEl);
+            var paxPrice = durEl ? (cfg.durationPrices[durEl.value] || cfg.adultPrice) : cfg.adultPrice;
+            var adults = counterState[pkg + "-adults"] || 0;
+            var children = counterState[pkg + "-children"] || 0;
+            total = (adults * paxPrice) + (children * paxPrice);
+          } else {
+            var a = counterState[pkg + "-adults"] || 0;
+            var c = counterState[pkg + "-children"] || 0;
+            total = (a * cfg.adultPrice) + (c * cfg.childPrice);
+          }
+          var el = document.getElementById(cfg.estId);
+          if (el) el.textContent = "RM " + total.toLocaleString();
+        }
+
+        // Counter buttons
+        document.querySelectorAll(".tp-count-btn").forEach(function(btn) {
+          btn.addEventListener("click", function() {
+            var field = btn.getAttribute("data-field");
+            var action = btn.getAttribute("data-action");
+            if (!field) return;
+            var min = (field.indexOf("adults") !== -1) ? 1 : 0;
+            if (field.indexOf("count") !== -1) min = 1;
+            if (action === "plus") {
+              counterState[field] = (counterState[field] || 0) + 1;
+            } else {
+              counterState[field] = Math.max(min, (counterState[field] || 0) - 1);
+            }
+            var el = document.getElementById(field);
+            if (el) el.textContent = counterState[field];
+            // Find which pkg this belongs to and update estimate
+            var pkg = field.split("-")[0];
+            if (field.startsWith("3in1")) pkg = "3in1";
+            updateEstimate(pkg);
+          });
+        });
+
+        // Duration change → update estimate
+        ["atv-duration", "jetski-duration"].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener("change", function() {
+            var pkg = id.split("-")[0];
+            updateEstimate(pkg);
+          });
+        });
+
+        // Set today as min date on all tour date inputs
+        var todayStr = (function() {
+          var t = new Date();
+          var m = (t.getMonth()+1).toString().padStart(2,"0");
+          var d = t.getDate().toString().padStart(2,"0");
+          return t.getFullYear() + "-" + m + "-" + d;
+        })();
+        document.querySelectorAll(".tp-input[type='date']").forEach(function(inp) {
+          inp.min = todayStr;
+        });
+
+        // Keep page position stable while tour modals are open (prevents jump-to-top on Safari/mobile)
+        var tpSavedScrollY = 0;
+        var tpBodyLocked = false;
+        function lockTourScroll() {
+          if (tpBodyLocked) return;
+          document.body.style.overflow = "hidden";
+          tpBodyLocked = true;
+        }
+        function unlockTourScroll() {
+          if (!tpBodyLocked) return;
+          document.body.style.overflow = "";
+          tpBodyLocked = false;
+        }
+
+        // Open modal
+        function openTourModal(pkg) {
+          var modal = document.getElementById("tp-modal-" + pkg);
+          if (!modal) return;
+          modal.hidden = false;
+          modal.removeAttribute("hidden");
+          requestAnimationFrame(function () {
+            modal.classList.add("is-open");
+          });
+          lockTourScroll();
+          updateEstimate(pkg);
+          // Focus close button for accessibility
+          var closeBtn = modal.querySelector(".tp-modal-close");
+          if (closeBtn) setTimeout(function() { closeBtn.focus(); }, 100);
+        }
+
+        // Close modal
+        function closeTourModal(pkg) {
+          var modal = document.getElementById("tp-modal-" + pkg);
+          if (!modal) return;
+          modal.classList.remove("is-open");
+          setTimeout(function () {
+            if (!modal.classList.contains("is-open")) {
+              modal.hidden = true;
+              modal.setAttribute("hidden", "");
+            }
+          }, 220);
+          var anyOpen = document.querySelectorAll(".tp-modal-overlay.is-open").length > 0;
+          if (!anyOpen) unlockTourScroll();
+        }
+
+        // Learn More buttons on specialty cards
+        document.querySelectorAll(".specialty-btn").forEach(function(btn) {
+          btn.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var pkg = btn.getAttribute("data-pkg");
+            if (pkg) openTourModal(pkg);
+          });
+        });
+
+        // Specialty card click also opens modal
+        document.querySelectorAll(".specialty-card").forEach(function(card) {
+          card.addEventListener("click", function(e) {
+            if (e.target.closest(".specialty-btn")) return;
+            var pkg = card.getAttribute("data-pkg");
+            if (pkg) openTourModal(pkg);
+          });
+        });
+
+        // Fallback delegated click handling for reliability
+        document.addEventListener("click", function (e) {
+          var learnBtn = e.target.closest(".specialty-btn");
+          if (learnBtn) {
+            e.preventDefault();
+            var pkgFromBtn = learnBtn.getAttribute("data-pkg");
+            if (pkgFromBtn) openTourModal(pkgFromBtn);
+            return;
+          }
+          var card = e.target.closest(".specialty-card");
+          if (card && !e.target.closest(".specialty-btn")) {
+            var pkgFromCard = card.getAttribute("data-pkg");
+            if (pkgFromCard) openTourModal(pkgFromCard);
+            return;
+          }
+          var tourBookBtn = e.target.closest(
+            "#book-sunset, #book-mangrove, #book-atv, #book-private, #book-jetski, #book-3in1"
+          );
+          if (tourBookBtn) {
+            e.preventDefault();
+            var bookingPkg = tourBookBtn.id.replace("book-", "");
+            var bookingNames = {
+              sunset: "Sunset Cruise",
+              mangrove: "Mangrove Cruise",
+              atv: "ATV Ride",
+              private: "Private Tour",
+              jetski: "Jetski Tour",
+              "3in1": "3 in 1 Package"
+            };
+            handleBooking(bookingPkg, bookingNames[bookingPkg] || "Tour Package");
+          }
+        });
+
+        // Close buttons
+        ["sunset","mangrove","atv","private","jetski","3in1"].forEach(function(pkg) {
+          var btn = document.getElementById("tp-close-" + pkg);
+          if (btn) btn.addEventListener("click", function() { closeTourModal(pkg); });
+          // Click outside
+          var modal = document.getElementById("tp-modal-" + pkg);
+          if (modal) {
+            modal.addEventListener("click", function(e) {
+              if (e.target === modal) closeTourModal(pkg);
+            });
+          }
+        });
+
+        // Escape key closes tour modals
+        document.addEventListener("keydown", function(e) {
+          if (e.key !== "Escape") return;
+          var openModal = document.querySelector(".tp-modal-overlay.is-open");
+          if (openModal) {
+            var id = openModal.id;
+            if (id === "tp-success-modal") {
+              closeSuccessModal();
+            } else {
+              var pkg = id.replace("tp-modal-","");
+              closeTourModal(pkg);
+            }
+          }
+        });
+
+        // Success modal helpers
+        function closeSuccessModal() {
+          var m = document.getElementById("tp-success-modal");
+          if (m) {
+            m.classList.remove("is-open");
+            setTimeout(function () {
+              if (!m.classList.contains("is-open")) {
+                m.hidden = true;
+                m.setAttribute("hidden", "");
+              }
+            }, 220);
+          }
+          var anyTourOpen = document.querySelectorAll(".tp-modal-overlay.is-open").length > 0;
+          if (!anyTourOpen) unlockTourScroll();
+        }
+        var successCloseBtn = document.getElementById("tp-success-close");
+        if (successCloseBtn) successCloseBtn.addEventListener("click", closeSuccessModal);
+
+        // BOOK NOW handlers — generate booking request
+        var refCounter = 1000 + Math.floor(Math.random() * 900);
+
+        function handleBooking(pkg, pkgName) {
+          // Validate date
+          var dateEl = document.getElementById(pkg + "-date") || document.getElementById(pkg === "3in1" ? "3in1-date" : pkg + "-date");
+          if (dateEl && !dateEl.value) {
+            dateEl.focus();
+            dateEl.style.borderColor = "#e63946";
+            setTimeout(function() { dateEl.style.borderColor = ""; }, 1500);
+            return;
+          }
+          // Close package modal
+          closeTourModal(pkg);
+          // Show success
+          var ref = "WL-" + (++refCounter);
+          var paxText = "";
+          if (PKG_CONFIG[pkg]) {
+            var cfg = PKG_CONFIG[pkg];
+            if (cfg.countField) {
+              paxText = (counterState[cfg.countField] || 1) + " jetski(s)";
+            } else {
+              var a = counterState[pkg + "-adults"] || counterState["3in1-adults"] || 0;
+              var c = counterState[pkg + "-children"] || counterState["3in1-children"] || 0;
+              paxText = a + " adult" + (a !== 1 ? "s" : "") + (c > 0 ? ", " + c + " child" + (c !== 1 ? "ren" : "") : "");
+            }
+          }
+          var dateVal = dateEl ? dateEl.value : "";
+          var msgEl = document.getElementById("tp-success-msg");
+          var refEl = document.getElementById("tp-success-ref");
+          if (msgEl) msgEl.innerHTML = "Your <strong>" + pkgName + "</strong> request for <strong>" + paxText + "</strong>" + (dateVal ? " on <strong>" + dateVal + "</strong>" : "") + " has been received. Our team will reach you on WhatsApp within 2 hours to confirm availability and arrange payment.";
+          if (refEl) refEl.innerHTML = "<strong style='display:block;font-size:1.1rem;color:#0d1b2a;margin-bottom:4px;'>Booking Reference: " + ref + "</strong><span style='color:#6b7280;font-size:0.85rem;'>Save this number — our team will quote this reference when they contact you.</span>";
+          var sm = document.getElementById("tp-success-modal");
+          if (sm) {
+            sm.hidden = false;
+            sm.removeAttribute("hidden");
+            requestAnimationFrame(function () {
+              sm.classList.add("is-open");
+            });
+            lockTourScroll();
+          }
+        }
+
+        var pkgNames = { sunset: "Sunset Cruise", mangrove: "Mangrove Cruise", atv: "ATV Ride", private: "Private Tour", jetski: "Jetski Tour", "3in1": "3 in 1 Package" };
+        ["sunset","mangrove","atv","private","jetski","3in1"].forEach(function(pkg) {
+          var btn = document.getElementById("book-" + pkg);
+          if (btn) {
+            btn.addEventListener("click", function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              handleBooking(pkg, pkgNames[pkg]);
+            });
+          }
+        });
+
+        // Click success modal overlay to close
+        var sm = document.getElementById("tp-success-modal");
+        if (sm) sm.addEventListener("click", function(e) { if (e.target === sm) closeSuccessModal(); });
+
+      })();
+
+    })();
+  </script>
+</body>
+</html>
