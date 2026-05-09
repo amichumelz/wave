@@ -76,6 +76,23 @@
       overflow-x: clip;
     }
 
+    /* Form fields — text starts left (overrides centered ancestors / mobile number fields) */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"],
+    input[type="search"],
+    input[type="url"],
+    input[type="password"],
+    textarea,
+    select {
+      text-align: left;
+      direction: ltr;
+    }
+
     body::before {
       content: "";
       position: fixed;
@@ -1371,6 +1388,8 @@
       font-size: 0.94rem;
       color: var(--charcoal);
       background: var(--white);
+      text-align: left;
+      direction: ltr;
     }
 
     .book-field textarea {
@@ -2174,6 +2193,8 @@
       border-radius: var(--radius-md);
       font: inherit;
       background: var(--white);
+      text-align: left;
+      direction: ltr;
     }
 
     .newsletter-form button {
@@ -2261,6 +2282,8 @@
       border-color: rgba(255, 255, 255, 0.22);
       background: rgba(255, 255, 255, 0.94);
       color: var(--charcoal);
+      text-align: left;
+      direction: ltr;
     }
 
     .site-footer .newsletter-form button {
@@ -2304,37 +2327,96 @@
       background: rgba(255, 255, 255, 0.16);
     }
 
+    .nav-drawer-backdrop {
+      display: none;
+    }
+
     @media (max-width: 960px) {
-      .nav-links {
+      /* Slide-out drawer from the right (thumb-friendly; stays visible, no full-screen jump) */
+      .site-header {
+        z-index: 160;
+      }
+
+      .nav-drawer-backdrop {
+        display: block;
         position: fixed;
         inset: 0;
-        top: 0;
-        background: linear-gradient(
-          165deg,
-          #1a1416 0%,
-          var(--charcoal) 38%,
-          #1e3538 72%,
-          rgba(224, 122, 95, 0.12) 100%
-        );
-        flex-direction: column;
-        justify-content: center;
-        gap: 1.35rem;
+        z-index: 140;
+        background: rgba(10, 13, 17, 0.5);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
         opacity: 0;
+        visibility: hidden;
         pointer-events: none;
-        transform: translateY(-12px);
         transition:
-          opacity 0.4s var(--ease-out),
-          transform 0.45s var(--ease-out);
+          opacity 0.35s var(--ease-out),
+          visibility 0.35s;
+      }
+
+      body.nav-open .nav-drawer-backdrop {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .nav-inner > nav {
+        display: contents;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
+        width: min(19.5rem, 88vw);
+        max-width: calc(100vw - 3rem);
+        margin: 0;
+        padding: max(4.75rem, calc(env(safe-area-inset-top) + 3.25rem)) 1.15rem 2rem;
+        padding-right: max(1.15rem, env(safe-area-inset-right));
+        padding-left: max(1.15rem, env(safe-area-inset-left));
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 0.2rem;
+        list-style: none;
+        background: linear-gradient(
+          185deg,
+          #1a1416 0%,
+          var(--charcoal) 42%,
+          #1e3538 78%,
+          rgba(224, 122, 95, 0.1) 100%
+        );
+        box-shadow: -12px 0 48px rgba(0, 0, 0, 0.35);
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        pointer-events: none;
+        transform: translate3d(100%, 0, 0);
+        transition: transform 0.42s var(--ease-out);
+        z-index: 150;
       }
 
       .nav-links.is-open {
-        opacity: 1;
         pointer-events: auto;
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
+      }
+
+      .nav-links li {
+        margin: 0;
       }
 
       .nav-links a {
-        font-size: 1.15rem;
+        display: block;
+        font-size: 1.08rem;
+        padding: 0.85rem 1rem;
+        border-radius: var(--radius-md);
+        color: rgba(255, 255, 255, 0.94);
+      }
+
+      .nav-links a:active {
+        background: rgba(255, 255, 255, 0.08);
       }
 
       .nav-links a::after {
@@ -2345,25 +2427,20 @@
         display: inline-flex;
       }
 
-      /* Keep logo + actions above fullscreen nav overlay */
       .logo,
       .nav-actions {
         position: relative;
-        z-index: 2;
+        z-index: 165;
       }
 
-      .site-header.is-scrolled .nav-links:not(.is-open) {
-        background: transparent;
+      /* Drawer stays dark; override desktop “scrolled = charcoal links” */
+      .site-header.is-scrolled .nav-links a {
+        color: rgba(255, 255, 255, 0.94);
       }
 
-      .site-header.is-scrolled .nav-links.is-open {
-        background: linear-gradient(
-          165deg,
-          #1a1416 0%,
-          var(--charcoal) 38%,
-          #1e3538 72%,
-          rgba(224, 122, 95, 0.12) 100%
-        );
+      .site-header.is-scrolled .nav-links a:hover {
+        color: var(--lagoon);
+        opacity: 1;
       }
 
       .section-intro {
@@ -2822,6 +2899,8 @@
       </div>
     </div>
   </header>
+  <!-- Mobile: tap dim area to close slide-out nav -->
+  <div class="nav-drawer-backdrop" id="nav-drawer-backdrop" aria-hidden="true" tabindex="-1"></div>
 
   <main>
     <section class="hero" id="hero">
@@ -4417,12 +4496,16 @@
 
       var toggle = document.getElementById("menu-toggle");
       var menu = document.getElementById("nav-menu");
+      var navBackdrop = document.getElementById("nav-drawer-backdrop");
       function setMenuOpen(open) {
         if (!toggle || !menu) return;
         menu.classList.toggle("is-open", open);
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
         toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
         document.body.classList.toggle("nav-open", open);
+        if (navBackdrop) {
+          navBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+        }
       }
       if (toggle && menu) {
         toggle.addEventListener("click", function () {
@@ -4433,6 +4516,11 @@
             setMenuOpen(false);
           });
         });
+        if (navBackdrop) {
+          navBackdrop.addEventListener("click", function () {
+            setMenuOpen(false);
+          });
+        }
         document.addEventListener("keydown", function (ev) {
           if (ev.key === "Escape" && menu.classList.contains("is-open")) {
             setMenuOpen(false);
