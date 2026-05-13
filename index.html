@@ -1701,7 +1701,7 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--grey);
+      color: #2a3236;
       margin-bottom: 0.35rem;
     }
 
@@ -1710,14 +1710,15 @@
     .book-field textarea {
       width: 100%;
       padding: 0.75rem 0.9rem;
-      border: 1px solid #d5dde0;
+      border: 1px solid rgba(15, 20, 24, 0.18);
       border-radius: var(--radius-md);
       font: inherit;
       font-size: 0.94rem;
-      color: var(--charcoal);
-      background: var(--white);
+      color: #0f1417;
+      background: #ffffff;
       text-align: left;
       direction: ltr;
+      box-shadow: inset 0 1px 2px rgba(10, 14, 18, 0.04);
     }
 
     .book-field textarea {
@@ -1735,17 +1736,18 @@
 
     .book-submit {
       width: 100%;
-      margin-top: 0.25rem;
+      margin-top: 0.35rem;
       border: none;
-      border-radius: var(--radius-pill);
-      padding: 0.9rem 1.25rem;
-      font-family: inherit;
-      font-weight: 600;
+      border-radius: 0.65rem;
+      padding: 0.95rem 1.25rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
       font-size: 0.95rem;
-      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-      color: var(--white);
+      letter-spacing: 0.01em;
+      background: #0a0a0a;
+      color: #ffffff;
       cursor: pointer;
-      box-shadow: 0 6px 22px rgba(45, 79, 79, 0.28);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
       transition:
         transform 0.2s,
         filter 0.2s,
@@ -1753,9 +1755,39 @@
     }
 
     .book-submit:hover {
-      filter: brightness(1.06);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(45, 79, 79, 0.35);
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    }
+
+    .book-dismiss-wrap {
+      margin: 0.85rem 0 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .book-dismiss-link {
+      display: inline;
+      padding: 0;
+      border: none;
+      background: none;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #6b7280;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      cursor: pointer;
+    }
+
+    .book-dismiss-link:hover {
+      color: #111827;
+    }
+
+    .book-dismiss-link:focus-visible {
+      outline: 2px solid #0a0a0a;
+      outline-offset: 3px;
+      border-radius: 2px;
     }
 
     .book-hint {
@@ -1767,14 +1799,16 @@
 
     .booking-summary {
       margin: 0 0 1rem;
-      padding: 0.8rem 0.9rem;
-      border: 1px solid rgba(46, 196, 182, 0.24);
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, rgba(232, 240, 240, 0.78) 0%, rgba(255, 247, 239, 0.58) 100%);
-      color: var(--charcoal);
-      font-size: 0.86rem;
-      line-height: 1.5;
+      padding: 0.75rem 0.85rem;
+      border: 1px solid #eceef0;
+      border-radius: 0.65rem;
+      background: #f9fafb;
+      color: #1f2937;
+      font-size: 0.84rem;
+      font-weight: 400;
+      line-height: 1.55;
       white-space: pre-line;
+      box-shadow: none;
     }
 
     /* Find a vehicle — showroom cool grey */
@@ -1968,51 +2002,53 @@
       border-top: 1px solid #eceeef;
     }
 
-    /* Native booking dialogs — center in viewport (avoid position:relative; it breaks modal top-layer centering) */
+    /* Native booking dialogs — app-style sheet (phone: bottom sheet, desktop: centered card) */
     .booking-dialog {
       position: fixed;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       margin: 0;
-      width: min(440px, calc(100vw - 1.25rem));
-      max-width: calc(100vw - 1.25rem);
+      width: min(460px, calc(100vw - 1.5rem));
+      max-width: calc(100vw - 1.5rem);
       height: fit-content;
       max-height: min(92vh, calc(100dvh - 1.5rem));
       border: none;
-      border-radius: var(--radius-lg);
+      border-radius: 1.25rem;
       padding: 0;
       overflow-x: hidden;
       overflow-y: hidden;
-      background: linear-gradient(165deg, #ffffff 0%, #f3faf9 42%, #fffbf7 100%);
-      border: 1px solid rgba(255, 255, 255, 0.95);
+      background: #ffffff;
+      border: 1px solid rgba(15, 18, 22, 0.12);
       box-shadow:
-        0 0 0 1px rgba(45, 79, 79, 0.07),
-        0 32px 90px rgba(12, 22, 24, 0.32),
-        0 14px 42px rgba(61, 107, 107, 0.14);
+        0 0 0 1px rgba(255, 255, 255, 0.75) inset,
+        0 28px 80px rgba(5, 8, 12, 0.45),
+        0 12px 36px rgba(5, 8, 12, 0.18);
     }
 
     .booking-dialog::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--teal-dark), var(--lagoon), var(--sun), var(--coral));
-      z-index: 8;
-      pointer-events: none;
+      display: none;
     }
 
     .booking-dialog::backdrop {
-      background: rgba(10, 13, 17, 0.72);
-      backdrop-filter: blur(8px);
+      background: rgba(6, 8, 12, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .booking-sheet-handle {
+      width: 2.25rem;
+      height: 0.3rem;
+      margin: 0 auto 0.65rem;
+      border-radius: 100px;
+      background: #c8ced4;
+      flex-shrink: 0;
     }
 
     .booking-dialog-inner {
       position: relative;
-      padding: 1.5rem 1.45rem 1.6rem;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(248, 252, 251, 0.65) 38%, rgba(255, 255, 255, 0.92) 100%);
+      padding: 0.35rem 1.35rem 1.5rem;
+      background: #ffffff;
       overflow-x: hidden;
       overflow-y: auto;
       max-height: min(85vh, calc(100dvh - 3.5rem));
@@ -2029,15 +2065,15 @@
       z-index: 12;
       width: 42px;
       height: 42px;
-      border: 1px solid rgba(26, 31, 33, 0.08);
+      border: 1px solid rgba(10, 16, 18, 0.14);
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(10px);
       cursor: pointer;
       font-size: 1.35rem;
       line-height: 1;
-      color: var(--charcoal);
-      box-shadow: 0 4px 18px rgba(26, 31, 33, 0.1);
+      color: #0f1417;
+      box-shadow: 0 4px 18px rgba(5, 12, 14, 0.14);
       transition:
         background 0.2s,
         color 0.2s,
@@ -2047,45 +2083,33 @@
 
     .booking-dialog-close:hover {
       background: var(--teal-soft);
-      border-color: rgba(61, 107, 107, 0.28);
+      border-color: rgba(45, 79, 79, 0.35);
       color: var(--teal-dark);
       transform: scale(1.05);
     }
 
     .booking-dialog h3 {
       position: relative;
-      margin: 0 0 0.5rem;
-      font-family: var(--font-serif);
-      font-size: 1.45rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      padding: 0 2.75rem 0 0.95rem;
-      color: var(--charcoal);
+      margin: 0 0 0.45rem;
+      font-family: var(--font-sans);
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      padding: 0 2.75rem 0 0;
+      color: #0a0a0a;
       line-height: 1.2;
     }
 
-    .booking-dialog h3::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.12em;
-      bottom: 0.12em;
-      width: 4px;
-      border-radius: 4px;
-      background: linear-gradient(180deg, var(--teal-dark), var(--lagoon));
-      box-shadow: 0 2px 8px rgba(46, 196, 182, 0.35);
-    }
-
     .booking-dialog .dlg-lead {
-      margin: 0 0 1.15rem;
+      margin: 0 0 1.1rem;
       font-size: 0.9rem;
-      color: var(--grey);
-      line-height: 1.58;
-      padding: 0.85rem 1rem;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, rgba(238, 246, 244, 0.95) 0%, rgba(255, 247, 239, 0.65) 100%);
-      border: 1px solid rgba(46, 196, 182, 0.22);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      font-weight: 400;
+      color: #6b7280;
+      line-height: 1.55;
+      padding: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
     }
 
     .booking-dialog form {
@@ -2093,8 +2117,8 @@
     }
 
     .booking-dialog.tour-package-dialog {
-      width: min(540px, calc(100vw - 1.25rem));
-      max-width: calc(100vw - 1.25rem);
+      width: min(640px, calc(100vw - 1.5rem));
+      max-width: calc(100vw - 1.5rem);
       max-height: min(92vh, calc(100dvh - 1.5rem));
     }
 
@@ -2102,16 +2126,16 @@
       max-height: min(82vh, calc(100dvh - 4.5rem));
       overflow-x: hidden;
       overflow-y: auto;
-      padding-top: 0;
-      padding-bottom: 1.75rem;
+      padding-top: 0.4rem;
+      padding-bottom: 1.5rem;
     }
 
     .booking-dialog form.simple-book-form {
       margin-top: 0.35rem;
-      padding-top: 1.2rem;
-      border-top: 1px solid rgba(207, 218, 220, 0.85);
-      background: linear-gradient(180deg, rgba(232, 245, 243, 0.35) 0%, transparent 52%);
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      padding-top: 1.15rem;
+      border-top: 1px solid #eceef0;
+      background: transparent;
+      border-radius: 0;
     }
 
     .pkg-price {
@@ -2119,59 +2143,61 @@
       flex-wrap: wrap;
       align-items: baseline;
       gap: 0.35rem 0.5rem;
-      margin: 0 0 0.65rem;
-      padding: 0.55rem 1.15rem;
-      font-size: 1.18rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-      background: linear-gradient(135deg, rgba(45, 79, 79, 0.09) 0%, rgba(46, 196, 182, 0.14) 100%);
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(61, 107, 107, 0.18);
-      box-shadow: 0 4px 16px rgba(45, 79, 79, 0.08);
+      margin: 0 0 0.55rem;
+      padding: 0.4rem 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0a0a0a;
+      background: transparent;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
     }
 
     .pkg-duration {
-      margin: 0 0 1.1rem;
-      padding: 0.45rem 0.85rem;
-      display: inline-block;
-      font-size: 0.82rem;
+      margin: 0 0 1rem;
+      padding: 0;
+      display: block;
+      font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.02em;
-      color: var(--grey);
-      background: rgba(244, 246, 247, 0.95);
-      border-radius: var(--radius-md);
-      border: 1px solid #e4e9ea;
+      text-transform: none;
+      color: #6b7280;
+      background: transparent;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
     }
 
     .pkg-detail-block {
-      margin-bottom: 1rem;
-      padding: 0.95rem 1.05rem;
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(228, 236, 235, 0.95);
-      border-radius: var(--radius-md);
-      box-shadow: 0 6px 22px rgba(26, 31, 33, 0.05);
+      margin-bottom: 0.85rem;
+      padding: 0.85rem 0.95rem;
+      background: #f9fafb;
+      border: 1px solid #eceef0;
+      border-radius: 0.75rem;
+      box-shadow: none;
     }
 
     .pkg-detail-block h4 {
       display: flex;
       align-items: center;
-      gap: 0.45rem;
-      margin: 0 0 0.55rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      gap: 0.4rem;
+      margin: 0 0 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
-      color: var(--teal-dark);
+      color: #374151;
     }
 
     .pkg-detail-block h4::before {
       content: "";
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--lagoon), var(--teal));
+      background: #111827;
       flex-shrink: 0;
-      box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.2);
+      box-shadow: none;
     }
 
     .pkg-itinerary {
@@ -2179,8 +2205,9 @@
       padding-left: 0;
       list-style: none;
       font-size: 0.9rem;
-      color: var(--charcoal);
+      color: #141a1d;
       line-height: 1.58;
+      font-weight: 500;
     }
 
     .pkg-itinerary li {
@@ -2204,6 +2231,82 @@
       margin-top: 0.55rem;
     }
 
+    /* Package / rate tiles — horizontal grid + radio (app-style) */
+    .pkg-itinerary:has(.pkg-choice-btn) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+      gap: 0.65rem;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) li {
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) li::before {
+      display: none;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) li + li {
+      margin-top: 0;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.35rem;
+      min-height: 5.75rem;
+      padding: 0.65rem 0.5rem 2.15rem;
+      text-align: center;
+      font-size: 0.72rem;
+      line-height: 1.35;
+      font-weight: 600;
+      color: #111827;
+      border-radius: 0.65rem;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn::after {
+      content: "";
+      position: absolute;
+      bottom: 0.55rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 50%;
+      border: 2px solid #c5c9d0;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn.is-selected::after {
+      border-color: #0a0a0a;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 4px #0a0a0a;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn.is-selected {
+      color: #0a0a0a;
+      border: 2px solid #0a0a0a;
+      background: #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn:hover,
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn:focus-visible {
+      border-color: #9ca3af;
+      background: #fafafa;
+      transform: none;
+      box-shadow: none;
+      outline: none;
+    }
+
     .pkg-rate-group {
       display: grid;
       gap: 0.75rem;
@@ -2217,17 +2320,17 @@
     .pkg-choice-btn {
       width: 100%;
       margin: 0;
-      padding: 0.62rem 0.75rem;
-      border: 1px solid rgba(61, 107, 107, 0.22);
-      border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--teal-dark);
+      padding: 0.68rem 0.85rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.65rem;
+      background: #ffffff;
+      color: #111827;
       font: inherit;
-      font-size: 0.9rem;
-      font-weight: 700;
+      font-size: 0.88rem;
+      font-weight: 600;
       text-align: left;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(26, 31, 33, 0.05);
+      box-shadow: none;
       transition:
         background 0.2s,
         border-color 0.2s,
@@ -2237,47 +2340,50 @@
 
     .pkg-choice-btn:hover,
     .pkg-choice-btn:focus-visible {
-      border-color: rgba(46, 196, 182, 0.58);
-      background: linear-gradient(135deg, rgba(232, 246, 244, 0.98) 0%, #ffffff 100%);
-      box-shadow: 0 8px 22px rgba(45, 79, 79, 0.12);
-      transform: translateY(-1px);
+      border-color: #9ca3af;
+      background: #fafafa;
+      box-shadow: none;
+      transform: none;
       outline: none;
     }
 
     .pkg-choice-btn.is-selected {
-      color: var(--white);
-      border-color: rgba(45, 79, 79, 0.85);
-      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-      box-shadow: 0 10px 26px rgba(45, 79, 79, 0.22);
+      color: #0a0a0a;
+      border: 2px solid #0a0a0a;
+      background: #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     }
 
     .pkg-includes {
       margin: 0;
-      font-size: 0.88rem;
-      color: var(--grey);
-      line-height: 1.58;
-      padding: 0.55rem 0 0;
+      font-size: 0.86rem;
+      color: #4b5563;
+      line-height: 1.55;
+      padding: 0.5rem 0 0;
       margin-top: 0.35rem;
-      border-top: 1px dashed rgba(207, 216, 218, 0.85);
+      border-top: 1px dashed #e5e7eb;
+      font-weight: 400;
     }
 
     .pkg-note {
-      margin: 0 0 1rem;
-      padding: 0.65rem 0.85rem;
+      margin: 0 0 0.85rem;
+      padding: 0.65rem 0.8rem;
       font-size: 0.78rem;
-      color: #5a6064;
-      font-style: italic;
-      background: rgba(255, 243, 230, 0.55);
-      border-left: 3px solid rgba(244, 162, 89, 0.65);
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      color: #4b5563;
+      font-style: normal;
+      font-weight: 400;
+      background: #f9fafb;
+      border: 1px solid #eceef0;
+      border-left: 3px solid #111827;
+      border-radius: 0.5rem;
     }
 
     .veh-dlg-hero {
-      margin: 0 -1.45rem 1rem;
+      margin: 0 -1.35rem 0.9rem;
       aspect-ratio: 16 / 10;
       overflow: hidden;
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      background: linear-gradient(145deg, #eef2f4 0%, #f8fafb 100%);
+      border-radius: 1.25rem 1.25rem 0 0;
+      background: #e5e7eb;
       position: relative;
     }
 
@@ -2326,14 +2432,14 @@
     }
 
     .booking-dialog .book-hint {
-      margin: 1rem 0 0;
-      padding: 0.75rem 0.95rem;
-      font-size: 0.8rem;
-      color: var(--grey);
+      margin: 0.85rem 0 0;
+      padding: 0;
+      font-size: 0.78rem;
+      color: #6b7280;
       line-height: 1.45;
-      background: rgba(61, 107, 107, 0.06);
-      border-radius: var(--radius-md);
-      border-left: 3px solid var(--teal);
+      font-weight: 400;
+      background: transparent;
+      border: none;
     }
 
     .booking-dialog.veh-detail-dialog .booking-dialog-close {
@@ -2353,19 +2459,19 @@
       width: 100%;
       text-align: left;
       padding: 1rem 1.15rem 1rem 3.85rem;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(228, 236, 235, 0.95);
-      background: linear-gradient(135deg, #ffffff 0%, #f3faf9 55%, #fffdfb 100%);
-      font-family: inherit;
+      border-radius: 0.65rem;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      font-family: var(--font-sans);
       font-size: 0.92rem;
-      font-weight: 600;
+      font-weight: 700;
+      color: #0a0a0a;
       cursor: pointer;
-      box-shadow: 0 5px 20px rgba(26, 31, 33, 0.06);
+      box-shadow: none;
       transition:
-        border-color 0.25s var(--ease-out),
-        background 0.25s,
-        box-shadow 0.25s,
-        transform 0.25s var(--ease-out);
+        border-color 0.2s var(--ease-out),
+        background 0.2s,
+        transform 0.2s var(--ease-out);
     }
 
     #dlg-book-hub .hub-opt::before {
@@ -2376,26 +2482,25 @@
       width: 2.6rem;
       height: 2.6rem;
       border-radius: 12px;
-      border: 1px solid rgba(46, 196, 182, 0.35);
-      box-shadow: 0 4px 12px rgba(46, 196, 182, 0.15);
+      border: 1px solid #e5e7eb;
+      box-shadow: none;
       background:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232d4f4f' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11c3-5 7-8 9-8s6 3 9 8c-3 5-7 8-9 8s-6-3-9-8z'/%3E%3Ccircle cx='12' cy='11' r='2.5' fill='%232d4f4f' stroke='none'/%3E%3C/svg%3E")
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111827' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11c3-5 7-8 9-8s6 3 9 8c-3 5-7 8-9 8s-6-3-9-8z'/%3E%3Ccircle cx='12' cy='11' r='2.5' fill='%23111827' stroke='none'/%3E%3C/svg%3E")
           center / 1.45rem 1.45rem no-repeat,
-        linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(232, 248, 245, 0.92) 100%);
+        #f9fafb;
     }
 
     #dlg-book-hub .hub-opt:hover {
-      border-color: rgba(46, 196, 182, 0.55);
-      background: linear-gradient(135deg, #ffffff 0%, #e8f6f4 100%);
-      box-shadow: 0 10px 32px rgba(45, 79, 79, 0.12);
-      transform: translateY(-2px);
+      border-color: #0a0a0a;
+      background: #fafafa;
+      transform: translateY(-1px);
     }
 
     #dlg-book-hub .hub-opt span {
       display: block;
       font-size: 0.78rem;
       font-weight: 500;
-      color: var(--grey);
+      color: #6b7280;
       margin-top: 0.3rem;
       line-height: 1.4;
     }
@@ -2403,13 +2508,13 @@
     #dlg-book-hub .hub-scroll {
       width: 100%;
       padding: 0.95rem 1rem;
-      border-radius: var(--radius-md);
-      border: 2px dashed rgba(61, 107, 107, 0.35);
-      background: linear-gradient(180deg, rgba(232, 240, 240, 0.5) 0%, rgba(255, 255, 255, 0.8) 100%);
-      font-family: inherit;
+      border-radius: 0.65rem;
+      border: 1px dashed #9ca3af;
+      background: #f9fafb;
+      font-family: var(--font-sans);
       font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--teal-dark);
+      font-size: 0.88rem;
+      color: #374151;
       cursor: pointer;
       transition:
         background 0.2s,
@@ -2418,8 +2523,8 @@
     }
 
     #dlg-book-hub .hub-scroll:hover {
-      background: var(--teal-soft);
-      border-color: rgba(61, 107, 107, 0.55);
+      background: #f3f4f6;
+      border-color: #111827;
       transform: translateY(-1px);
     }
 
@@ -2997,9 +3102,9 @@
       }
 
       .veh-dlg-hero {
-        margin-left: 0;
-        margin-right: 0;
-        border-radius: var(--radius-md);
+        margin-left: -1rem;
+        margin-right: -1rem;
+        border-radius: 1.25rem 1.25rem 0 0;
       }
 
       .book-field input,
@@ -3277,6 +3382,45 @@
       }
     }
 
+    @media (min-width: 720px) {
+      .booking-sheet-handle {
+        display: none;
+      }
+
+      .booking-dialog-inner {
+        padding-top: 1.2rem;
+      }
+    }
+
+    @media (max-width: 719px) {
+      .booking-dialog {
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: 0;
+        transform: none;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        border-radius: 1.25rem 1.25rem 0 0;
+        max-height: min(92dvh, calc(100dvh - env(safe-area-inset-bottom)));
+      }
+
+      .booking-dialog-inner {
+        max-height: min(86dvh, calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1.5rem));
+        padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+      }
+
+      .booking-dialog.tour-package-dialog .booking-dialog-inner {
+        max-height: min(84dvh, calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1.5rem));
+      }
+
+      .booking-dialog-close {
+        top: max(0.75rem, env(safe-area-inset-top));
+        right: max(0.75rem, env(safe-area-inset-right));
+      }
+    }
+
     @supports not (overflow: clip) {
       body {
         overflow-x: hidden;
@@ -3432,6 +3576,15 @@
               <p class="pkg-card-title">Private yacht</p>
               <button type="button" class="btn-view-package" data-open-dialog="dlg-tour-yacht">View package</button>
               <div class="caption">Ocean Bliss, Masami, or Rubylite charters</div>
+            </div>
+          </div>
+          <div class="card-media">
+            <span class="tag">Cruise</span>
+            <img src="assets/langkawi-09.jpg" alt="Evening ocean sunset cruise in Langkawi" width="600" height="600" loading="lazy" />
+            <div class="card-media-footer">
+              <p class="pkg-card-title">Evening sunset cruise</p>
+              <button type="button" class="btn-view-package" data-open-dialog="dlg-tour-sunset">View package</button>
+              <div class="caption">3–4 hours · sharing · golden hour at sea</div>
             </div>
           </div>
           <div class="card-media">
@@ -4029,6 +4182,7 @@
       <button type="button" class="hub-opt" data-open-dialog="dlg-tour-private">Private tour<span>Driver packages</span></button>
       <button type="button" class="hub-opt" data-open-dialog="dlg-tour-transfer">Airport transfer<span>LGK pickup &amp; drop-off</span></button>
       <button type="button" class="hub-opt" data-open-dialog="dlg-tour-yacht">Private yacht<span>Ocean Bliss, Masami, Rubylite</span></button>
+      <button type="button" class="hub-opt" data-open-dialog="dlg-tour-sunset">Evening sunset cruise<span>Golden hour · sharing · from RM 250</span></button>
       <button type="button" class="hub-opt" data-open-dialog="dlg-tour-watersport">Watersport<span>Jetcar, jetski, parasailing</span></button>
     </div>
     <button type="button" class="hub-scroll" id="hub-go-showroom">Find a vehicle ↓</button>
@@ -4051,7 +4205,7 @@
         <div class="book-field"><label for="pk-island-time">Time</label><input id="pk-island-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-island-phone">WhatsApp / phone</label><input id="pk-island-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">No payment here — our team will contact you to confirm.</p>
     </form>
   </div>
@@ -4073,7 +4227,7 @@
         <div class="book-field"><label for="pk-geopark-time">Time</label><input id="pk-geopark-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-geopark-phone">WhatsApp / phone</label><input id="pk-geopark-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">No payment here — our team will contact you to confirm.</p>
     </form>
   </div>
@@ -4095,7 +4249,7 @@
         <div class="book-field"><label for="pk-luxury-time">Time</label><input id="pk-luxury-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-luxury-phone">WhatsApp / phone</label><input id="pk-luxury-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">No payment here — our team will contact you to confirm.</p>
     </form>
   </div>
@@ -4117,7 +4271,7 @@
         <div class="book-field"><label for="pk-custom-time">Time</label><input id="pk-custom-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-custom-phone">WhatsApp / phone</label><input id="pk-custom-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">No payment here — our team will contact you to confirm.</p>
     </form>
   </div>
@@ -4159,7 +4313,7 @@
         <div class="book-field"><label for="v-city-return-time">Return time</label><input id="v-city-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-city-phone">WhatsApp / phone</label><input id="v-city-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4201,7 +4355,7 @@
         <div class="book-field"><label for="v-coast-return-time">Return time</label><input id="v-coast-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-coast-phone">WhatsApp / phone</label><input id="v-coast-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4243,7 +4397,7 @@
         <div class="book-field"><label for="v-breeze-return-time">Return time</label><input id="v-breeze-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-breeze-phone">WhatsApp / phone</label><input id="v-breeze-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4285,7 +4439,7 @@
         <div class="book-field"><label for="v-pulse-return-time">Return time</label><input id="v-pulse-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-pulse-phone">WhatsApp / phone</label><input id="v-pulse-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4327,7 +4481,7 @@
         <div class="book-field"><label for="v-strike-return-time">Return time</label><input id="v-strike-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-strike-phone">WhatsApp / phone</label><input id="v-strike-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4369,7 +4523,7 @@
         <div class="book-field"><label for="v-apex-return-time">Return time</label><input id="v-apex-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-apex-phone">WhatsApp / phone</label><input id="v-apex-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4411,7 +4565,7 @@
         <div class="book-field"><label for="v-terrain-return-time">Return time</label><input id="v-terrain-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-terrain-phone">WhatsApp / phone</label><input id="v-terrain-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4453,7 +4607,7 @@
         <div class="book-field"><label for="v-summit-return-time">Return time</label><input id="v-summit-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-summit-phone">WhatsApp / phone</label><input id="v-summit-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4495,7 +4649,7 @@
         <div class="book-field"><label for="v-voyager-return-time">Return time</label><input id="v-voyager-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-voyager-phone">WhatsApp / phone</label><input id="v-voyager-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4537,7 +4691,7 @@
         <div class="book-field"><label for="v-atlas-return-time">Return time</label><input id="v-atlas-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-atlas-phone">WhatsApp / phone</label><input id="v-atlas-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4579,7 +4733,7 @@
         <div class="book-field"><label for="v-hauler-return-time">Return time</label><input id="v-hauler-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-hauler-phone">WhatsApp / phone</label><input id="v-hauler-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4621,7 +4775,7 @@
         <div class="book-field"><label for="v-field-return-time">Return time</label><input id="v-field-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-field-phone">WhatsApp / phone</label><input id="v-field-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4663,7 +4817,7 @@
         <div class="book-field"><label for="v-cargo-return-time">Return time</label><input id="v-cargo-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-cargo-phone">WhatsApp / phone</label><input id="v-cargo-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4705,7 +4859,7 @@
         <div class="book-field"><label for="v-shuttle-return-time">Return time</label><input id="v-shuttle-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-shuttle-phone">WhatsApp / phone</label><input id="v-shuttle-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4747,7 +4901,7 @@
         <div class="book-field"><label for="v-crew-return-time">Return time</label><input id="v-crew-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-crew-phone">WhatsApp / phone</label><input id="v-crew-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
     </form>
   </div>
@@ -4808,7 +4962,7 @@
         <div class="book-field"><label for="tt-private-time">Time</label><input id="tt-private-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="tt-private-phone">WhatsApp / phone</label><input id="tt-private-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
     </form>
   </div>
@@ -4863,7 +5017,7 @@
         <div class="book-field"><label for="tt-transfer-time">Time</label><input id="tt-transfer-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="tt-transfer-phone">WhatsApp / phone</label><input id="tt-transfer-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
     </form>
   </div>
@@ -4906,7 +5060,62 @@
         <div class="book-field"><label for="tt-yacht-time">Time</label><input id="tt-yacht-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="tt-yacht-phone">WhatsApp / phone</label><input id="tt-yacht-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
+      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+    </form>
+  </div>
+</dialog>
+
+<dialog class="booking-dialog tour-package-dialog" id="dlg-tour-sunset">
+  <div class="booking-dialog-inner">
+    <button type="button" class="booking-dialog-close" data-close-dialog aria-label="Close">×</button>
+    <div class="veh-dlg-hero">
+      <img src="assets/langkawi-09.jpg" alt="Evening ocean sunset cruise in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
+    </div>
+    <h3>Evening sunset cruise</h3>
+    <p class="dlg-lead">Evening ocean cruise with golden hour views and relaxing vibes — open sea, music on deck, and space to unwind as the sun drops toward the horizon.</p>
+    <p class="pkg-price">From RM 250</p>
+    <p class="pkg-duration">3–4 hours · Sharing · Evening departure</p>
+    <div class="pkg-detail-block">
+      <h4>Tour highlights</h4>
+      <ul class="pkg-itinerary">
+        <li>Sunset panorama on open sea</li>
+        <li>Saltwater jacuzzi net area</li>
+        <li>Music and leisure deck</li>
+        <li>Photo spot with sunset horizon</li>
+      </ul>
+    </div>
+    <div class="pkg-detail-block">
+      <h4>Rates</h4>
+      <ul class="pkg-itinerary">
+        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-sunset" data-value="Evening sharing cruise" data-summary="Evening sunset cruise · Sharing · 3–4 hours · RM 250" data-price="250">Evening sharing cruise — RM 250</button></li>
+        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-sunset" data-value="Premium plan" data-summary="Evening sunset cruise · Premium plan · special deck seating · price on enquiry">Premium plan — special deck seating (quote on enquiry)</button></li>
+      </ul>
+    </div>
+    <div class="pkg-detail-block">
+      <h4>Includes</h4>
+      <p class="pkg-includes">Cruise ticket · safety briefing · selected package meals</p>
+    </div>
+    <div class="pkg-detail-block">
+      <h4>Bonus</h4>
+      <p class="pkg-includes">Premium plan includes special deck seating (subject to availability).</p>
+    </div>
+    <p class="pkg-note">Boarding point, exact evening slot, and meal tier are confirmed with the operator before payment. Weather may adjust timing slightly.</p>
+    <form id="form-tour-sunset" class="simple-book-form" novalidate>
+      <input type="hidden" name="tour_id" value="sunset_cruise" />
+      <input type="hidden" name="package_choice" required data-package-choice />
+      <div class="pkg-detail-block veh-book-section">
+        <h4>Booking</h4>
+      </div>
+      <div class="booking-summary" data-booking-summary aria-live="polite">Tap a rate above to see your booking summary.</div>
+      <div class="book-field"><label for="tt-sunset-name">Name</label><input id="tt-sunset-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
+      <div class="book-field"><label for="tt-sunset-pax">Number of guests</label><input id="tt-sunset-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
+      <div class="book-field-row">
+        <div class="book-field"><label for="tt-sunset-date">Date</label><input id="tt-sunset-date" name="book_date" type="date" required /></div>
+        <div class="book-field"><label for="tt-sunset-time">Time</label><input id="tt-sunset-time" name="book_time" type="time" /></div>
+      </div>
+      <div class="book-field"><label for="tt-sunset-phone">WhatsApp / phone</label><input id="tt-sunset-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
     </form>
   </div>
@@ -4951,7 +5160,7 @@
         <div class="book-field"><label for="tt-water-time">Time</label><input id="tt-water-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="tt-water-phone">WhatsApp / phone</label><input id="tt-water-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
     </form>
   </div>
@@ -4993,7 +5202,7 @@
         <div class="book-field"><label for="tt-atv-time">Time</label><input id="tt-atv-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="tt-atv-phone">WhatsApp / phone</label><input id="tt-atv-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
     </form>
   </div>
@@ -5051,7 +5260,7 @@
         <div class="book-field"><label for="tt-custom-time">Time</label><input id="tt-custom-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="tt-custom-phone">WhatsApp / phone</label><input id="tt-custom-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Submit booking</button>
+      <button type="submit" class="book-submit">Book now</button>
       <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
     </form>
   </div>
@@ -5305,12 +5514,38 @@
         });
       });
 
-      document.querySelectorAll("[data-close-dialog]").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var dlg = btn.closest("dialog");
-          if (dlg && dlg.open) dlg.close();
-        });
+      document.querySelectorAll("dialog.booking-dialog > .booking-dialog-inner").forEach(function (inner) {
+        if (!inner.querySelector(".booking-sheet-handle")) {
+          var handle = document.createElement("div");
+          handle.className = "booking-sheet-handle";
+          handle.setAttribute("aria-hidden", "true");
+          inner.insertBefore(handle, inner.firstChild);
+        }
+        if (!inner.querySelector(".book-dismiss-wrap")) {
+          var wrap = document.createElement("p");
+          wrap.className = "book-dismiss-wrap";
+          var dismissBtn = document.createElement("button");
+          dismissBtn.type = "button";
+          dismissBtn.className = "book-dismiss-link";
+          dismissBtn.setAttribute("data-close-dialog", "");
+          dismissBtn.textContent = "Maybe later";
+          wrap.appendChild(dismissBtn);
+          inner.appendChild(wrap);
+        }
       });
+
+      document.addEventListener(
+        "click",
+        function (e) {
+          var t = e.target;
+          if (!t || !t.closest) return;
+          var closeBtn = t.closest("[data-close-dialog]");
+          if (!closeBtn) return;
+          var dlg = closeBtn.closest("dialog");
+          if (dlg && dlg.open) dlg.close();
+        },
+        false
+      );
 
       document.querySelectorAll("[data-open-dialog]").forEach(function (btn) {
         btn.addEventListener("click", function (e) {
