@@ -22,6 +22,9 @@
       --mist: #eef6f4;
       --find-blue: #2563eb;
       --find-blue-hover: #1d4ed8;
+      --booking-accent: var(--find-blue);
+      --booking-accent-hover: var(--find-blue-hover);
+      --booking-accent-soft: rgba(37, 99, 235, 0.1);
       --radius-pill: 999px;
       --radius-lg: 20px;
       --radius-md: 12px;
@@ -1744,20 +1747,36 @@
       font-weight: 700;
       font-size: 0.95rem;
       letter-spacing: 0.01em;
-      background: #0a0a0a;
+      background: var(--booking-accent);
       color: #ffffff;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
       transition:
         transform 0.2s,
         filter 0.2s,
-        box-shadow 0.2s;
+        box-shadow 0.2s,
+        background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
     }
 
     .book-submit:hover {
-      filter: brightness(1.08);
+      filter: brightness(1.05);
       transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.42);
+      background: var(--booking-accent-hover);
+    }
+
+    .book-submit-icon {
+      width: 1.35rem;
+      height: 1.35rem;
+      flex-shrink: 0;
+    }
+
+    .book-submit-label {
+      line-height: 1.2;
     }
 
     .book-dismiss-wrap {
@@ -2130,6 +2149,12 @@
       padding-bottom: 1.5rem;
     }
 
+    .booking-dialog.tour-package-dialog .booking-dialog-inner:has(.veh-dlg-hero) {
+      padding-top: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     .booking-dialog form.simple-book-form {
       margin-top: 0.35rem;
       padding-top: 1.15rem;
@@ -2231,11 +2256,85 @@
       margin-top: 0.55rem;
     }
 
-    /* Package / rate tiles — horizontal grid + radio (app-style) */
-    .pkg-itinerary:has(.pkg-choice-btn) {
+    .booking-meta-line {
+      margin: 0 0 1rem;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: #64748b;
+      line-height: 1.45;
+    }
+
+    .pkg-split-two-col {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-      gap: 0.65rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem 1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    @media (max-width: 560px) {
+      .pkg-split-two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pkg-split-two-col .pkg-detail-block {
+      margin-bottom: 0;
+    }
+
+    .pkg-split-two-col .pkg-itinerary li::before {
+      background: var(--booking-accent);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95);
+    }
+
+    .pkg-split-two-col .pkg-detail-block h4::before {
+      background: var(--booking-accent);
+    }
+
+    .pkg-split-two-col .pkg-includes {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .booking-form-snorkel {
+      position: relative;
+    }
+
+    .booking-form-snorkel .veh-book-section {
+      display: none;
+    }
+
+    .booking-form-snorkel .booking-summary--sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .booking-form-snorkel .book-snorkel-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 560px) {
+      .booking-form-snorkel .book-snorkel-row-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Package rows — wide horizontal cards (stacked), like snorkeling reference */
+    .pkg-itinerary:has(.pkg-choice-btn) {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
     }
 
     .pkg-itinerary:has(.pkg-choice-btn) li {
@@ -2247,64 +2346,95 @@
       display: none;
     }
 
+    .pkg-itinerary:has(.pkg-choice-btn) li:not(:has(.pkg-choice-btn)) {
+      padding-left: 1.2rem;
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) li:not(:has(.pkg-choice-btn))::before {
+      display: block;
+      background: var(--booking-accent);
+    }
+
     .pkg-itinerary:has(.pkg-choice-btn) li + li {
       margin-top: 0;
     }
 
     .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn {
-      position: relative;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      justify-content: flex-start;
-      gap: 0.35rem;
-      min-height: 5.75rem;
-      padding: 0.65rem 0.5rem 2.15rem;
-      text-align: center;
-      font-size: 0.72rem;
-      line-height: 1.35;
-      font-weight: 600;
-      color: #111827;
-      border-radius: 0.65rem;
-      border: 1px solid #e5e7eb;
+      justify-content: space-between;
+      gap: 0.85rem 1rem;
+      width: 100%;
+      min-height: 0;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
       background: #ffffff;
       box-shadow: none;
+      font-size: inherit;
     }
 
     .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn::after {
-      content: "";
-      position: absolute;
-      bottom: 0.55rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1.15rem;
-      height: 1.15rem;
-      border-radius: 50%;
-      border: 2px solid #c5c9d0;
-      background: #ffffff;
-      box-sizing: border-box;
+      display: none;
     }
 
-    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn.is-selected::after {
-      border-color: #0a0a0a;
-      background: #ffffff;
-      box-shadow: inset 0 0 0 4px #0a0a0a;
+    .pkg-choice-row-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+      flex: 1;
+      min-width: 0;
+      text-align: left;
+    }
+
+    .pkg-choice-row-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #0f172a;
+      line-height: 1.25;
+    }
+
+    .pkg-choice-row-sub {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #64748b;
+      line-height: 1.35;
+    }
+
+    .pkg-choice-row-price {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--booking-accent);
+      flex-shrink: 0;
+      white-space: nowrap;
     }
 
     .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn.is-selected {
-      color: #0a0a0a;
-      border: 2px solid #0a0a0a;
-      background: #ffffff;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid var(--booking-accent);
+      background: var(--booking-accent-soft);
+      color: inherit;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn.is-selected .pkg-choice-row-title {
+      color: #0f172a;
     }
 
     .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn:hover,
     .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn:focus-visible {
-      border-color: #9ca3af;
-      background: #fafafa;
-      transform: none;
-      box-shadow: none;
+      border-color: #94a3b8;
+      background: #f8fafc;
       outline: none;
+    }
+
+    .pkg-itinerary:has(.pkg-choice-btn) .pkg-choice-btn.is-selected:hover {
+      background: var(--booking-accent-soft);
+      border-color: var(--booking-accent);
     }
 
     .pkg-rate-group {
@@ -2348,10 +2478,9 @@
     }
 
     .pkg-choice-btn.is-selected {
-      color: #0a0a0a;
-      border: 2px solid #0a0a0a;
-      background: #ffffff;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid var(--booking-accent);
+      background: var(--booking-accent-soft);
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
     }
 
     .pkg-includes {
@@ -2379,12 +2508,42 @@
     }
 
     .veh-dlg-hero {
-      margin: 0 -1.35rem 0.9rem;
+      margin: 0 0 0.9rem;
+      width: 100%;
       aspect-ratio: 16 / 10;
       overflow: hidden;
       border-radius: 1.25rem 1.25rem 0 0;
       background: #e5e7eb;
       position: relative;
+    }
+
+    /* Hero flush to card top & sides (no inner padding gap) */
+    .booking-dialog-inner:has(.veh-dlg-hero) {
+      padding: 0 0 1.5rem;
+      padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .booking-dialog-inner:has(.veh-dlg-hero) > *:not(.veh-dlg-hero):not(.booking-dialog-close):not(.booking-sheet-handle) {
+      padding-left: 1.35rem;
+      padding-right: 1.35rem;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 960px) {
+      .booking-dialog-inner:has(.veh-dlg-hero) > *:not(.veh-dlg-hero):not(.booking-dialog-close):not(.booking-sheet-handle) {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+
+    /* Drag handle floats over hero — no layout gap above image */
+    .booking-dialog-inner:has(.veh-dlg-hero) > .booking-sheet-handle {
+      position: absolute;
+      top: max(0.4rem, env(safe-area-inset-top, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 11;
+      margin: 0;
     }
 
     .veh-dlg-hero::after {
@@ -3079,6 +3238,10 @@
         max-height: min(78dvh, calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4rem));
       }
 
+      .booking-dialog-inner:has(.veh-dlg-hero) {
+        padding: 0 0 max(1.3rem, env(safe-area-inset-bottom));
+      }
+
       .booking-dialog.tour-package-dialog .booking-dialog-inner {
         max-height: min(74dvh, calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 3.5rem));
       }
@@ -3102,9 +3265,7 @@
       }
 
       .veh-dlg-hero {
-        margin-left: -1rem;
-        margin-right: -1rem;
-        border-radius: 1.25rem 1.25rem 0 0;
+        margin-bottom: 0.9rem;
       }
 
       .book-field input,
@@ -3390,6 +3551,10 @@
       .booking-dialog-inner {
         padding-top: 1.2rem;
       }
+
+      .booking-dialog-inner:has(.veh-dlg-hero) {
+        padding-top: 0;
+      }
     }
 
     @media (max-width: 719px) {
@@ -3409,6 +3574,12 @@
       .booking-dialog-inner {
         max-height: min(86dvh, calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1.5rem));
         padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+      }
+
+      .booking-dialog-inner:has(.veh-dlg-hero) {
+        padding-top: 0;
+        padding-left: 0;
+        padding-right: 0;
       }
 
       .booking-dialog.tour-package-dialog .booking-dialog-inner {
@@ -4914,56 +5085,116 @@
       <img src="assets/private-tour-langkawi.png" alt="Private tour boat and beach in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
     </div>
     <h3>Private tour</h3>
-    <p class="dlg-lead">Hire a private vehicle with driver for flexible sightseeing, shopping, lunch stops, and beach hopping around Langkawi.</p>
-    <p class="pkg-price">From RM 150</p>
-    <p class="pkg-duration">5-hour or 8-hour private tour · Vehicle class confirmed on enquiry</p>
+    <p class="booking-meta-line">5h or 8h private hire · Sedan, MPV, or luxury car · Driver &amp; flexible stops · From RM 150</p>
     <div class="pkg-rate-group">
       <div class="pkg-detail-block">
         <h4>Sedan</h4>
         <ul class="pkg-itinerary">
           <li>1–3 pax, or 2 adults with 2 kids</li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-private" data-value="Sedan 5 hours" data-summary="Private tour · Sedan · 1–3 pax / 2 adults with 2 kids · 5 hours · RM 150" data-price="150" data-unit-pax="3">5 hours — RM 150</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-private" data-value="Sedan 8 hours" data-summary="Private tour · Sedan · 1–3 pax / 2 adults with 2 kids · 8 hours · RM 240" data-price="240" data-unit-pax="3">8 hours — RM 240</button></li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-private" data-value="Sedan 5 hours" data-summary="Private tour · Sedan · 1–3 pax / 2 adults with 2 kids · 5 hours · RM 150" data-price="150" data-unit-pax="3">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">5 hours</span>
+                <span class="pkg-choice-row-sub">Sedan · flexible island route</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 150</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-private" data-value="Sedan 8 hours" data-summary="Private tour · Sedan · 1–3 pax / 2 adults with 2 kids · 8 hours · RM 240" data-price="240" data-unit-pax="3">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">8 hours</span>
+                <span class="pkg-choice-row-sub">Sedan · more time for beaches &amp; towns</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 240</span>
+            </button>
+          </li>
         </ul>
       </div>
       <div class="pkg-detail-block">
         <h4>MPV</h4>
         <ul class="pkg-itinerary">
           <li>1–5 pax</li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-private" data-value="MPV 5 hours" data-summary="Private tour · MPV · 1–5 pax · 5 hours · RM 200" data-price="200" data-unit-pax="5">5 hours — RM 200</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-private" data-value="MPV 8 hours" data-summary="Private tour · MPV · 1–5 pax · 8 hours · RM 320" data-price="320" data-unit-pax="5">8 hours — RM 320</button></li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-private" data-value="MPV 5 hours" data-summary="Private tour · MPV · 1–5 pax · 5 hours · RM 200" data-price="200" data-unit-pax="5">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">5 hours</span>
+                <span class="pkg-choice-row-sub">MPV · room for family &amp; bags</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 200</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-private" data-value="MPV 8 hours" data-summary="Private tour · MPV · 1–5 pax · 8 hours · RM 320" data-price="320" data-unit-pax="5">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">8 hours</span>
+                <span class="pkg-choice-row-sub">MPV · full-day comfort</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 320</span>
+            </button>
+          </li>
         </ul>
       </div>
       <div class="pkg-detail-block">
         <h4>Luxury car</h4>
         <ul class="pkg-itinerary">
           <li>1–6 pax · Vellfire / Alphard</li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-private" data-value="Luxury car 5 hours" data-summary="Private tour · Luxury car Vellfire / Alphard · 1–6 pax · 5 hours · RM 400" data-price="400" data-unit-pax="6">5 hours — RM 400</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-private" data-value="Luxury car 8 hours" data-summary="Private tour · Luxury car Vellfire / Alphard · 1–6 pax · 8 hours · RM 640" data-price="640" data-unit-pax="6">8 hours — RM 640</button></li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-private" data-value="Luxury car 5 hours" data-summary="Private tour · Luxury car Vellfire / Alphard · 1–6 pax · 5 hours · RM 400" data-price="400" data-unit-pax="6">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">5 hours</span>
+                <span class="pkg-choice-row-sub">Vellfire / Alphard · premium ride</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 400</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-private" data-value="Luxury car 8 hours" data-summary="Private tour · Luxury car Vellfire / Alphard · 1–6 pax · 8 hours · RM 640" data-price="640" data-unit-pax="6">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">8 hours</span>
+                <span class="pkg-choice-row-sub">Vellfire / Alphard · full-day luxury</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 640</span>
+            </button>
+          </li>
         </ul>
       </div>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Includes</h4>
-      <p class="pkg-includes">Private vehicle with driver · flexible stops · pickup details confirmed by WhatsApp.</p>
+    <div class="pkg-split-two-col">
+      <div class="pkg-detail-block">
+        <h4>What&apos;s included</h4>
+        <ul class="pkg-itinerary">
+          <li>Private vehicle with driver</li>
+          <li>Flexible stops &amp; pacing</li>
+          <li>Pickup details via WhatsApp</li>
+        </ul>
+      </div>
+      <div class="pkg-detail-block">
+        <h4>Not included</h4>
+        <ul class="pkg-itinerary">
+          <li>Attraction tickets &amp; meals</li>
+          <li>Long-route surcharges (if any)</li>
+          <li>Overtime beyond booked hours</li>
+        </ul>
+      </div>
     </div>
     <p class="pkg-note">Entrance tickets, meals, and special route surcharges are quoted separately when needed.</p>
-    <form id="form-tour-private" class="simple-book-form" novalidate>
+    <form id="form-tour-private" class="simple-book-form booking-form-snorkel" novalidate>
       <input type="hidden" name="tour_id" value="private_tour" />
       <input type="hidden" name="package_choice" required data-package-choice />
       <div class="pkg-detail-block veh-book-section">
         <h4>Booking</h4>
       </div>
-      <div class="booking-summary" data-booking-summary aria-live="polite">Tap a rate above to see your booking summary.</div>
-      <div class="book-field"><label for="tt-private-name">Name</label><input id="tt-private-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
-      <div class="book-field"><label for="tt-private-pax">Number of guests</label><input id="tt-private-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
-      <div class="book-field-row">
+      <div class="booking-summary booking-summary--sr" data-booking-summary aria-live="polite">Select a vehicle package to build your WhatsApp message.</div>
+      <div class="book-snorkel-row-3">
         <div class="book-field"><label for="tt-private-date">Date</label><input id="tt-private-date" name="book_date" type="date" required /></div>
         <div class="book-field"><label for="tt-private-time">Time</label><input id="tt-private-time" name="book_time" type="time" /></div>
+        <div class="book-field"><label for="tt-private-pax">Guests</label><input id="tt-private-pax" name="pax" type="number" min="1" step="1" required placeholder="2" /></div>
       </div>
+      <div class="book-field"><label for="tt-private-name">Name</label><input id="tt-private-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-private-phone">WhatsApp / phone</label><input id="tt-private-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
       <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+      <p class="book-hint">We&apos;ll confirm price &amp; availability by WhatsApp.</p>
     </form>
   </div>
 </dialog>
@@ -4975,50 +5206,126 @@
       <img src="assets/airport-transfer-langkawi.png" alt="Airport transfer driver and MPV in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
     </div>
     <h3>Airport transfer</h3>
-    <p class="dlg-lead">Airport pickup or drop-off by sedan, MPV, van, or luxury car. Share your flight details and destination zone when enquiring.</p>
-    <p class="pkg-price">From RM 50</p>
-    <p class="pkg-duration">LGK airport transfer · One-way rates by destination area</p>
+    <p class="booking-meta-line">LGK one-way · Sedan, MPV, van, or luxury car · Kuah / Cenang / Pantai Kok or Datai zones · From RM 50</p>
     <div class="pkg-rate-group">
       <div class="pkg-detail-block">
         <h4>Kuah, Cenang &amp; Pantai Kok area</h4>
         <ul class="pkg-itinerary">
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - Sedan" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · Sedan · RM 50" data-price="50" data-unit-pax="3">Sedan — RM 50</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - MPV" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · MPV · RM 70" data-price="70" data-unit-pax="5">MPV — RM 70</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - Van" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · Van · RM 100" data-price="100">Van — RM 100</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - Luxury car" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · Luxury car · RM 150" data-price="150" data-unit-pax="6">Luxury car — RM 150</button></li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - Sedan" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · Sedan · RM 50" data-price="50" data-unit-pax="3">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">Sedan</span>
+                <span class="pkg-choice-row-sub">Up to 3 pax · core resort belt</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 50</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - MPV" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · MPV · RM 70" data-price="70" data-unit-pax="5">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">MPV</span>
+                <span class="pkg-choice-row-sub">Up to 5 pax · extra luggage room</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 70</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - Van" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · Van · RM 100" data-price="100">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">Van</span>
+                <span class="pkg-choice-row-sub">Larger groups · gear-friendly</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 100</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Kuah/Cenang/Pantai Kok - Luxury car" data-summary="Airport transfer · Kuah, Cenang &amp; Pantai Kok area · Luxury car · RM 150" data-price="150" data-unit-pax="6">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">Luxury car</span>
+                <span class="pkg-choice-row-sub">Up to 6 pax · Vellfire / Alphard class</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 150</span>
+            </button>
+          </li>
         </ul>
       </div>
       <div class="pkg-detail-block">
         <h4>Datai area &amp; nearby</h4>
         <ul class="pkg-itinerary">
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Datai area - Sedan" data-summary="Airport transfer · Datai area &amp; nearby · Sedan · RM 80" data-price="80" data-unit-pax="3">Sedan — RM 80</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Datai area - MPV" data-summary="Airport transfer · Datai area &amp; nearby · MPV · RM 100" data-price="100" data-unit-pax="5">MPV — RM 100</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Datai area - Van" data-summary="Airport transfer · Datai area &amp; nearby · Van · RM 150" data-price="150">Van — RM 150</button></li>
-          <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-transfer" data-value="Datai area - Luxury car" data-summary="Airport transfer · Datai area &amp; nearby · Luxury car · RM 200" data-price="200" data-unit-pax="6">Luxury car — RM 200</button></li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Datai area - Sedan" data-summary="Airport transfer · Datai area &amp; nearby · Sedan · RM 80" data-price="80" data-unit-pax="3">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">Sedan</span>
+                <span class="pkg-choice-row-sub">North &amp; Datai corridor</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 80</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Datai area - MPV" data-summary="Airport transfer · Datai area &amp; nearby · MPV · RM 100" data-price="100" data-unit-pax="5">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">MPV</span>
+                <span class="pkg-choice-row-sub">North &amp; Datai corridor</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 100</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Datai area - Van" data-summary="Airport transfer · Datai area &amp; nearby · Van · RM 150" data-price="150">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">Van</span>
+                <span class="pkg-choice-row-sub">North &amp; Datai corridor</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 150</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-transfer" data-value="Datai area - Luxury car" data-summary="Airport transfer · Datai area &amp; nearby · Luxury car · RM 200" data-price="200" data-unit-pax="6">
+              <span class="pkg-choice-row-text">
+                <span class="pkg-choice-row-title">Luxury car</span>
+                <span class="pkg-choice-row-sub">North &amp; Datai corridor</span>
+              </span>
+              <span class="pkg-choice-row-price">RM 200</span>
+            </button>
+          </li>
         </ul>
       </div>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Includes</h4>
-      <p class="pkg-includes">Driver pickup coordination · airport or hotel meeting point · vehicle matched to luggage and pax count.</p>
+    <div class="pkg-split-two-col">
+      <div class="pkg-detail-block">
+        <h4>What&apos;s included</h4>
+        <ul class="pkg-itinerary">
+          <li>Driver meet at LGK or hotel</li>
+          <li>Vehicle matched to pax &amp; luggage</li>
+          <li>One-way zone rate as selected</li>
+        </ul>
+      </div>
+      <div class="pkg-detail-block">
+        <h4>Not included</h4>
+        <ul class="pkg-itinerary">
+          <li>Flight delays / long waiting (extra)</li>
+          <li>Child seats (on request, fee may apply)</li>
+          <li>Tolls outside quoted zone (if any)</li>
+        </ul>
+      </div>
     </div>
     <p class="pkg-note">Late-night, waiting time, or special pickup requests may be quoted separately.</p>
-    <form id="form-tour-transfer" class="simple-book-form" novalidate>
+    <form id="form-tour-transfer" class="simple-book-form booking-form-snorkel" novalidate>
       <input type="hidden" name="tour_id" value="airport_transfer" />
       <input type="hidden" name="package_choice" required data-package-choice />
       <div class="pkg-detail-block veh-book-section">
         <h4>Booking</h4>
       </div>
-      <div class="booking-summary" data-booking-summary aria-live="polite">Tap a rate above to see your booking summary.</div>
-      <div class="book-field"><label for="tt-transfer-name">Name</label><input id="tt-transfer-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
-      <div class="book-field"><label for="tt-transfer-pax">Number of guests</label><input id="tt-transfer-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
-      <div class="book-field-row">
+      <div class="booking-summary booking-summary--sr" data-booking-summary aria-live="polite">Select a vehicle class to build your WhatsApp message.</div>
+      <div class="book-snorkel-row-3">
         <div class="book-field"><label for="tt-transfer-date">Date</label><input id="tt-transfer-date" name="book_date" type="date" required /></div>
         <div class="book-field"><label for="tt-transfer-time">Time</label><input id="tt-transfer-time" name="book_time" type="time" /></div>
+        <div class="book-field"><label for="tt-transfer-pax">Guests</label><input id="tt-transfer-pax" name="pax" type="number" min="1" step="1" required placeholder="2" /></div>
       </div>
+      <div class="book-field"><label for="tt-transfer-name">Name</label><input id="tt-transfer-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-transfer-phone">WhatsApp / phone</label><input id="tt-transfer-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
       <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+      <p class="book-hint">We&apos;ll confirm price &amp; slot by WhatsApp.</p>
     </form>
   </div>
 </dialog>
@@ -5030,38 +5337,74 @@
       <img src="assets/private-yacht-langkawi.png" alt="Private yacht in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
     </div>
     <h3>Private yacht</h3>
-    <p class="dlg-lead">Private yacht options for premium cruising, celebrations, and sunset slots around Langkawi waters.</p>
-    <p class="pkg-price">From RM 3,280</p>
-    <p class="pkg-duration">Private yacht charter · Vessel and timing confirmed on enquiry</p>
+    <p class="booking-meta-line">Private charter · Ocean Bliss, Masami, or Rubylite · Celebrations &amp; sunset slots · From RM 3,280</p>
     <div class="pkg-detail-block">
       <h4>Yacht rates</h4>
       <ul class="pkg-itinerary">
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-yacht" data-value="Ocean Bliss" data-summary="Private yacht · Ocean Bliss · RM 4,500" data-price="4500">Ocean Bliss — RM 4,500</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-yacht" data-value="Masami" data-summary="Private yacht · Masami · RM 3,280" data-price="3280">Masami — RM 3,280</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-yacht" data-value="Rubylite" data-summary="Private yacht · Rubylite · RM 3,280" data-price="3280">Rubylite — RM 3,280</button></li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-yacht" data-value="Ocean Bliss" data-summary="Private yacht · Ocean Bliss · RM 4,500" data-price="4500">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Ocean Bliss</span>
+              <span class="pkg-choice-row-sub">Premium charter · larger party capacity</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 4,500</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-yacht" data-value="Masami" data-summary="Private yacht · Masami · RM 3,280" data-price="3280">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Masami</span>
+              <span class="pkg-choice-row-sub">Elegant cruising · popular pick</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 3,280</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-yacht" data-value="Rubylite" data-summary="Private yacht · Rubylite · RM 3,280" data-price="3280">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Rubylite</span>
+              <span class="pkg-choice-row-sub">Sunset-friendly · crew coordinated</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 3,280</span>
+          </button>
+        </li>
       </ul>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Includes</h4>
-      <p class="pkg-includes">Private yacht slot · crew coordination · boarding time and marina details confirmed before payment.</p>
+    <div class="pkg-split-two-col">
+      <div class="pkg-detail-block">
+        <h4>What&apos;s included</h4>
+        <ul class="pkg-itinerary">
+          <li>Yacht slot &amp; crew coordination</li>
+          <li>Boarding time &amp; marina details (confirmed)</li>
+          <li>Route &amp; timing matched to weather</li>
+        </ul>
+      </div>
+      <div class="pkg-detail-block">
+        <h4>Not included</h4>
+        <ul class="pkg-itinerary">
+          <li>Catering upgrades (unless quoted)</li>
+          <li>Dock fees or special permits (if any)</li>
+          <li>Transport to marina (unless stated)</li>
+        </ul>
+      </div>
     </div>
     <p class="pkg-note">Final inclusions, guest capacity, and route depend on vessel availability and weather conditions.</p>
-    <form id="form-tour-yacht" class="simple-book-form" novalidate>
+    <form id="form-tour-yacht" class="simple-book-form booking-form-snorkel" novalidate>
       <input type="hidden" name="tour_id" value="private_yacht" />
       <input type="hidden" name="package_choice" required data-package-choice />
       <div class="pkg-detail-block veh-book-section">
         <h4>Booking</h4>
       </div>
-      <div class="booking-summary" data-booking-summary aria-live="polite">Tap a yacht above to see your booking summary.</div>
-      <div class="book-field"><label for="tt-yacht-name">Name</label><input id="tt-yacht-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
-      <div class="book-field"><label for="tt-yacht-pax">Number of guests</label><input id="tt-yacht-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
-      <div class="book-field-row">
+      <div class="booking-summary booking-summary--sr" data-booking-summary aria-live="polite">Select a yacht to build your WhatsApp message.</div>
+      <div class="book-snorkel-row-3">
         <div class="book-field"><label for="tt-yacht-date">Date</label><input id="tt-yacht-date" name="book_date" type="date" required /></div>
         <div class="book-field"><label for="tt-yacht-time">Time</label><input id="tt-yacht-time" name="book_time" type="time" /></div>
+        <div class="book-field"><label for="tt-yacht-pax">Guests</label><input id="tt-yacht-pax" name="pax" type="number" min="1" step="1" required placeholder="2" /></div>
       </div>
+      <div class="book-field"><label for="tt-yacht-name">Name</label><input id="tt-yacht-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-yacht-phone">WhatsApp / phone</label><input id="tt-yacht-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
       <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+      <p class="book-hint">We&apos;ll confirm price &amp; availability by WhatsApp.</p>
     </form>
   </div>
 </dialog>
@@ -5073,50 +5416,67 @@
       <img src="assets/langkawi-09.jpg" alt="Evening ocean sunset cruise in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
     </div>
     <h3>Evening sunset cruise</h3>
-    <p class="dlg-lead">Evening ocean cruise with golden hour views and relaxing vibes — open sea, music on deck, and space to unwind as the sun drops toward the horizon.</p>
-    <p class="pkg-price">From RM 250</p>
-    <p class="pkg-duration">3–4 hours · Sharing · Evening departure</p>
+    <p class="booking-meta-line">3–4 hours · Sharing · Evening departure · Open sea &amp; golden hour · From RM 250</p>
     <div class="pkg-detail-block">
-      <h4>Tour highlights</h4>
+      <h4>Choose your package</h4>
       <ul class="pkg-itinerary">
-        <li>Sunset panorama on open sea</li>
-        <li>Saltwater jacuzzi net area</li>
-        <li>Music and leisure deck</li>
-        <li>Photo spot with sunset horizon</li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-sunset" data-value="Evening sharing cruise" data-summary="Evening sunset cruise · Sharing · 3–4 hours · RM 250" data-price="250">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Evening sharing cruise</span>
+              <span class="pkg-choice-row-sub">3–4 hours · sunset at sea · music &amp; leisure deck</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 250</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-sunset" data-value="Premium plan" data-summary="Evening sunset cruise · Premium plan · special deck seating · price on enquiry">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Premium plan</span>
+              <span class="pkg-choice-row-sub">Special forward deck seating · quote on enquiry</span>
+            </span>
+            <span class="pkg-choice-row-price">Quote</span>
+          </button>
+        </li>
       </ul>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Rates</h4>
-      <ul class="pkg-itinerary">
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-sunset" data-value="Evening sharing cruise" data-summary="Evening sunset cruise · Sharing · 3–4 hours · RM 250" data-price="250">Evening sharing cruise — RM 250</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-sunset" data-value="Premium plan" data-summary="Evening sunset cruise · Premium plan · special deck seating · price on enquiry">Premium plan — special deck seating (quote on enquiry)</button></li>
-      </ul>
+    <div class="pkg-split-two-col">
+      <div class="pkg-detail-block">
+        <h4>What&apos;s included</h4>
+        <ul class="pkg-itinerary">
+          <li>Cruise ticket &amp; boarding pass</li>
+          <li>Safety briefing &amp; crew support</li>
+          <li>Selected package meals</li>
+          <li>Saltwater jacuzzi net &amp; photo deck</li>
+        </ul>
+      </div>
+      <div class="pkg-detail-block">
+        <h4>Not included</h4>
+        <ul class="pkg-itinerary">
+          <li>Hotel / jetty transfers (unless stated)</li>
+          <li>Alcoholic drinks beyond package</li>
+          <li>Personal travel insurance</li>
+          <li>Gratuities (optional)</li>
+        </ul>
+      </div>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Includes</h4>
-      <p class="pkg-includes">Cruise ticket · safety briefing · selected package meals</p>
-    </div>
-    <div class="pkg-detail-block">
-      <h4>Bonus</h4>
-      <p class="pkg-includes">Premium plan includes special deck seating (subject to availability).</p>
-    </div>
-    <p class="pkg-note">Boarding point, exact evening slot, and meal tier are confirmed with the operator before payment. Weather may adjust timing slightly.</p>
-    <form id="form-tour-sunset" class="simple-book-form" novalidate>
+    <p class="pkg-note">Boarding point, exact slot, and meal tier are confirmed before payment. Weather may adjust timing slightly.</p>
+    <form id="form-tour-sunset" class="simple-book-form booking-form-snorkel" novalidate>
       <input type="hidden" name="tour_id" value="sunset_cruise" />
       <input type="hidden" name="package_choice" required data-package-choice />
       <div class="pkg-detail-block veh-book-section">
         <h4>Booking</h4>
       </div>
-      <div class="booking-summary" data-booking-summary aria-live="polite">Tap a rate above to see your booking summary.</div>
-      <div class="book-field"><label for="tt-sunset-name">Name</label><input id="tt-sunset-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
-      <div class="book-field"><label for="tt-sunset-pax">Number of guests</label><input id="tt-sunset-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
-      <div class="book-field-row">
+      <div class="booking-summary booking-summary--sr" data-booking-summary aria-live="polite">Select a package to build your WhatsApp message.</div>
+      <div class="book-snorkel-row-3">
         <div class="book-field"><label for="tt-sunset-date">Date</label><input id="tt-sunset-date" name="book_date" type="date" required /></div>
         <div class="book-field"><label for="tt-sunset-time">Time</label><input id="tt-sunset-time" name="book_time" type="time" /></div>
+        <div class="book-field"><label for="tt-sunset-pax">Guests</label><input id="tt-sunset-pax" name="pax" type="number" min="1" step="1" required placeholder="2" /></div>
       </div>
+      <div class="book-field"><label for="tt-sunset-name">Name</label><input id="tt-sunset-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-sunset-phone">WhatsApp / phone</label><input id="tt-sunset-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
       <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+      <p class="book-hint">We&apos;ll confirm availability and final price by WhatsApp — nothing is charged on this site.</p>
     </form>
   </div>
 </dialog>
@@ -5128,40 +5488,92 @@
       <img src="assets/watersport-langkawi.png" alt="Watersport activities in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
     </div>
     <h3>Watersport</h3>
-    <p class="dlg-lead">Book jetcar, jetski, guided jetski tour, or parasailing slots with operator confirmation before you pay.</p>
-    <p class="pkg-price">From RM 300</p>
-    <p class="pkg-duration">Watersport slots · Weather and sea-state dependent</p>
+    <p class="booking-meta-line">Jetcar, jetski, jetski tour &amp; parasailing · Sea-state dependent · From RM 300</p>
     <div class="pkg-detail-block">
       <h4>Rates</h4>
       <ul class="pkg-itinerary">
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-watersport" data-value="Jetcar 15 minutes" data-summary="Watersport · Jetcar · Max 4 pax · 15 minutes · RM 400" data-price="400" data-unit-pax="4">Jetcar, max 4 pax — 15 minutes, RM 400</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-watersport" data-value="Jetcar 30 minutes" data-summary="Watersport · Jetcar · 30 minutes · RM 550" data-price="550" data-unit-pax="4">Jetcar — 30 minutes, RM 550</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-watersport" data-value="Jetski 30 minutes" data-summary="Watersport · Jetski · 30 minutes · RM 350" data-price="350" data-unit-pax="1">Jetski — 30 minutes, RM 350</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-watersport" data-value="Jetski tour 4 hours" data-summary="Watersport · Jetski tour · 4 hours · RM 750" data-price="750" data-unit-pax="1">Jetski tour — 4 hours, RM 750</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-watersport" data-value="Parasailing on boat" data-summary="Watersport · Parasailing on boat · 1 pax · RM 300" data-price="300" data-unit-pax="1">Parasailing on boat — 1 pax, RM 300</button></li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-watersport" data-value="Jetcar 15 minutes" data-summary="Watersport · Jetcar · Max 4 pax · 15 minutes · RM 400" data-price="400" data-unit-pax="4">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Jetcar · 15 min</span>
+              <span class="pkg-choice-row-sub">Up to 4 pax · quick thrill slot</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 400</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-watersport" data-value="Jetcar 30 minutes" data-summary="Watersport · Jetcar · 30 minutes · RM 550" data-price="550" data-unit-pax="4">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Jetcar · 30 min</span>
+              <span class="pkg-choice-row-sub">Up to 4 pax · longer ride time</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 550</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-watersport" data-value="Jetski 30 minutes" data-summary="Watersport · Jetski · 30 minutes · RM 350" data-price="350" data-unit-pax="1">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Jetski · 30 min</span>
+              <span class="pkg-choice-row-sub">Single rider slot</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 350</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-watersport" data-value="Jetski tour 4 hours" data-summary="Watersport · Jetski tour · 4 hours · RM 750" data-price="750" data-unit-pax="1">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Jetski tour · 4 h</span>
+              <span class="pkg-choice-row-sub">Guided coastal route</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 750</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-watersport" data-value="Parasailing on boat" data-summary="Watersport · Parasailing on boat · 1 pax · RM 300" data-price="300" data-unit-pax="1">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Parasailing</span>
+              <span class="pkg-choice-row-sub">On boat · 1 pax</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 300</span>
+          </button>
+        </li>
       </ul>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Includes</h4>
-      <p class="pkg-includes">Operator slot coordination · safety briefing · life jacket or activity gear as required.</p>
+    <div class="pkg-split-two-col">
+      <div class="pkg-detail-block">
+        <h4>What&apos;s included</h4>
+        <ul class="pkg-itinerary">
+          <li>Operator slot coordination</li>
+          <li>Safety briefing &amp; life jacket</li>
+          <li>Activity gear as required</li>
+        </ul>
+      </div>
+      <div class="pkg-detail-block">
+        <h4>Not included</h4>
+        <ul class="pkg-itinerary">
+          <li>Photos / videos from vendor (if extra)</li>
+          <li>Damage waiver or add-ons</li>
+          <li>Transfer to beach / marina (unless stated)</li>
+        </ul>
+      </div>
     </div>
     <p class="pkg-note">Operators enforce age, weight, and sea-state limits. Exact beach / marina location is confirmed on booking.</p>
-    <form id="form-tour-watersport" class="simple-book-form" novalidate>
+    <form id="form-tour-watersport" class="simple-book-form booking-form-snorkel" novalidate>
       <input type="hidden" name="tour_id" value="watersport" />
       <input type="hidden" name="package_choice" required data-package-choice />
       <div class="pkg-detail-block veh-book-section">
         <h4>Booking</h4>
       </div>
-      <div class="booking-summary" data-booking-summary aria-live="polite">Tap an activity above to see your booking summary.</div>
-      <div class="book-field"><label for="tt-water-name">Name</label><input id="tt-water-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
-      <div class="book-field"><label for="tt-water-pax">Number of guests</label><input id="tt-water-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
-      <div class="book-field-row">
+      <div class="booking-summary booking-summary--sr" data-booking-summary aria-live="polite">Select an activity to build your WhatsApp message.</div>
+      <div class="book-snorkel-row-3">
         <div class="book-field"><label for="tt-water-date">Date</label><input id="tt-water-date" name="book_date" type="date" required /></div>
         <div class="book-field"><label for="tt-water-time">Time</label><input id="tt-water-time" name="book_time" type="time" /></div>
+        <div class="book-field"><label for="tt-water-pax">Guests</label><input id="tt-water-pax" name="pax" type="number" min="1" step="1" required placeholder="2" /></div>
       </div>
+      <div class="book-field"><label for="tt-water-name">Name</label><input id="tt-water-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-water-phone">WhatsApp / phone</label><input id="tt-water-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
       <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+      <p class="book-hint">We&apos;ll confirm slot &amp; price by WhatsApp.</p>
     </form>
   </div>
 </dialog>
@@ -5173,37 +5585,65 @@
       <img src="assets/atv-rides-langkawi.png" alt="ATV ride in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
     </div>
     <h3>ATV rides</h3>
-    <p class="dlg-lead">Guided ATV rides for two guests, with 60-minute and 90-minute options.</p>
-    <p class="pkg-price">From RM 250</p>
-    <p class="pkg-duration">ATV ride · 2 pax package · Slot confirmed on enquiry</p>
+    <p class="booking-meta-line">Guided ride · 2 pax per package · 60 or 90 minutes · From RM 250</p>
     <div class="pkg-detail-block">
       <h4>Rates</h4>
       <ul class="pkg-itinerary">
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-atv" data-value="ATV 60 minutes" data-summary="ATV rides · 2 pax · 60 minutes · RM 250" data-price="250" data-unit-pax="2">RM 250 — 2 pax, 60 minutes</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-atv" data-value="ATV 90 minutes" data-summary="ATV rides · 2 pax · 90 minutes · RM 350" data-price="350" data-unit-pax="2">RM 350 — 2 pax, 90 minutes</button></li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-atv" data-value="ATV 60 minutes" data-summary="ATV rides · 2 pax · 60 minutes · RM 250" data-price="250" data-unit-pax="2">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">60 minutes</span>
+              <span class="pkg-choice-row-sub">2 pax · guided trail session</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 250</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-atv" data-value="ATV 90 minutes" data-summary="ATV rides · 2 pax · 90 minutes · RM 350" data-price="350" data-unit-pax="2">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">90 minutes</span>
+              <span class="pkg-choice-row-sub">2 pax · longer route option</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 350</span>
+          </button>
+        </li>
       </ul>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Includes</h4>
-      <p class="pkg-includes">ATV session coordination · basic safety briefing · helmet and guide support as arranged by operator.</p>
+    <div class="pkg-split-two-col">
+      <div class="pkg-detail-block">
+        <h4>What&apos;s included</h4>
+        <ul class="pkg-itinerary">
+          <li>Session coordination &amp; guide</li>
+          <li>Helmet &amp; basic safety briefing</li>
+          <li>ATV as arranged by operator</li>
+        </ul>
+      </div>
+      <div class="pkg-detail-block">
+        <h4>Not included</h4>
+        <ul class="pkg-itinerary">
+          <li>Hotel transfer (unless quoted)</li>
+          <li>Extra riders or private slot fees</li>
+          <li>Damage / insurance add-ons</li>
+        </ul>
+      </div>
     </div>
     <p class="pkg-note">Operator safety rules apply. Extra riders, transfer, or private timing requests are quoted separately.</p>
-    <form id="form-tour-atv" class="simple-book-form" novalidate>
+    <form id="form-tour-atv" class="simple-book-form booking-form-snorkel" novalidate>
       <input type="hidden" name="tour_id" value="atv" />
       <input type="hidden" name="package_choice" required data-package-choice />
       <div class="pkg-detail-block veh-book-section">
         <h4>Booking</h4>
       </div>
-      <div class="booking-summary" data-booking-summary aria-live="polite">Tap a rate above to see your booking summary.</div>
-      <div class="book-field"><label for="tt-atv-name">Name</label><input id="tt-atv-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
-      <div class="book-field"><label for="tt-atv-pax">Number of guests</label><input id="tt-atv-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
-      <div class="book-field-row">
+      <div class="booking-summary booking-summary--sr" data-booking-summary aria-live="polite">Select a duration to build your WhatsApp message.</div>
+      <div class="book-snorkel-row-3">
         <div class="book-field"><label for="tt-atv-date">Date</label><input id="tt-atv-date" name="book_date" type="date" required /></div>
         <div class="book-field"><label for="tt-atv-time">Time</label><input id="tt-atv-time" name="book_time" type="time" /></div>
+        <div class="book-field"><label for="tt-atv-pax">Guests</label><input id="tt-atv-pax" name="pax" type="number" min="1" step="1" required placeholder="2" /></div>
       </div>
+      <div class="book-field"><label for="tt-atv-name">Name</label><input id="tt-atv-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-atv-phone">WhatsApp / phone</label><input id="tt-atv-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
       <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+      <p class="book-hint">We&apos;ll confirm slot &amp; price by WhatsApp.</p>
     </form>
   </div>
 </dialog>
@@ -5215,9 +5655,7 @@
       <img src="assets/mangrove-tour-langkawi.png" alt="Mangrove tour in Langkawi" width="800" height="500" loading="lazy" decoding="async" />
     </div>
     <h3>Mangrove tour</h3>
-    <p class="dlg-lead">Choose your Mangrove package option based on your route and activity preference.</p>
-    <p class="pkg-price">From RM 350</p>
-    <p class="pkg-duration">Multiple options · River cruise · Island highlights</p>
+    <p class="booking-meta-line">Kilim Geopark · River cruise &amp; wildlife · Packages A–D + private boat · From RM 350</p>
     <div class="pkg-detail-block">
       <h4>Tour highlights</h4>
       <ul class="pkg-itinerary" data-package-highlights data-default-highlights="Eagle Watching|River Cruise|Kilim Geopark and Andaman Sea route|Fish Farm and island stop options by package tier">
@@ -5230,38 +5668,88 @@
     <div class="pkg-detail-block">
       <h4>Package options</h4>
       <ul class="pkg-itinerary">
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-custom" data-value="Private Boat 2 Hours" data-summary="Mangrove tour · Private Boat (2 Hours) · RM 400 · Private boat tour, Eagle Watching, Kilim river route" data-highlights="Private boat tour (2 hours)|Eagle Watching|Kilim river route" data-price="400">Private Boat (2 Hours) — RM 400</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-custom" data-value="Package A" data-summary="Mangrove tour · Package A · RM 350 · Eagle Watching, Fish Farm, Fish Restaurant" data-highlights="Eagle Watching|Fish Farm|Fish Restaurant" data-price="350">Package A — RM 350</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-custom" data-value="Package B" data-summary="Mangrove tour · Package B · RM 550 · Eagle Watching, River Cruise, Monkey Feeding, Crocodile Cave, Bat Cave, Kilim Geopark, Andaman Sea, Fish Farm" data-highlights="Eagle Watching|River Cruise|Monkey Feeding|Crocodile Cave|Bat Cave|Kilim Geopark|Andaman Sea|Fish Farm" data-price="550">Package B — RM 550</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-custom" data-value="Package C" data-summary="Mangrove tour · Package C · RM 750 · Eagle Watching, River Cruise, Monkey Feeding, Crocodile Cave, Bat Cave, Fish Farm, Kilim Geopark, Andaman Sea, Dangli Island fish feeding" data-highlights="Eagle Watching|River Cruise|Monkey Feeding|Crocodile Cave|Bat Cave|Fish Farm|Kilim Geopark|Andaman Sea|Dangli Island (Fish Feeding)" data-price="750">Package C — RM 750</button></li>
-        <li><button type="button" class="pkg-choice-btn" data-package-select="form-tour-custom" data-value="Package D" data-summary="Mangrove tour · Package D · RM 770 · Eagle Watching, River Cruise, Monkey Feeding, Crocodile Cave, Bat Cave, Fish Farm, Kilim Geopark, Andaman Sea, Dangli Island fish feeding and snorkeling, Beach Swimming" data-highlights="Eagle Watching|River Cruise|Monkey Feeding|Crocodile Cave|Bat Cave|Fish Farm|Kilim Geopark|Andaman Sea|Dangli Island (Fish Feeding and Snorkeling)|Beach Swimming" data-price="770">Package D — RM 770</button></li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-custom" data-value="Private Boat 2 Hours" data-summary="Mangrove tour · Private Boat (2 Hours) · RM 400 · Private boat tour, Eagle Watching, Kilim river route" data-highlights="Private boat tour (2 hours)|Eagle Watching|Kilim river route" data-price="400">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Private boat · 2 h</span>
+              <span class="pkg-choice-row-sub">Eagle watching · Kilim river route</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 400</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-custom" data-value="Package A" data-summary="Mangrove tour · Package A · RM 350 · Eagle Watching, Fish Farm, Fish Restaurant" data-highlights="Eagle Watching|Fish Farm|Fish Restaurant" data-price="350">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Package A</span>
+              <span class="pkg-choice-row-sub">Eagle · fish farm · restaurant stop</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 350</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-custom" data-value="Package B" data-summary="Mangrove tour · Package B · RM 550 · Eagle Watching, River Cruise, Monkey Feeding, Crocodile Cave, Bat Cave, Kilim Geopark, Andaman Sea, Fish Farm" data-highlights="Eagle Watching|River Cruise|Monkey Feeding|Crocodile Cave|Bat Cave|Kilim Geopark|Andaman Sea|Fish Farm" data-price="550">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Package B</span>
+              <span class="pkg-choice-row-sub">Full geopark loop + caves &amp; fish farm</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 550</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-custom" data-value="Package C" data-summary="Mangrove tour · Package C · RM 750 · Eagle Watching, River Cruise, Monkey Feeding, Crocodile Cave, Bat Cave, Fish Farm, Kilim Geopark, Andaman Sea, Dangli Island fish feeding" data-highlights="Eagle Watching|River Cruise|Monkey Feeding|Crocodile Cave|Bat Cave|Fish Farm|Kilim Geopark|Andaman Sea|Dangli Island (Fish Feeding)" data-price="750">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Package C</span>
+              <span class="pkg-choice-row-sub">Adds Dangli fish feeding</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 750</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="pkg-choice-btn pkg-choice-row" data-package-select="form-tour-custom" data-value="Package D" data-summary="Mangrove tour · Package D · RM 770 · Eagle Watching, River Cruise, Monkey Feeding, Crocodile Cave, Bat Cave, Fish Farm, Kilim Geopark, Andaman Sea, Dangli Island fish feeding and snorkeling, Beach Swimming" data-highlights="Eagle Watching|River Cruise|Monkey Feeding|Crocodile Cave|Bat Cave|Fish Farm|Kilim Geopark|Andaman Sea|Dangli Island (Fish Feeding and Snorkeling)|Beach Swimming" data-price="770">
+            <span class="pkg-choice-row-text">
+              <span class="pkg-choice-row-title">Package D</span>
+              <span class="pkg-choice-row-sub">Dangli snorkel + beach swim</span>
+            </span>
+            <span class="pkg-choice-row-price">RM 770</span>
+          </button>
+        </li>
       </ul>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Includes</h4>
-      <p class="pkg-includes">Boat tour crew · life jacket · safety briefing.</p>
+    <div class="pkg-split-two-col">
+      <div class="pkg-detail-block">
+        <h4>What&apos;s included</h4>
+        <ul class="pkg-itinerary">
+          <li>Boat crew &amp; river cruise</li>
+          <li>Life jacket &amp; safety briefing</li>
+          <li>Route per package tier selected</li>
+        </ul>
+      </div>
+      <div class="pkg-detail-block">
+        <h4>Not included</h4>
+        <ul class="pkg-itinerary">
+          <li>Meals at fish restaurant (order on site)</li>
+          <li>Geopark conservation fees (if charged)</li>
+          <li>Personal snacks, tips, insurance</li>
+        </ul>
+      </div>
     </div>
-    <div class="pkg-detail-block">
-      <h4>Bonus</h4>
-      <p class="pkg-includes">Free photo and video + pickup and return around Langkawi (confirm by area).</p>
-    </div>
-    <p class="pkg-note">Final route and pickup depend on weather, tide, operator schedule, and pickup area.</p>
-    <form id="form-tour-custom" class="simple-book-form" novalidate>
+    <p class="pkg-note">Bonus: free photo/video + island pickup/return where offered — confirm by area. Final route depends on weather, tide, and operator schedule.</p>
+    <form id="form-tour-custom" class="simple-book-form booking-form-snorkel" novalidate>
       <input type="hidden" name="tour_id" value="mangrove_tour" />
       <input type="hidden" name="package_choice" required data-package-choice />
       <div class="pkg-detail-block veh-book-section">
         <h4>Booking</h4>
       </div>
-      <div class="booking-summary" data-booking-summary aria-live="polite">Tap a package above to see your booking summary.</div>
-      <div class="book-field"><label for="tt-custom-name">Name</label><input id="tt-custom-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
-      <div class="book-field"><label for="tt-custom-pax">Number of guests</label><input id="tt-custom-pax" name="pax" type="number" min="1" step="1" required placeholder="e.g. 2" /></div>
-      <div class="book-field-row">
+      <div class="booking-summary booking-summary--sr" data-booking-summary aria-live="polite">Select a package to build your WhatsApp message.</div>
+      <div class="book-snorkel-row-3">
         <div class="book-field"><label for="tt-custom-date">Date</label><input id="tt-custom-date" name="book_date" type="date" required /></div>
         <div class="book-field"><label for="tt-custom-time">Time</label><input id="tt-custom-time" name="book_time" type="time" /></div>
+        <div class="book-field"><label for="tt-custom-pax">Guests</label><input id="tt-custom-pax" name="pax" type="number" min="1" step="1" required placeholder="2" /></div>
       </div>
+      <div class="book-field"><label for="tt-custom-name">Name</label><input id="tt-custom-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-custom-phone">WhatsApp / phone</label><input id="tt-custom-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
       <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm price &amp; availability.</p>
+      <p class="book-hint">We&apos;ll confirm route, pickup, and price by WhatsApp.</p>
     </form>
   </div>
 </dialog>
@@ -5873,6 +6361,18 @@
 
       document.querySelectorAll('input[name="book_time"][type="time"]').forEach(buildTimeDropdown);
 
+      (function initWaSubmitButtons() {
+        var waPath =
+          "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.123 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z";
+        document.querySelectorAll(".simple-book-form .book-submit").forEach(function (btn) {
+          if (btn.querySelector(".book-submit-label")) return;
+          btn.innerHTML =
+            '<svg class="book-submit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="' +
+            waPath +
+            '"/></svg><span class="book-submit-label">Book on WhatsApp</span>';
+        });
+      })();
+
       document.querySelectorAll(".simple-book-form").forEach(function (form) {
         var vehModel = form.querySelector('[name="vehicle_model"]');
         var pickupDate = form.querySelector('[name="pickup_date"]');
@@ -5880,8 +6380,13 @@
         var packageChoice = form.querySelector("[data-package-choice]");
         var submitBtn = form.querySelector(".book-submit");
         var hint = form.querySelector(".book-hint");
-        if (submitBtn) submitBtn.textContent = "Send to WhatsApp";
-        if (hint) hint.textContent = "WhatsApp will open with your booking summary for confirmation.";
+        if (hint) {
+          if (form.classList.contains("booking-form-snorkel")) {
+            hint.textContent = "We open WhatsApp with this summary — our team confirms slot and price before you pay.";
+          } else {
+            hint.textContent = "We'll contact you to confirm availability & rate.";
+          }
+        }
         if (vehModel && pickupDate && returnDate) {
           pickupDate.addEventListener("change", function () {
             returnDate.min = pickupDate.value || "";
