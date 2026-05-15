@@ -1901,6 +1901,30 @@
     }
     .pay-confirm-cancel:hover { color: var(--charcoal); }
 
+
+    /* ── Live price summary in booking popup ── */
+    .book-price-box {
+      display: none;
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      border-radius: .75rem;
+      padding: .75rem 1rem;
+      margin-bottom: .5rem;
+    }
+    .book-price-box.is-visible { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+    .book-price-box-label {
+      font-size: .75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .07em;
+      color: #16a34a;
+    }
+    .book-price-box-amount {
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--charcoal); letter-spacing: -.02em;
+    }
+    .book-price-box-note {
+      font-size: .7rem; color: #4ade80; margin-top: .1rem;
+    }
+
     /* ── Pay Now + Add to Cart ── */
     .book-action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; margin-top: 0.35rem; }
     .book-submit.btn-pay-now { background: #10b981; box-shadow: 0 8px 24px rgba(16,185,129,.32); }
@@ -4503,6 +4527,13 @@
         <div class="book-field"><label for="pk-island-time">Time</label><input id="pk-island-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-island-phone">WhatsApp / phone</label><input id="pk-island-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4528,6 +4559,13 @@
         <div class="book-field"><label for="pk-geopark-time">Time</label><input id="pk-geopark-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-geopark-phone">WhatsApp / phone</label><input id="pk-geopark-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4553,6 +4591,13 @@
         <div class="book-field"><label for="pk-luxury-time">Time</label><input id="pk-luxury-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-luxury-phone">WhatsApp / phone</label><input id="pk-luxury-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4578,6 +4623,13 @@
         <div class="book-field"><label for="pk-custom-time">Time</label><input id="pk-custom-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-custom-phone">WhatsApp / phone</label><input id="pk-custom-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4623,6 +4675,13 @@
         <div class="book-field"><label for="v-city-return-time">Return time</label><input id="v-city-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-city-phone">WhatsApp / phone</label><input id="v-city-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4668,6 +4727,13 @@
         <div class="book-field"><label for="v-coast-return-time">Return time</label><input id="v-coast-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-coast-phone">WhatsApp / phone</label><input id="v-coast-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4713,6 +4779,13 @@
         <div class="book-field"><label for="v-breeze-return-time">Return time</label><input id="v-breeze-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-breeze-phone">WhatsApp / phone</label><input id="v-breeze-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4758,6 +4831,13 @@
         <div class="book-field"><label for="v-pulse-return-time">Return time</label><input id="v-pulse-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-pulse-phone">WhatsApp / phone</label><input id="v-pulse-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4803,6 +4883,13 @@
         <div class="book-field"><label for="v-strike-return-time">Return time</label><input id="v-strike-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-strike-phone">WhatsApp / phone</label><input id="v-strike-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4848,6 +4935,13 @@
         <div class="book-field"><label for="v-apex-return-time">Return time</label><input id="v-apex-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-apex-phone">WhatsApp / phone</label><input id="v-apex-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4893,6 +4987,13 @@
         <div class="book-field"><label for="v-terrain-return-time">Return time</label><input id="v-terrain-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-terrain-phone">WhatsApp / phone</label><input id="v-terrain-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4938,6 +5039,13 @@
         <div class="book-field"><label for="v-summit-return-time">Return time</label><input id="v-summit-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-summit-phone">WhatsApp / phone</label><input id="v-summit-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -4983,6 +5091,13 @@
         <div class="book-field"><label for="v-voyager-return-time">Return time</label><input id="v-voyager-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-voyager-phone">WhatsApp / phone</label><input id="v-voyager-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5028,6 +5143,13 @@
         <div class="book-field"><label for="v-atlas-return-time">Return time</label><input id="v-atlas-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-atlas-phone">WhatsApp / phone</label><input id="v-atlas-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5073,6 +5195,13 @@
         <div class="book-field"><label for="v-hauler-return-time">Return time</label><input id="v-hauler-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-hauler-phone">WhatsApp / phone</label><input id="v-hauler-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5118,6 +5247,13 @@
         <div class="book-field"><label for="v-field-return-time">Return time</label><input id="v-field-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-field-phone">WhatsApp / phone</label><input id="v-field-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5163,6 +5299,13 @@
         <div class="book-field"><label for="v-cargo-return-time">Return time</label><input id="v-cargo-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-cargo-phone">WhatsApp / phone</label><input id="v-cargo-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5208,6 +5351,13 @@
         <div class="book-field"><label for="v-shuttle-return-time">Return time</label><input id="v-shuttle-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-shuttle-phone">WhatsApp / phone</label><input id="v-shuttle-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5253,6 +5403,13 @@
         <div class="book-field"><label for="v-crew-return-time">Return time</label><input id="v-crew-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-crew-phone">WhatsApp / phone</label><input id="v-crew-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5377,6 +5534,13 @@
       </div>
       <div class="book-field"><label for="tt-private-name">Name</label><input id="tt-private-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-private-phone">WhatsApp / phone</label><input id="tt-private-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5511,6 +5675,13 @@
       </div>
       <div class="book-field"><label for="tt-transfer-name">Name</label><input id="tt-transfer-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-transfer-phone">WhatsApp / phone</label><input id="tt-transfer-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5593,6 +5764,13 @@
       </div>
       <div class="book-field"><label for="tt-yacht-name">Name</label><input id="tt-yacht-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-yacht-phone">WhatsApp / phone</label><input id="tt-yacht-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5668,6 +5846,13 @@
       </div>
       <div class="book-field"><label for="tt-sunset-name">Name</label><input id="tt-sunset-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-sunset-phone">WhatsApp / phone</label><input id="tt-sunset-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5768,6 +5953,13 @@
       </div>
       <div class="book-field"><label for="tt-water-name">Name</label><input id="tt-water-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-water-phone">WhatsApp / phone</label><input id="tt-water-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5841,6 +6033,13 @@
       </div>
       <div class="book-field"><label for="tt-atv-name">Name</label><input id="tt-atv-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-atv-phone">WhatsApp / phone</label><input id="tt-atv-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -5950,6 +6149,13 @@
       </div>
       <div class="book-field"><label for="tt-custom-name">Name</label><input id="tt-custom-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-custom-phone">WhatsApp / phone</label><input id="tt-custom-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
+      <div class="book-price-box" data-price-box>
+        <div>
+          <p class="book-price-box-label">Total Price</p>
+          <p class="book-price-box-note" data-price-note></p>
+        </div>
+        <p class="book-price-box-amount" data-price-amount></p>
+      </div>
       <div class="book-action-row">
         <button type="button" class="book-submit btn-pay-now">Pay Now</button>
         <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
@@ -6428,8 +6634,32 @@
 
       function updateBookingSummary(form) {
         var summary = form.querySelector("[data-booking-summary]");
-        if (!summary) return;
 
+        /* ── Live price box ── */
+        var priceBox    = form.querySelector("[data-price-box]");
+        var priceAmount = form.querySelector("[data-price-amount]");
+        var priceNote   = form.querySelector("[data-price-note]");
+        var estimate    = getPackagePriceEstimate(form);
+        if (priceBox && priceAmount) {
+          if (estimate && estimate.price > 0) {
+            var totalRM = formatRM(estimate.total);
+            priceAmount.textContent = totalRM;
+            if (priceNote) {
+              if (estimate.units > 1) {
+                priceNote.textContent = estimate.units + " unit(s) × " + formatRM(estimate.price) + " / " + estimate.unitPax + " pax";
+              } else if (estimate.unitPax) {
+                priceNote.textContent = formatRM(estimate.price) + " / " + estimate.unitPax + " pax";
+              } else {
+                priceNote.textContent = "Base price";
+              }
+            }
+            priceBox.classList.add("is-visible");
+          } else {
+            priceBox.classList.remove("is-visible");
+          }
+        }
+
+        if (!summary) return;
         var packageText = getSelectedPackageText(form);
         if (!packageText) {
           summary.textContent = getPackageChoicePlaceholder(form);
@@ -6439,7 +6669,6 @@
         var pax = form.querySelector('[name="pax"]');
         var bookDate = form.querySelector('[name="book_date"]');
         var bookTime = form.querySelector('[name="book_time"]');
-        var estimate = getPackagePriceEstimate(form);
         var lines = ["Selected package: " + packageText];
         if (pax && pax.value) lines.push("Guests: " + pax.value);
         if (estimate) {
@@ -6608,6 +6837,12 @@
             updateBookingSummary(form);
           });
           updateBookingSummary(form);
+        }
+
+        /* update price box when pax changes */
+        var paxInput = form.querySelector('[name="pax"]');
+        if (paxInput) {
+          paxInput.addEventListener("input", function () { updateBookingSummary(form); });
         }
 
         form.addEventListener("submit", function (e) {
@@ -7182,6 +7417,13 @@
 
   /* ─── Extract price from dialog ─────────────────── */
   function getPrice(form) {
+    /* Prefer the live calculated total shown in the price box */
+    var amountEl = form.querySelector("[data-price-amount]");
+    if (amountEl && amountEl.textContent.trim()) {
+      var liveMatch = amountEl.textContent.replace(/,/g, "").match(/[\d]+(\.\d+)?/);
+      if (liveMatch) return { text: amountEl.textContent.trim(), num: parseFloat(liveMatch[0]) };
+    }
+    /* Fallback to static pkg-price */
     var dlg      = form.closest("dialog");
     var priceEl  = dlg && dlg.querySelector(".pkg-price");
     var text     = priceEl ? priceEl.textContent.trim() : "";
@@ -7238,11 +7480,11 @@
 
     if (priceNum > 0) {
       confAmount.textContent = "RM\u00a0" + priceNum.toLocaleString("en-MY", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-      confNote.textContent   = priceText + " \u2014 our team will confirm the exact amount";
+      confNote.textContent   = priceText;
       _payUrl = TOYYIBPAY_URL + "?billAmount=" + Math.round(priceNum * 100);
     } else {
       confAmount.textContent = "To be confirmed";
-      confNote.textContent   = "Price depends on dates & availability \u2014 our team will confirm";
+      confNote.textContent   = "";
       _payUrl = TOYYIBPAY_URL;
     }
 
