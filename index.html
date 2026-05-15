@@ -1809,6 +1809,44 @@
       border-radius: 2px;
     }
 
+
+    /* ── Pay Now + Add to Cart ── */
+    .book-action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; margin-top: 0.35rem; }
+    .book-submit.btn-pay-now { background: #10b981; box-shadow: 0 8px 24px rgba(16,185,129,.32); }
+    .book-submit.btn-pay-now:hover { background: #059669; box-shadow: 0 12px 28px rgba(16,185,129,.42); filter: none; }
+    .book-submit.btn-add-cart { background: #fff; color: var(--booking-accent); border: 2px solid var(--booking-accent); box-shadow: 0 4px 14px rgba(37,99,235,.10); }
+    .book-submit.btn-add-cart:hover { background: var(--booking-accent-soft); transform: translateY(-1px); filter: none; }
+    /* ── Cart badge ── */
+    .cart-btn { position: relative; }
+    .cart-badge { position: absolute; top: -4px; right: -4px; background: var(--coral); color: #fff; font-size: .6rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: none; align-items: center; justify-content: center; border: 1.5px solid #fff; pointer-events: none; }
+    .cart-badge.has-items { display: flex; }
+    /* ── Cart drawer ── */
+    .cart-drawer-backdrop { position: fixed; inset: 0; z-index: 499; background: rgba(26,31,33,.45); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .35s var(--ease-out); }
+    .cart-drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }
+    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px,96vw); z-index: 500; background: var(--white); box-shadow: -8px 0 48px rgba(26,31,33,.16); display: flex; flex-direction: column; transform: translateX(110%); transition: transform .42s var(--ease-out); }
+    .cart-drawer.is-open { transform: translateX(0); }
+    .cart-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.4rem; border-bottom: 1px solid #eceef0; flex-shrink: 0; }
+    .cart-drawer-head h2 { margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--charcoal); }
+    .cart-drawer-close { background: none; border: none; cursor: pointer; color: var(--grey); font-size: 1.5rem; line-height: 1; padding: .25rem; border-radius: 50%; transition: color .2s, background .2s; }
+    .cart-drawer-close:hover { color: var(--charcoal); background: var(--grey-light); }
+    .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.4rem; display: flex; flex-direction: column; gap: .75rem; }
+    .cart-empty-msg { margin: auto; text-align: center; color: var(--grey); font-size: .95rem; line-height: 1.6; }
+    .cart-item { display: flex; align-items: flex-start; gap: .85rem; padding: .85rem 1rem; background: var(--grey-light); border-radius: var(--radius-md); border: 1px solid #eceef0; }
+    .cart-item-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--teal-soft); display: grid; place-items: center; flex-shrink: 0; color: var(--teal-dark); }
+    .cart-item-body { flex: 1; min-width: 0; }
+    .cart-item-name { font-size: .88rem; font-weight: 600; color: var(--charcoal); margin: 0 0 .15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cart-item-meta { font-size: .76rem; color: var(--grey); margin: 0; line-height: 1.45; }
+    .cart-item-remove { background: none; border: none; cursor: pointer; color: #9ca3af; font-size: 1.1rem; line-height: 1; padding: .2rem; flex-shrink: 0; transition: color .2s; }
+    .cart-item-remove:hover { color: var(--coral); }
+    .cart-drawer-foot { padding: 1.25rem 1.4rem; border-top: 1px solid #eceef0; flex-shrink: 0; }
+    .cart-footer-note { font-size: .78rem; color: var(--grey); margin: 0 0 .9rem; text-align: center; line-height: 1.45; }
+    .cart-checkout-btn { width: 100%; padding: 1rem; border: none; border-radius: .65rem; background: #10b981; color: #fff; font-family: var(--font-sans); font-weight: 700; font-size: .95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .5rem; transition: filter .2s, transform .2s, box-shadow .2s; box-shadow: 0 8px 24px rgba(16,185,129,.32); }
+    .cart-checkout-btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .cart-checkout-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+    .cart-wa-btn { width: 100%; padding: .8rem; border: 2px solid #25d366; border-radius: .65rem; background: #fff; color: #128c50; font-family: var(--font-sans); font-weight: 700; font-size: .88rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .45rem; margin-top: .55rem; transition: background .2s, color .2s; }
+    .cart-wa-btn:hover { background: #25d366; color: #fff; }
+    .cart-wa-btn:disabled { opacity: .45; cursor: not-allowed; }
+
     .book-hint {
       margin: 0.85rem 0 0;
       font-size: 0.8rem;
@@ -3616,6 +3654,10 @@
         </ul>
       </nav>
       <div class="nav-actions">
+        <button type="button" class="icon-btn cart-btn" id="cart-btn" aria-label="Lihat cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
         <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
           <span class="menu-toggle-icons" aria-hidden="true">
             <svg class="menu-icon-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -4376,8 +4418,11 @@
         <div class="book-field"><label for="pk-island-time">Time</label><input id="pk-island-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-island-phone">WhatsApp / phone</label><input id="pk-island-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">No payment here — our team will contact you to confirm.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4398,8 +4443,11 @@
         <div class="book-field"><label for="pk-geopark-time">Time</label><input id="pk-geopark-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-geopark-phone">WhatsApp / phone</label><input id="pk-geopark-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">No payment here — our team will contact you to confirm.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4420,8 +4468,11 @@
         <div class="book-field"><label for="pk-luxury-time">Time</label><input id="pk-luxury-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-luxury-phone">WhatsApp / phone</label><input id="pk-luxury-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">No payment here — our team will contact you to confirm.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4442,8 +4493,11 @@
         <div class="book-field"><label for="pk-custom-time">Time</label><input id="pk-custom-time" name="book_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="pk-custom-phone">WhatsApp / phone</label><input id="pk-custom-phone" name="phone" type="tel" autocomplete="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">No payment here — our team will contact you to confirm.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4484,8 +4538,11 @@
         <div class="book-field"><label for="v-city-return-time">Return time</label><input id="v-city-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-city-phone">WhatsApp / phone</label><input id="v-city-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4526,8 +4583,11 @@
         <div class="book-field"><label for="v-coast-return-time">Return time</label><input id="v-coast-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-coast-phone">WhatsApp / phone</label><input id="v-coast-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4568,8 +4628,11 @@
         <div class="book-field"><label for="v-breeze-return-time">Return time</label><input id="v-breeze-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-breeze-phone">WhatsApp / phone</label><input id="v-breeze-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4610,8 +4673,11 @@
         <div class="book-field"><label for="v-pulse-return-time">Return time</label><input id="v-pulse-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-pulse-phone">WhatsApp / phone</label><input id="v-pulse-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4652,8 +4718,11 @@
         <div class="book-field"><label for="v-strike-return-time">Return time</label><input id="v-strike-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-strike-phone">WhatsApp / phone</label><input id="v-strike-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4694,8 +4763,11 @@
         <div class="book-field"><label for="v-apex-return-time">Return time</label><input id="v-apex-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-apex-phone">WhatsApp / phone</label><input id="v-apex-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4736,8 +4808,11 @@
         <div class="book-field"><label for="v-terrain-return-time">Return time</label><input id="v-terrain-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-terrain-phone">WhatsApp / phone</label><input id="v-terrain-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4778,8 +4853,11 @@
         <div class="book-field"><label for="v-summit-return-time">Return time</label><input id="v-summit-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-summit-phone">WhatsApp / phone</label><input id="v-summit-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4820,8 +4898,11 @@
         <div class="book-field"><label for="v-voyager-return-time">Return time</label><input id="v-voyager-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-voyager-phone">WhatsApp / phone</label><input id="v-voyager-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4862,8 +4943,11 @@
         <div class="book-field"><label for="v-atlas-return-time">Return time</label><input id="v-atlas-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-atlas-phone">WhatsApp / phone</label><input id="v-atlas-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4904,8 +4988,11 @@
         <div class="book-field"><label for="v-hauler-return-time">Return time</label><input id="v-hauler-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-hauler-phone">WhatsApp / phone</label><input id="v-hauler-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4946,8 +5033,11 @@
         <div class="book-field"><label for="v-field-return-time">Return time</label><input id="v-field-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-field-phone">WhatsApp / phone</label><input id="v-field-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -4988,8 +5078,11 @@
         <div class="book-field"><label for="v-cargo-return-time">Return time</label><input id="v-cargo-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-cargo-phone">WhatsApp / phone</label><input id="v-cargo-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -5030,8 +5123,11 @@
         <div class="book-field"><label for="v-shuttle-return-time">Return time</label><input id="v-shuttle-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-shuttle-phone">WhatsApp / phone</label><input id="v-shuttle-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -5072,8 +5168,11 @@
         <div class="book-field"><label for="v-crew-return-time">Return time</label><input id="v-crew-return-time" name="return_time" type="time" /></div>
       </div>
       <div class="book-field"><label for="v-crew-phone">WhatsApp / phone</label><input id="v-crew-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
-      <p class="book-hint">We'll contact you to confirm availability &amp; rate.</p>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
+      <p class="book-hint">Pay Now → ToyyibPay (FPX). Add to Cart → checkout semua sekali.</p>
     </form>
   </div>
 </dialog>
@@ -5193,7 +5292,10 @@
       </div>
       <div class="book-field"><label for="tt-private-name">Name</label><input id="tt-private-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-private-phone">WhatsApp / phone</label><input id="tt-private-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
       <p class="book-hint">We&apos;ll confirm price &amp; availability by WhatsApp.</p>
     </form>
   </div>
@@ -5324,7 +5426,10 @@
       </div>
       <div class="book-field"><label for="tt-transfer-name">Name</label><input id="tt-transfer-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-transfer-phone">WhatsApp / phone</label><input id="tt-transfer-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
       <p class="book-hint">We&apos;ll confirm price &amp; slot by WhatsApp.</p>
     </form>
   </div>
@@ -5403,7 +5508,10 @@
       </div>
       <div class="book-field"><label for="tt-yacht-name">Name</label><input id="tt-yacht-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-yacht-phone">WhatsApp / phone</label><input id="tt-yacht-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
       <p class="book-hint">We&apos;ll confirm price &amp; availability by WhatsApp.</p>
     </form>
   </div>
@@ -5475,7 +5583,10 @@
       </div>
       <div class="book-field"><label for="tt-sunset-name">Name</label><input id="tt-sunset-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-sunset-phone">WhatsApp / phone</label><input id="tt-sunset-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
       <p class="book-hint">We&apos;ll confirm availability and final price by WhatsApp — nothing is charged on this site.</p>
     </form>
   </div>
@@ -5572,7 +5683,10 @@
       </div>
       <div class="book-field"><label for="tt-water-name">Name</label><input id="tt-water-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-water-phone">WhatsApp / phone</label><input id="tt-water-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
       <p class="book-hint">We&apos;ll confirm slot &amp; price by WhatsApp.</p>
     </form>
   </div>
@@ -5642,7 +5756,10 @@
       </div>
       <div class="book-field"><label for="tt-atv-name">Name</label><input id="tt-atv-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-atv-phone">WhatsApp / phone</label><input id="tt-atv-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
       <p class="book-hint">We&apos;ll confirm slot &amp; price by WhatsApp.</p>
     </form>
   </div>
@@ -5748,7 +5865,10 @@
       </div>
       <div class="book-field"><label for="tt-custom-name">Name</label><input id="tt-custom-name" name="name" type="text" required autocomplete="name" placeholder="Full name" /></div>
       <div class="book-field"><label for="tt-custom-phone">WhatsApp / phone</label><input id="tt-custom-phone" name="phone" type="tel" placeholder="+60 … (optional)" /></div>
-      <button type="submit" class="book-submit">Book now</button>
+      <div class="book-action-row">
+        <button type="submit" class="book-submit btn-pay-now">Pay Now</button>
+        <button type="button" class="book-submit btn-add-cart"><svg style="width:1.1rem;height:1.1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button>
+      </div>
       <p class="book-hint">We&apos;ll confirm route, pickup, and price by WhatsApp.</p>
     </form>
   </div>
@@ -6365,6 +6485,8 @@
         var waPath =
           "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.123 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z";
         document.querySelectorAll(".simple-book-form .book-submit").forEach(function (btn) {
+          /* skip Pay Now and Add to Cart — they have their own labels */
+          if (btn.classList.contains("btn-pay-now") || btn.classList.contains("btn-add-cart")) return;
           if (btn.querySelector(".book-submit-label")) return;
           btn.innerHTML =
             '<svg class="book-submit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="' +
@@ -6381,11 +6503,7 @@
         var submitBtn = form.querySelector(".book-submit");
         var hint = form.querySelector(".book-hint");
         if (hint) {
-          if (form.classList.contains("booking-form-snorkel")) {
-            hint.textContent = "We open WhatsApp with this summary — our team confirms slot and price before you pay.";
-          } else {
-            hint.textContent = "We'll contact you to confirm availability & rate.";
-          }
+          /* keep our custom hint text — don't override */
         }
         if (vehModel && pickupDate && returnDate) {
           pickupDate.addEventListener("change", function () {
@@ -6827,5 +6945,264 @@
       }
     })();
   </script>
+
+<!-- Cart drawer -->
+<div class="cart-drawer-backdrop" id="cart-drawer-backdrop" aria-hidden="true"></div>
+<aside class="cart-drawer" id="cart-drawer" role="dialog" aria-label="Cart" aria-modal="true">
+  <div class="cart-drawer-head">
+    <h2>Cart Booking</h2>
+    <button class="cart-drawer-close" id="cart-drawer-close" aria-label="Tutup">&times;</button>
+  </div>
+  <div class="cart-items" id="cart-items-list">
+    <div class="cart-empty-msg" id="cart-empty-msg">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 1rem;display:block;opacity:.35"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Cart kosong.<br>Tambah booking dari mana-mana popup.
+    </div>
+  </div>
+  <div class="cart-drawer-foot">
+    <p class="cart-footer-note">Semua payment melalui ToyyibPay (FPX). Team kami akan confirm slot &amp; butiran.</p>
+    <button class="cart-checkout-btn" id="cart-checkout-btn" disabled>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      Pay Now via ToyyibPay
+    </button>
+    <button class="cart-wa-btn" id="cart-wa-btn" disabled>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a12.07 12.07 0 0 0 5.71 1.448h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.48-8.451zm-8.475 18.3h-.005a10.04 10.04 0 0 1-5.099-1.394l-.366-.217-3.797.99 1.013-3.678-.239-.378a9.894 9.894 0 0 1-1.528-5.316c.002-5.476 4.498-9.931 10.03-9.931 2.679 0 5.195 1.04 7.088 2.929 1.892 1.888 2.934 4.399 2.933 7.07-.003 5.477-4.499 9.925-10.03 9.925zm5.503-7.438c-.3-.15-1.776-.874-2.052-.974-.275-.1-.476-.15-.676.15-.2.3-.775.974-.95 1.174-.175.2-.35.225-.65.075-.3-.15-1.265-.465-2.41-1.483-.891-.793-1.493-1.773-1.668-2.073-.175-.3-.019-.462.131-.611.134-.134.3-.35.45-.524.15-.175.2-.3.3-.499.1-.2.05-.374-.025-.524-.075-.15-.676-1.624-.926-2.224-.244-.585-.492-.505-.676-.514-.175-.008-.374-.01-.574-.01-.2 0-.524.075-.799.374-.275.3-1.05 1.024-1.05 2.498 0 1.474 1.075 2.898 1.225 3.098.15.2 2.116 3.224 5.126 4.522.716.309 1.276.494 1.712.633.719.228 1.374.196 1.891.119.577-.085 1.776-.724 2.026-1.424.25-.7.25-1.299.175-1.424-.075-.124-.275-.199-.574-.349z"/></svg>
+      Hantar via WhatsApp
+    </button>
+  </div>
+</aside>
+
+<script>
+(function () {
+  var TOYYIBPAY_URL = "https://toyyibpay.com/wave-langkawi";
+  var WA_NUMBER     = "601123452472"; /* ← tukar nombor WA anda di sini */
+  var STORAGE_KEY   = "wl_pending_booking";
+
+  var cartItems  = [];
+  var cartIdSeed = 0;
+
+  /* ── DOM refs ── */
+  var cartBtn      = document.getElementById("cart-btn");
+  var cartBadge    = document.getElementById("cart-badge");
+  var cartDrawer   = document.getElementById("cart-drawer");
+  var cartBackdrop = document.getElementById("cart-drawer-backdrop");
+  var cartCloseBtn = document.getElementById("cart-drawer-close");
+  var cartList     = document.getElementById("cart-items-list");
+  var cartEmptyMsg = document.getElementById("cart-empty-msg");
+  var cartPayBtn   = document.getElementById("cart-checkout-btn");
+  var cartWaBtn    = document.getElementById("cart-wa-btn");
+
+  /* ── Helpers ── */
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  function buildWaMsg(items, txnId){
+    var msg = "\u2705 *Pembayaran Berjaya — Wave Langkawi*\n";
+    if(txnId) msg += "Transaction ID: " + txnId + "\n";
+    msg += "\nButiran tempahan:\n\n";
+    items.forEach(function(it, i){
+      msg += (i+1) + ". *" + it.name + "*\n   " + it.meta + "\n\n";
+    });
+    msg += "Sila sahkan slot & butiran lanjut. Terima kasih! \uD83C\uDF3A";
+    return msg;
+  }
+
+  function openWhatsApp(msg){
+    var url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+    var w = window.open(url, "_blank");
+    if(w) w.opener = null; else window.location.href = url;
+  }
+
+  function savePending(items){
+    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch(e){}
+  }
+
+  function loadPending(){
+    try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null"); } catch(e){ return null; }
+  }
+
+  function clearPending(){
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch(e){}
+  }
+
+  /* ── Check ToyyibPay return URL on page load ── */
+  (function checkPaymentReturn(){
+    var params = new URLSearchParams(window.location.search);
+    var status = params.get("status_id");   /* 1 = success, 2 = pending, 3 = fail */
+    var txnId  = params.get("transaction_id") || params.get("billcode") || "";
+
+    if(status === "1"){
+      /* Payment success — load saved booking details */
+      var pending = loadPending();
+      clearPending();
+
+      /* Clean URL so refresh doesn't re-trigger */
+      history.replaceState(null, "", window.location.pathname);
+
+      if(pending && pending.length){
+        /* Show success banner then open WA */
+        showToast("\u2705 Pembayaran berjaya! Membuka WhatsApp\u2026", true);
+        setTimeout(function(){
+          openWhatsApp(buildWaMsg(pending, txnId));
+        }, 1200);
+      } else {
+        /* No saved details — still open WA with generic success msg */
+        showToast("\u2705 Pembayaran berjaya! Membuka WhatsApp\u2026", true);
+        setTimeout(function(){
+          var msg = "\u2705 *Pembayaran Berjaya — Wave Langkawi*\n";
+          if(txnId) msg += "Transaction ID: " + txnId + "\n";
+          msg += "\nSila sahkan butiran tempahan saya. Terima kasih!";
+          openWhatsApp(msg);
+        }, 1200);
+      }
+    } else if(status === "3"){
+      showToast("Pembayaran tidak berjaya. Sila cuba semula.", false);
+      history.replaceState(null, "", window.location.pathname);
+    }
+  })();
+
+  /* ── Badge ── */
+  function updateBadge(){
+    var n = cartItems.length;
+    cartBadge.textContent = n;
+    cartBadge.classList.toggle("has-items", n > 0);
+  }
+
+  /* ── Render cart ── */
+  function renderCart(){
+    Array.from(cartList.children).forEach(function(el){ if(!el.id) el.remove(); });
+    if(cartItems.length === 0){
+      cartEmptyMsg.style.display = "";
+      cartPayBtn.disabled = true;
+      cartWaBtn.disabled  = true;
+    } else {
+      cartEmptyMsg.style.display = "none";
+      cartPayBtn.disabled = false;
+      cartWaBtn.disabled  = false;
+      cartItems.forEach(function(item){
+        var d = document.createElement("div");
+        d.className = "cart-item";
+        d.innerHTML =
+          '<div class="cart-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>' +
+          '<div class="cart-item-body"><p class="cart-item-name">' + esc(item.name) + '</p><p class="cart-item-meta">' + esc(item.meta) + '</p></div>' +
+          '<button class="cart-item-remove" data-id="' + item.id + '" aria-label="Buang">&times;</button>';
+        cartList.appendChild(d);
+      });
+      cartList.querySelectorAll(".cart-item-remove").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          var id = Number(btn.getAttribute("data-id"));
+          cartItems = cartItems.filter(function(it){ return it.id !== id; });
+          updateBadge(); renderCart();
+        });
+      });
+    }
+  }
+
+  /* ── Drawer open/close ── */
+  function openCart(){ cartDrawer.classList.add("is-open"); cartBackdrop.classList.add("is-open"); document.body.style.overflow="hidden"; renderCart(); }
+  function closeCart(){ cartDrawer.classList.remove("is-open"); cartBackdrop.classList.remove("is-open"); document.body.style.overflow=""; }
+
+  cartBtn      && cartBtn.addEventListener("click", openCart);
+  cartCloseBtn && cartCloseBtn.addEventListener("click", closeCart);
+  cartBackdrop && cartBackdrop.addEventListener("click", closeCart);
+
+  /* ── Extract form label ── */
+  function getLabel(form){
+    var dlg   = form.closest("dialog");
+    var h3    = dlg && dlg.querySelector("h3");
+    var fName = form.querySelector('[name="name"]');
+    var fPax  = form.querySelector('[name="pax"]');
+    var fDate = form.querySelector('[name="book_date"],[name="pickup_date"]');
+    var fRet  = form.querySelector('[name="return_date"]');
+    var fTime = form.querySelector('[name="book_time"],[name="pickup_time"]');
+    var fPkg  = form.querySelector('[name="package_choice"]');
+    var fVeh  = form.querySelector('[name="vehicle_model"]');
+    var fPhn  = form.querySelector('[name="phone"]');
+    var meta  = [];
+    if(fName && fName.value.trim())  meta.push("Nama: " + fName.value.trim());
+    if(fPax  && fPax.value)          meta.push(fPax.value + " pax");
+    if(fPkg  && fPkg.value)          meta.push("Pakej: " + fPkg.value);
+    if(fVeh  && fVeh.value)          meta.push("Kenderaan: " + fVeh.value);
+    if(fDate && fDate.value)         meta.push("Tarikh: " + fDate.value);
+    if(fRet  && fRet.value)          meta.push("Pulang: " + fRet.value);
+    if(fTime && fTime.value)         meta.push("Masa: " + fTime.value);
+    if(fPhn  && fPhn.value.trim())   meta.push("Tel: " + fPhn.value.trim());
+    return { name: h3 ? h3.textContent.trim() : "Booking", meta: meta.join(" | ") || "\u2014" };
+  }
+
+  /* ── Validate form ── */
+  function doValidate(form){
+    var name = form.querySelector('[name="name"]');
+    var pax  = form.querySelector('[name="pax"]');
+    var bd   = form.querySelector('[name="book_date"]');
+    var pu   = form.querySelector('[name="pickup_date"]');
+    var rd   = form.querySelector('[name="return_date"]');
+    var pkg  = form.querySelector('[name="package_choice"]');
+    if(!name||!name.value.trim()){ showToast("Sila masukkan nama anda."); name&&name.focus(); return false; }
+    var pn = pax&&pax.value!==""?Number(pax.value):NaN;
+    if(!pax||!Number.isFinite(pn)||pn<1){ showToast("Masukkan bilangan tetamu (sekurang-kurangnya 1)."); pax&&pax.focus(); return false; }
+    if(pkg&&!pkg.value){ showToast("Sila pilih pakej."); return false; }
+    if(pu&&rd){
+      if(!pu.value){ showToast("Pilih tarikh ambil."); pu.focus(); return false; }
+      if(!rd.value){ showToast("Pilih tarikh pulang."); rd.focus(); return false; }
+      if(rd.value<pu.value){ showToast("Tarikh pulang tidak boleh sebelum tarikh ambil."); rd.focus(); return false; }
+    } else if(bd&&!bd.value){ showToast("Pilih tarikh."); bd.focus(); return false; }
+    return true;
+  }
+
+  /* ── Add to Cart ── */
+  document.querySelectorAll(".btn-add-cart").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var form = btn.closest("form"); if(!form) return;
+      if(!doValidate(form)) return;
+      var lbl = getLabel(form);
+      cartIdSeed++;
+      cartItems.push({ id: cartIdSeed, name: lbl.name, meta: lbl.meta });
+      updateBadge();
+      showToast("Ditambah ke cart! \uD83D\uDED2", true);
+      var dlg = form.closest("dialog");
+      if(dlg && dlg.open) dlg.close();
+    });
+  });
+
+  /* ── Pay Now (single booking) ── */
+  document.querySelectorAll(".btn-pay-now").forEach(function(btn){
+    btn.addEventListener("click", function(e){
+      e.preventDefault();
+      var form = btn.closest("form"); if(!form) return;
+      if(!doValidate(form)) return;
+      var lbl = getLabel(form);
+      /* Save booking details so we can retrieve after ToyyibPay redirects back */
+      savePending([{ id: 1, name: lbl.name, meta: lbl.meta }]);
+      showToast("Menghubungi ToyyibPay\u2026");
+      /* Redirect in same tab so ToyyibPay Return URL works */
+      window.location.href = TOYYIBPAY_URL;
+    });
+  });
+
+  /* ── Cart Pay Now (multiple bookings) ── */
+  cartPayBtn && cartPayBtn.addEventListener("click", function(){
+    if(!cartItems.length) return;
+    savePending(cartItems.slice());
+    showToast("Membuka ToyyibPay\u2026");
+    window.location.href = TOYYIBPAY_URL;
+  });
+
+  /* ── Cart Send via WhatsApp (without payment) ── */
+  cartWaBtn && cartWaBtn.addEventListener("click", function(){
+    if(!cartItems.length) return;
+    var msg = "\uD83C\uDF0A *Enquiry Tempahan — Wave Langkawi*\n\nButiran tempahan:\n\n";
+    cartItems.forEach(function(it, i){ msg += (i+1) + ". *" + it.name + "*\n   " + it.meta + "\n\n"; });
+    msg += "Sila sahkan slot & harga. Terima kasih!";
+    openWhatsApp(msg);
+  });
+
+  updateBadge();
+})();
+</script>
+
 </body>
 </html>
