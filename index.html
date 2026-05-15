@@ -2062,10 +2062,8 @@
     /* Native booking dialogs — app-style sheet (phone: bottom sheet, desktop: centered card) */
     .booking-dialog {
       position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      margin: 0;
+      inset: 0;
+      margin: auto;
       width: min(460px, calc(100vw - 1.5rem));
       max-width: calc(100vw - 1.5rem);
       height: fit-content;
@@ -3597,14 +3595,10 @@
 
     @media (max-width: 719px) {
       .booking-dialog {
-        left: 0;
-        right: 0;
-        top: auto;
-        bottom: 0;
-        transform: none;
+        inset: auto 0 0 0;
         margin: 0;
         width: 100%;
-        max-width: none;
+        max-width: 100%;
         border-radius: 1.25rem 1.25rem 0 0;
         max-height: min(92dvh, calc(100dvh - env(safe-area-inset-bottom)));
       }
@@ -5907,6 +5901,7 @@
           el.classList.remove("is-show");
         }, 4200);
       }
+      window.showToast = showToast; /* expose for cart/pay script */
 
       var y = document.getElementById("y");
       if (y) y.textContent = new Date().getFullYear();
@@ -6976,6 +6971,12 @@
 (function () {
   var TOYYIBPAY_URL = "https://toyyibpay.com/wave-langkawi";
   var WA_NUMBER     = "601123452472"; /* ← tukar nombor WA anda di sini */
+
+  /* Use global showToast if available, else silent fallback */
+  function toast(msg, ok) {
+    if (typeof window.showToast === "function") window.showToast(msg, ok);
+    else console.log("[WL]", msg);
+  }
   var STORAGE_KEY   = "wl_pending_booking";
 
   var cartItems  = [];
@@ -7044,13 +7045,13 @@
 
       if(pending && pending.length){
         /* Show success banner then open WA */
-        showToast("\u2705 Pembayaran berjaya! Membuka WhatsApp\u2026", true);
+        toast("\u2705 Pembayaran berjaya! Membuka WhatsApp\u2026", true);
         setTimeout(function(){
           openWhatsApp(buildWaMsg(pending, txnId));
         }, 1200);
       } else {
         /* No saved details — still open WA with generic success msg */
-        showToast("\u2705 Pembayaran berjaya! Membuka WhatsApp\u2026", true);
+        toast("\u2705 Pembayaran berjaya! Membuka WhatsApp\u2026", true);
         setTimeout(function(){
           var msg = "\u2705 *Pembayaran Berjaya — Wave Langkawi*\n";
           if(txnId) msg += "Transaction ID: " + txnId + "\n";
@@ -7059,7 +7060,7 @@
         }, 1200);
       }
     } else if(status === "3"){
-      showToast("Pembayaran tidak berjaya. Sila cuba semula.", false);
+      toast("Pembayaran tidak berjaya. Sila cuba semula.", false);
       history.replaceState(null, "", window.location.pathname);
     }
   })();
@@ -7141,15 +7142,15 @@
     var pu   = form.querySelector('[name="pickup_date"]');
     var rd   = form.querySelector('[name="return_date"]');
     var pkg  = form.querySelector('[name="package_choice"]');
-    if(!name||!name.value.trim()){ showToast("Sila masukkan nama anda."); name&&name.focus(); return false; }
+    if(!name||!name.value.trim()){ toast("Sila masukkan nama anda."); name&&name.focus(); return false; }
     var pn = pax&&pax.value!==""?Number(pax.value):NaN;
-    if(!pax||!Number.isFinite(pn)||pn<1){ showToast("Masukkan bilangan tetamu (sekurang-kurangnya 1)."); pax&&pax.focus(); return false; }
-    if(pkg&&!pkg.value){ showToast("Sila pilih pakej."); return false; }
+    if(!pax||!Number.isFinite(pn)||pn<1){ toast("Masukkan bilangan tetamu (sekurang-kurangnya 1)."); pax&&pax.focus(); return false; }
+    if(pkg&&!pkg.value){ toast("Sila pilih pakej."); return false; }
     if(pu&&rd){
-      if(!pu.value){ showToast("Pilih tarikh ambil."); pu.focus(); return false; }
-      if(!rd.value){ showToast("Pilih tarikh pulang."); rd.focus(); return false; }
-      if(rd.value<pu.value){ showToast("Tarikh pulang tidak boleh sebelum tarikh ambil."); rd.focus(); return false; }
-    } else if(bd&&!bd.value){ showToast("Pilih tarikh."); bd.focus(); return false; }
+      if(!pu.value){ toast("Pilih tarikh ambil."); pu.focus(); return false; }
+      if(!rd.value){ toast("Pilih tarikh pulang."); rd.focus(); return false; }
+      if(rd.value<pu.value){ toast("Tarikh pulang tidak boleh sebelum tarikh ambil."); rd.focus(); return false; }
+    } else if(bd&&!bd.value){ toast("Pilih tarikh."); bd.focus(); return false; }
     return true;
   }
 
@@ -7162,7 +7163,7 @@
       cartIdSeed++;
       cartItems.push({ id: cartIdSeed, name: lbl.name, meta: lbl.meta });
       updateBadge();
-      showToast("Ditambah ke cart! \uD83D\uDED2", true);
+      toast("Ditambah ke cart! \uD83D\uDED2", true);
       var dlg = form.closest("dialog");
       if(dlg && dlg.open) dlg.close();
     });
@@ -7177,7 +7178,7 @@
       var lbl = getLabel(form);
       /* Save booking details so we can retrieve after ToyyibPay redirects back */
       savePending([{ id: 1, name: lbl.name, meta: lbl.meta }]);
-      showToast("Menghubungi ToyyibPay\u2026");
+      toast("Menghubungi ToyyibPay\u2026");
       /* Redirect in same tab so ToyyibPay Return URL works */
       window.location.href = TOYYIBPAY_URL;
     });
@@ -7187,7 +7188,7 @@
   cartPayBtn && cartPayBtn.addEventListener("click", function(){
     if(!cartItems.length) return;
     savePending(cartItems.slice());
-    showToast("Membuka ToyyibPay\u2026");
+    toast("Membuka ToyyibPay\u2026");
     window.location.href = TOYYIBPAY_URL;
   });
 
