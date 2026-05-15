@@ -7270,9 +7270,11 @@
   /* Confirm & Pay → straight to ToyyibPay */
   if (confGo) confGo.addEventListener("click", function () {
     if (!_payUrl || !_payItems) return;
-    savePending(_payItems); /* saved so WhatsApp can auto-fire after payment success */
+    var url   = _payUrl;          /* save before hideConfirm() nulls them */
+    var items = _payItems;
+    savePending(items);
     hideConfirm();
-    window.location.href = _payUrl;
+    window.location.href = url;
   });
 
   /* ═══════════════════════════════════════════════════
