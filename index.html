@@ -7360,10 +7360,14 @@
       cartSeed++;
       cartItems.push({ id: cartSeed, name: fd.name, meta: fd.meta });
       updateBadge();
-      toast("Added to cart! \uD83D\uDED2", true);
 
+      /* Close dialog first, then show toast so it's visible */
       var dlg = form.closest("dialog");
       if (dlg && dlg.open) dlg.close();
+
+      setTimeout(function () {
+        toast("\uD83D\uDED2 \"" + fd.name + "\" added to cart!", true);
+      }, 150);
     });
   });
 
@@ -7376,6 +7380,10 @@
       var fd    = getFormData(form);
       var price = getPrice(form);
       var items = [{ id: 1, name: fd.name, meta: fd.meta }];
+
+      /* Close booking dialog first so it doesn't overlap */
+      var dlg = form.closest("dialog");
+      if (dlg && dlg.open) dlg.close();
 
       /* Show confirmation popup with details + price */
       showConfirm(fd.name, fd.details, price.num, price.text, items);
