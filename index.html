@@ -7494,9 +7494,10 @@
     /* store pay data for when user clicks Confirm & Pay */
     var nameF  = items[0] && items[0].billTo  || "";
     var phoneF = items[0] && items[0].billPhone || "";
+    var metaStr = items.map(function(it){ return it.name + (it.meta ? " - " + it.meta : ""); }).join(", ");
     _payData  = {
-      name:      serviceName,
-      meta:      items.map(function(it){ return it.name + " — " + it.meta; }).join(", "),
+      name:      serviceName || "Wave Langkawi Booking",
+      meta:      metaStr || "Tour and car rental booking",
       amount:    priceNum,
       billTo:    nameF,
       billPhone: phoneF
@@ -7536,8 +7537,8 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        billName:  data.name.slice(0, 30),
-        billDesc:  data.meta.slice(0, 100),
+        billName:  data.name.slice(0, 30) || "Wave Langkawi Booking",
+        billDesc:  data.meta.slice(0, 100) || "Tour and car rental booking",
         billAmount: data.amount,
         billTo:    data.billTo   || "",
         billPhone: data.billPhone || "",
