@@ -7084,313 +7084,330 @@
 
 <script>
 (function () {
-  var TOYYIBPAY_URL = "https://toyyibpay.com/wave-langkawi";
-  var WA_NUMBER     = "601123452472"; /* ← tukar nombor WA anda di sini */
+  "use strict";
 
-  /* Use global showToast if available, else silent fallback */
-  function toast(msg, ok) {
-    if (typeof window.showToast === "function") window.showToast(msg, ok);
-    else console.log("[WL]", msg);
-  }
+  /* ─── Config ─────────────────────────────────────── */
+  var TOYYIBPAY_URL = "https://toyyibpay.com/wave-langkawi";
+  var WA_NUMBER     = "601123452472";
   var STORAGE_KEY   = "wl_pending_booking";
 
-  var cartItems  = [];
-  var cartIdSeed = 0;
+  /* ─── Toast helper (uses globally exposed showToast) ─ */
+  function toast(msg, ok) {
+    if (typeof window.showToast === "function") window.showToast(msg, !!ok);
+  }
 
-  /* ── DOM refs ── */
+  /* ─── sessionStorage helpers ────────────────────── */
+  function savePending(items) {
+    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch(e) {}
+  }
+  function loadPending() {
+    try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null"); } catch(e) { return null; }
+  }
+  function clearPending() {
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  }
+
+  /* ─── WhatsApp helper ────────────────────────────── */
+  function openWA(msg) {
+    var url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+    var w = window.open(url, "_blank");
+    if (w) w.opener = null; else window.location.href = url;
+  }
+
+  /* ─── On page load: handle ToyyibPay return ─────── */
+  (function checkReturn() {
+    var p      = new URLSearchParams(window.location.search);
+    var status = p.get("status_id");
+    var txnId  = p.get("transaction_id") || p.get("billcode") || "";
+    if (!status) return;
+
+    history.replaceState(null, "", window.location.pathname);
+
+    if (status === "1") {
+      var pending = loadPending();
+      clearPending();
+      toast("\u2705 Payment successful! Opening WhatsApp\u2026", true);
+      setTimeout(function () {
+        var msg = "\u2705 *Payment Successful \u2014 Wave Langkawi*\n";
+        if (txnId) msg += "Transaction ID: " + txnId + "\n";
+        msg += "\nBooking details:\n\n";
+        if (pending && pending.length) {
+          pending.forEach(function (it, i) {
+            msg += (i + 1) + ". *" + it.name + "*\n   " + it.meta + "\n\n";
+          });
+        }
+        msg += "Please confirm slot & details. Thank you! \uD83C\uDF3A";
+        openWA(msg);
+      }, 1200);
+    } else if (status === "3") {
+      toast("Payment unsuccessful. Please try again.");
+    }
+  })();
+
+  /* ─── HTML escape ────────────────────────────────── */
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  /* ─── Extract form label + detail lines ─────────── */
+  function getFormData(form) {
+    var dlg  = form.closest("dialog");
+    var h3   = dlg && dlg.querySelector("h3");
+    var fN   = form.querySelector('[name="name"]');
+    var fPx  = form.querySelector('[name="pax"]');
+    var fD   = form.querySelector('[name="book_date"]') || form.querySelector('[name="pickup_date"]');
+    var fR   = form.querySelector('[name="return_date"]');
+    var fT   = form.querySelector('[name="book_time"]') || form.querySelector('[name="pickup_time"]');
+    var fPkg = form.querySelector('[name="package_choice"]');
+    var fVeh = form.querySelector('[name="vehicle_model"]');
+    var fPhn = form.querySelector('[name="phone"]');
+
+    var name    = h3 ? h3.textContent.trim() : "Booking";
+    var details = [];
+    if (fN   && fN.value.trim())   details.push({ label: "Name",     val: fN.value.trim() });
+    if (fPx  && fPx.value)         details.push({ label: "Guests",   val: fPx.value + " guest(s)" });
+    if (fPkg && fPkg.value)        details.push({ label: "Package",  val: fPkg.value });
+    if (fVeh && fVeh.value)        details.push({ label: "Vehicle",  val: fVeh.value });
+    if (fD   && fD.value)          details.push({ label: "Date",     val: fD.value });
+    if (fR   && fR.value)          details.push({ label: "Return",   val: fR.value });
+    if (fT   && fT.value)          details.push({ label: "Time",     val: fT.value });
+    if (fPhn && fPhn.value.trim()) details.push({ label: "Phone",    val: fPhn.value.trim() });
+
+    var metaStr = details.map(function (d) { return d.label + ": " + d.val; }).join(" | ");
+
+    return { name: name, details: details, meta: metaStr || "\u2014" };
+  }
+
+  /* ─── Extract price from dialog ─────────────────── */
+  function getPrice(form) {
+    var dlg      = form.closest("dialog");
+    var priceEl  = dlg && dlg.querySelector(".pkg-price");
+    var text     = priceEl ? priceEl.textContent.trim() : "";
+    var match    = text.match(/([\d,]+)(\.\d+)?/);
+    var num      = match ? parseFloat(match[0].replace(/,/g, "")) : 0;
+    return { text: text, num: num };
+  }
+
+  /* ─── Validate form ──────────────────────────────── */
+  function validate(form) {
+    var fN  = form.querySelector('[name="name"]');
+    var fPx = form.querySelector('[name="pax"]');
+    var fD  = form.querySelector('[name="book_date"]');
+    var fPu = form.querySelector('[name="pickup_date"]');
+    var fRd = form.querySelector('[name="return_date"]');
+    var fPk = form.querySelector('[name="package_choice"]');
+
+    if (!fN || !fN.value.trim()) {
+      toast("Please enter your name."); if (fN) fN.focus(); return false;
+    }
+    var pn = fPx && fPx.value !== "" ? Number(fPx.value) : NaN;
+    if (!Number.isFinite(pn) || pn < 1) {
+      toast("Please enter the number of guests (at least 1)."); if (fPx) fPx.focus(); return false;
+    }
+    if (fPk && !fPk.value) {
+      toast("Please select a package."); return false;
+    }
+    if (fPu && fRd) {
+      if (!fPu.value) { toast("Please choose a pick-up date."); fPu.focus(); return false; }
+      if (!fRd.value) { toast("Please choose a return date."); fRd.focus(); return false; }
+      if (fRd.value < fPu.value) { toast("Return date cannot be before pick-up date."); fRd.focus(); return false; }
+    } else if (fD && !fD.value) {
+      toast("Please choose a date."); fD.focus(); return false;
+    }
+    return true;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     CONFIRMATION MODAL
+  ═══════════════════════════════════════════════════ */
+  var confBackdrop = document.getElementById("pay-confirm-backdrop");
+  var confService  = document.getElementById("pay-confirm-service");
+  var confAmount   = document.getElementById("pay-confirm-amount");
+  var confNote     = document.getElementById("pay-confirm-price-note");
+  var confDetails  = document.getElementById("pay-confirm-details");
+  var confGo       = document.getElementById("pay-confirm-go");
+  var confCancel   = document.getElementById("pay-confirm-cancel");
+
+  var _payUrl   = null;
+  var _payItems = null;
+
+  function showConfirm(serviceName, detailLines, priceNum, priceText, items) {
+    confService.textContent = serviceName;
+
+    if (priceNum > 0) {
+      confAmount.textContent = "RM\u00a0" + priceNum.toLocaleString("en-MY", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+      confNote.textContent   = priceText + " \u2014 our team will confirm the exact amount";
+      _payUrl = TOYYIBPAY_URL + "?billAmount=" + Math.round(priceNum * 100);
+    } else {
+      confAmount.textContent = "To be confirmed";
+      confNote.textContent   = "Price depends on dates & availability \u2014 our team will confirm";
+      _payUrl = TOYYIBPAY_URL;
+    }
+
+    confDetails.innerHTML = detailLines.map(function (d) {
+      return "<strong>" + esc(d.label) + ":</strong> " + esc(d.val);
+    }).join("<br>");
+
+    _payItems = items;
+    confBackdrop.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideConfirm() {
+    confBackdrop.classList.remove("is-open");
+    document.body.style.overflow = "";
+    _payUrl   = null;
+    _payItems = null;
+  }
+
+  if (confCancel)   confCancel.addEventListener("click", hideConfirm);
+  if (confBackdrop) confBackdrop.addEventListener("click", function (e) {
+    if (e.target === confBackdrop) hideConfirm();
+  });
+
+  /* "Proceed to ToyyibPay" inside confirmation modal */
+  if (confGo) confGo.addEventListener("click", function () {
+    if (!_payUrl || !_payItems) return;
+    savePending(_payItems);
+    hideConfirm();
+    toast("Connecting to ToyyibPay\u2026");
+    window.location.href = _payUrl;
+  });
+
+  /* ═══════════════════════════════════════════════════
+     CART
+  ═══════════════════════════════════════════════════ */
+  var cartItems  = [];
+  var cartSeed   = 0;
+
   var cartBtn      = document.getElementById("cart-btn");
   var cartBadge    = document.getElementById("cart-badge");
   var cartDrawer   = document.getElementById("cart-drawer");
   var cartBackdrop = document.getElementById("cart-drawer-backdrop");
-  var cartCloseBtn = document.getElementById("cart-drawer-close");
+  var cartClose    = document.getElementById("cart-drawer-close");
   var cartList     = document.getElementById("cart-items-list");
-  var cartEmptyMsg = document.getElementById("cart-empty-msg");
+  var cartEmpty    = document.getElementById("cart-empty-msg");
   var cartPayBtn   = document.getElementById("cart-checkout-btn");
   var cartWaBtn    = document.getElementById("cart-wa-btn");
 
-  /* ── Helpers ── */
-  function esc(s){
-    return String(s).replace(/[&<>"']/g, function(c){
-      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
-    });
-  }
-
-  function buildWaMsg(items, txnId){
-    var msg = "\u2705 *Payment Successful — Wave Langkawi*\n";
-    if(txnId) msg += "Transaction ID: " + txnId + "\n";
-    msg += "\nBooking details:\n\n";
-    items.forEach(function(it, i){
-      msg += (i+1) + ". *" + it.name + "*\n   " + it.meta + "\n\n";
-    });
-    msg += "Please confirm the slot & details. Thank you! \uD83C\uDF3A";
-    return msg;
-  }
-
-  function openWhatsApp(msg){
-    var url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
-    var w = window.open(url, "_blank");
-    if(w) w.opener = null; else window.location.href = url;
-  }
-
-  function savePending(items){
-    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch(e){}
-  }
-
-  function loadPending(){
-    try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null"); } catch(e){ return null; }
-  }
-
-  function clearPending(){
-    try { sessionStorage.removeItem(STORAGE_KEY); } catch(e){}
-  }
-
-  /* ── Check ToyyibPay return URL on page load ── */
-  (function checkPaymentReturn(){
-    var params = new URLSearchParams(window.location.search);
-    var status = params.get("status_id");   /* 1 = success, 2 = pending, 3 = fail */
-    var txnId  = params.get("transaction_id") || params.get("billcode") || "";
-
-    if(status === "1"){
-      /* Payment success — load saved booking details */
-      var pending = loadPending();
-      clearPending();
-
-      /* Clean URL so refresh doesn't re-trigger */
-      history.replaceState(null, "", window.location.pathname);
-
-      if(pending && pending.length){
-        /* Show success banner then open WA */
-        toast("\u2705 Payment successful! Opening WhatsApp\u2026", true);
-        setTimeout(function(){
-          openWhatsApp(buildWaMsg(pending, txnId));
-        }, 1200);
-      } else {
-        /* No saved details — still open WA with generic success msg */
-        toast("\u2705 Payment successful! Opening WhatsApp\u2026", true);
-        setTimeout(function(){
-          var msg = "\u2705 *Payment Successful — Wave Langkawi*\n";
-          if(txnId) msg += "Transaction ID: " + txnId + "\n";
-          msg += "\nPlease confirm my booking details. Thank you!";
-          openWhatsApp(msg);
-        }, 1200);
-      }
-    } else if(status === "3"){
-      toast("Payment unsuccessful. Please try again.", false);
-      history.replaceState(null, "", window.location.pathname);
-    }
-  })();
-
-  /* ── Badge ── */
-  function updateBadge(){
+  function updateBadge() {
     var n = cartItems.length;
     cartBadge.textContent = n;
     cartBadge.classList.toggle("has-items", n > 0);
   }
 
-  /* ── Render cart ── */
-  function renderCart(){
-    Array.from(cartList.children).forEach(function(el){ if(!el.id) el.remove(); });
-    if(cartItems.length === 0){
-      cartEmptyMsg.style.display = "";
-      cartPayBtn.disabled = true;
-      cartWaBtn.disabled  = true;
-    } else {
-      cartEmptyMsg.style.display = "none";
-      cartPayBtn.disabled = false;
-      cartWaBtn.disabled  = false;
-      cartItems.forEach(function(item){
-        var d = document.createElement("div");
-        d.className = "cart-item";
-        d.innerHTML =
-          '<div class="cart-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>' +
-          '<div class="cart-item-body"><p class="cart-item-name">' + esc(item.name) + '</p><p class="cart-item-meta">' + esc(item.meta) + '</p></div>' +
-          '<button class="cart-item-remove" data-id="' + item.id + '" aria-label="Buang">&times;</button>';
-        cartList.appendChild(d);
-      });
-      cartList.querySelectorAll(".cart-item-remove").forEach(function(btn){
-        btn.addEventListener("click", function(){
-          var id = Number(btn.getAttribute("data-id"));
-          cartItems = cartItems.filter(function(it){ return it.id !== id; });
-          updateBadge(); renderCart();
-        });
-      });
-    }
-  }
-
-  /* ── Drawer open/close ── */
-  function openCart(){ cartDrawer.classList.add("is-open"); cartBackdrop.classList.add("is-open"); document.body.style.overflow="hidden"; renderCart(); }
-  function closeCart(){ cartDrawer.classList.remove("is-open"); cartBackdrop.classList.remove("is-open"); document.body.style.overflow=""; }
-
-  cartBtn      && cartBtn.addEventListener("click", openCart);
-  cartCloseBtn && cartCloseBtn.addEventListener("click", closeCart);
-  cartBackdrop && cartBackdrop.addEventListener("click", closeCart);
-
-  /* ── Extract form label ── */
-  function getLabel(form){
-    var dlg   = form.closest("dialog");
-    var h3    = dlg && dlg.querySelector("h3");
-    var fName = form.querySelector('[name="name"]');
-    var fPax  = form.querySelector('[name="pax"]');
-    var fDate = form.querySelector('[name="book_date"],[name="pickup_date"]');
-    var fRet  = form.querySelector('[name="return_date"]');
-    var fTime = form.querySelector('[name="book_time"],[name="pickup_time"]');
-    var fPkg  = form.querySelector('[name="package_choice"]');
-    var fVeh  = form.querySelector('[name="vehicle_model"]');
-    var fPhn  = form.querySelector('[name="phone"]');
-    var meta  = [];
-    if(fName && fName.value.trim())  meta.push("Name: " + fName.value.trim());
-    if(fPax  && fPax.value)          meta.push(fPax.value + " pax");
-    if(fPkg  && fPkg.value)          meta.push("Package: " + fPkg.value);
-    if(fVeh  && fVeh.value)          meta.push("Vehicle: " + fVeh.value);
-    if(fDate && fDate.value)         meta.push("Date: " + fDate.value);
-    if(fRet  && fRet.value)          meta.push("Return: " + fRet.value);
-    if(fTime && fTime.value)         meta.push("Time: " + fTime.value);
-    if(fPhn  && fPhn.value.trim())   meta.push("Phone: " + fPhn.value.trim());
-    return { name: h3 ? h3.textContent.trim() : "Booking", meta: meta.join(" | ") || "\u2014" };
-  }
-
-  /* ── Validate form ── */
-  function doValidate(form){
-    var name = form.querySelector('[name="name"]');
-    var pax  = form.querySelector('[name="pax"]');
-    var bd   = form.querySelector('[name="book_date"]');
-    var pu   = form.querySelector('[name="pickup_date"]');
-    var rd   = form.querySelector('[name="return_date"]');
-    var pkg  = form.querySelector('[name="package_choice"]');
-    if(!name||!name.value.trim()){ toast("Please enter your name."); name&&name.focus(); return false; }
-    var pn = pax&&pax.value!==""?Number(pax.value):NaN;
-    if(!pax||!Number.isFinite(pn)||pn<1){ toast("Please enter the number of guests (at least 1)."); pax&&pax.focus(); return false; }
-    if(pkg&&!pkg.value){ toast("Please select a package."); return false; }
-    if(pu&&rd){
-      if(!pu.value){ toast("Please choose a pick-up date."); pu.focus(); return false; }
-      if(!rd.value){ toast("Please choose a return date."); rd.focus(); return false; }
-      if(rd.value<pu.value){ toast("Return date cannot be before pick-up date."); rd.focus(); return false; }
-    } else if(bd&&!bd.value){ toast("Please choose a date."); bd.focus(); return false; }
-    return true;
-  }
-
-  /* ── Add to Cart ── */
-  document.querySelectorAll(".btn-add-cart").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      var form = btn.closest("form"); if(!form) return;
-      if(!doValidate(form)) return;
-      var lbl = getLabel(form);
-      cartIdSeed++;
-      cartItems.push({ id: cartIdSeed, name: lbl.name, meta: lbl.meta });
-      updateBadge();
-      toast("Added to cart! \uD83D\uDED2", true);
-      var dlg = form.closest("dialog");
-      if(dlg && dlg.open) dlg.close();
+  function renderCart() {
+    /* remove old item rows (not the empty msg) */
+    Array.from(cartList.children).forEach(function (el) {
+      if (!el.id) el.remove();
     });
-  });
 
-  /* ── Pay Confirmation Modal ── */
-  var confirmBackdrop = document.getElementById("pay-confirm-backdrop");
-  var confirmService  = document.getElementById("pay-confirm-service");
-  var confirmAmount   = document.getElementById("pay-confirm-amount");
-  var confirmNote     = document.getElementById("pay-confirm-price-note");
-  var confirmDetails  = document.getElementById("pay-confirm-details");
-  var confirmGo       = document.getElementById("pay-confirm-go");
-  var confirmCancel   = document.getElementById("pay-confirm-cancel");
-  var _pendingPayUrl  = null;
-  var _pendingItems   = null;
+    var empty = cartItems.length === 0;
+    cartEmpty.style.display  = empty ? "" : "none";
+    cartPayBtn.disabled      = empty;
+    cartWaBtn.disabled       = empty;
 
-  function showConfirm(serviceName, priceNum, priceDisplay, detailLines, items) {
-    confirmService.textContent = serviceName;
+    cartItems.forEach(function (item) {
+      var d = document.createElement("div");
+      d.className = "cart-item";
+      d.innerHTML =
+        '<div class="cart-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>' +
+        '<div class="cart-item-body">' +
+          '<p class="cart-item-name">' + esc(item.name) + '</p>' +
+          '<p class="cart-item-meta">' + esc(item.meta) + '</p>' +
+        '</div>' +
+        '<button class="cart-item-remove" data-id="' + item.id + '" aria-label="Remove">&times;</button>';
+      cartList.appendChild(d);
+    });
 
-    if (priceNum > 0) {
-      confirmAmount.textContent = "RM " + priceNum.toLocaleString("en-MY", {minimumFractionDigits: 0, maximumFractionDigits: 2});
-      confirmNote.textContent   = "(" + priceDisplay + ") — our team will confirm the exact amount via WhatsApp";
-      _pendingPayUrl = TOYYIBPAY_URL + "?billAmount=" + Math.round(priceNum * 100);
-    } else {
-      confirmAmount.textContent = "Depends on package";
-      confirmNote.textContent   = "Our team will confirm the exact amount after payment";
-      _pendingPayUrl = TOYYIBPAY_URL;
-    }
+    cartList.querySelectorAll(".cart-item-remove").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        cartItems = cartItems.filter(function (it) { return it.id !== Number(btn.getAttribute("data-id")); });
+        updateBadge();
+        renderCart();
+      });
+    });
+  }
 
-    confirmDetails.innerHTML = detailLines.map(function(l){
-      return "<strong>" + l.label + ":</strong> " + l.value;
-    }).join("<br>");
-
-    _pendingItems = items;
-    confirmBackdrop.classList.add("is-open");
+  function openCart()  {
+    renderCart();
+    cartDrawer.classList.add("is-open");
+    cartBackdrop.classList.add("is-open");
     document.body.style.overflow = "hidden";
   }
-
-  function hideConfirm() {
-    confirmBackdrop.classList.remove("is-open");
+  function closeCart() {
+    cartDrawer.classList.remove("is-open");
+    cartBackdrop.classList.remove("is-open");
     document.body.style.overflow = "";
-    _pendingPayUrl = null;
-    _pendingItems  = null;
   }
 
-  confirmCancel   && confirmCancel.addEventListener("click", hideConfirm);
-  confirmBackdrop && confirmBackdrop.addEventListener("click", function(e){
-    if (e.target === confirmBackdrop) hideConfirm();
+  if (cartBtn)      cartBtn.addEventListener("click", openCart);
+  if (cartClose)    cartClose.addEventListener("click", closeCart);
+  if (cartBackdrop) cartBackdrop.addEventListener("click", function (e) {
+    if (e.target === cartBackdrop) closeCart();
   });
 
-  confirmGo && confirmGo.addEventListener("click", function(){
-    if (!_pendingPayUrl || !_pendingItems) return;
-    savePending(_pendingItems);
-    hideConfirm();
-    toast("Connecting to ToyyibPay\u2026");
-    window.location.href = _pendingPayUrl;
-  });
+  /* ─── ADD TO CART ────────────────────────────────── */
+  document.querySelectorAll(".btn-add-cart").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var form = btn.closest("form");
+      if (!form || !validate(form)) return;
 
-  /* ── Pay Now (single booking) — show confirmation with price ── */
-  document.querySelectorAll(".btn-pay-now").forEach(function(btn){
-    btn.addEventListener("click", function(e){
-      e.preventDefault();
-      var form = btn.closest("form"); if(!form) return;
-      if(!doValidate(form)) return;
+      var fd = getFormData(form);
+      cartSeed++;
+      cartItems.push({ id: cartSeed, name: fd.name, meta: fd.meta });
+      updateBadge();
+      toast("Added to cart! \uD83D\uDED2", true);
 
-      var lbl = getLabel(form);
       var dlg = form.closest("dialog");
-
-      /* Extract price from dialog */
-      var priceEl    = dlg && dlg.querySelector(".pkg-price");
-      var priceText  = priceEl ? priceEl.textContent.trim() : "";
-      var priceMatch = priceText.match(/[\d,]+(\.\d+)?/);
-      var priceNum   = priceMatch ? parseFloat(priceMatch[0].replace(/,/g, "")) : 0;
-
-      /* Build detail lines */
-      var nF = form.querySelector('[name="name"]');
-      var pF = form.querySelector('[name="pax"]');
-      var dF = form.querySelector('[name="book_date"]') || form.querySelector('[name="pickup_date"]');
-      var rF = form.querySelector('[name="return_date"]');
-      var kF = form.querySelector('[name="package_choice"]');
-      var tF = form.querySelector('[name="phone"]');
-      var lines = [];
-      if(nF && nF.value.trim()) lines.push({label:"Name",   value: nF.value.trim()});
-      if(pF && pF.value)        lines.push({label:"Guests", value: pF.value + " guest(s)"});
-      if(kF && kF.value)        lines.push({label:"Package",  value: kF.value});
-      if(dF && dF.value)        lines.push({label:"Date", value: dF.value});
-      if(rF && rF.value)        lines.push({label:"Return", value: rF.value});
-      if(tF && tF.value.trim()) lines.push({label:"Phone",    value: tF.value.trim()});
-
-      showConfirm(lbl.name, priceNum, priceText, lines, [{id:1, name:lbl.name, meta:lbl.meta}]);
+      if (dlg && dlg.open) dlg.close();
     });
   });
 
-  /* ── Cart Pay Now — show confirmation (no fixed price for mixed cart) ── */
-  cartPayBtn && cartPayBtn.addEventListener("click", function(){
-    if(!cartItems.length) return;
-    var lines = cartItems.map(function(it, i){
-      return { label: (i+1) + "", value: "<strong>" + it.name + "</strong> — " + it.meta };
+  /* ─── PAY NOW (from booking popup) ──────────────── */
+  document.querySelectorAll(".btn-pay-now").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var form = btn.closest("form");
+      if (!form || !validate(form)) return;
+
+      var fd    = getFormData(form);
+      var price = getPrice(form);
+      var items = [{ id: 1, name: fd.name, meta: fd.meta }];
+
+      /* Show confirmation popup with details + price */
+      showConfirm(fd.name, fd.details, price.num, price.text, items);
     });
-    showConfirm("All Cart Bookings", 0, "", lines, cartItems.slice());
   });
 
-  /* ── Cart Send via WhatsApp (without payment) ── */
-  cartWaBtn && cartWaBtn.addEventListener("click", function(){
-    if(!cartItems.length) return;
-    var msg = "\uD83C\uDF0A *Booking Enquiry — Wave Langkawi*\n\nBooking details:\n\n";
-    cartItems.forEach(function(it, i){ msg += (i+1) + ". *" + it.name + "*\n   " + it.meta + "\n\n"; });
+  /* ─── PAY NOW (from cart) ────────────────────────── */
+  if (cartPayBtn) cartPayBtn.addEventListener("click", function () {
+    if (!cartItems.length) return;
+
+    /* Build detail lines from all cart items */
+    var lines = cartItems.map(function (it, i) {
+      return { label: (i + 1) + "", val: it.name + " \u2014 " + it.meta };
+    });
+
+    /* Show confirmation popup — no single price for mixed cart */
+    showConfirm("All Cart Bookings", lines, 0, "", cartItems.slice());
+    closeCart();
+  });
+
+  /* ─── WHATSAPP (from cart, no payment) ──────────── */
+  if (cartWaBtn) cartWaBtn.addEventListener("click", function () {
+    if (!cartItems.length) return;
+    var msg = "\uD83C\uDF0A *Booking Enquiry \u2014 Wave Langkawi*\n\nBooking details:\n\n";
+    cartItems.forEach(function (it, i) {
+      msg += (i + 1) + ". *" + it.name + "*\n   " + it.meta + "\n\n";
+    });
     msg += "Please confirm availability & pricing. Thank you!";
-    openWhatsApp(msg);
+    openWA(msg);
   });
 
   updateBadge();
+
 })();
 </script>
 
