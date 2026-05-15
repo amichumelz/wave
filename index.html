@@ -7322,9 +7322,10 @@
   "use strict";
 
   /* ─── Config ─────────────────────────────────────── */
-  var TOYYIBPAY_URL = "https://toyyibpay.com/wave-langkawi";
-  var WA_NUMBER     = "601123452472";
-  var STORAGE_KEY   = "wl_pending_booking";
+  var WORKER_URL  = "https://bitter-dream-2386.1211111996.workers.dev";
+  var WA_NUMBER   = "601123452472";
+  var STORAGE_KEY = "wl_pending_booking";
+  var SITE_URL    = "https://wavelangkawiventures.com";
 
   /* ─── Toast helper (uses globally exposed showToast) ─ */
   function toast(msg, ok) {
@@ -7472,7 +7473,7 @@
   var confGo       = document.getElementById("pay-confirm-go");
   var confCancel   = document.getElementById("pay-confirm-cancel");
 
-  var _payUrl   = null;
+  var _payData  = null;
   var _payItems = null;
 
   function showConfirm(serviceName, detailLines, priceNum, priceText, items) {
@@ -7481,17 +7482,25 @@
     if (priceNum > 0) {
       confAmount.textContent = "RM\u00a0" + priceNum.toLocaleString("en-MY", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
       confNote.textContent   = priceText;
-      _payUrl = TOYYIBPAY_URL + "?billAmount=" + Math.round(priceNum * 100);
     } else {
       confAmount.textContent = "To be confirmed";
       confNote.textContent   = "";
-      _payUrl = TOYYIBPAY_URL;
     }
 
     confDetails.innerHTML = detailLines.map(function (d) {
       return "<strong>" + esc(d.label) + ":</strong> " + esc(d.val);
     }).join("<br>");
 
+    /* store pay data for when user clicks Confirm & Pay */
+    var nameF  = items[0] && items[0].billTo  || "";
+    var phoneF = items[0] && items[0].billPhone || "";
+    _payData  = {
+      name:      serviceName,
+      meta:      items.map(function(it){ return it.name + " — " + it.meta; }).join(", "),
+      amount:    priceNum,
+      billTo:    nameF,
+      billPhone: phoneF
+    };
     _payItems = items;
     confBackdrop.classList.add("is-open");
     document.body.style.overflow = "hidden";
@@ -7500,7 +7509,7 @@
   function hideConfirm() {
     confBackdrop.classList.remove("is-open");
     document.body.style.overflow = "";
-    _payUrl   = null;
+    _payData  = null;
     _payItems = null;
   }
 
@@ -7509,14 +7518,49 @@
     if (e.target === confBackdrop) hideConfirm();
   });
 
-  /* Confirm & Pay → straight to ToyyibPay */
+  /* Confirm & Pay → call Worker → get unique bill URL → redirect */
   if (confGo) confGo.addEventListener("click", function () {
-    if (!_payUrl || !_payItems) return;
-    var url   = _payUrl;          /* save before hideConfirm() nulls them */
+    if (!_payData || !_payItems) return;
+
+    var data  = _payData;
     var items = _payItems;
+
+    /* Disable button + show loading */
+    confGo.disabled = true;
+    confGo.textContent = "Creating payment…";
+
     savePending(items);
     hideConfirm();
-    window.location.href = url;
+
+    fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        billName:  data.name.slice(0, 30),
+        billDesc:  data.meta.slice(0, 100),
+        billAmount: data.amount,
+        billTo:    data.billTo   || "",
+        billPhone: data.billPhone || "",
+        returnUrl: SITE_URL
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      confGo.disabled = false;
+      confGo.textContent = "Confirm & Pay";
+      if (res.payUrl) {
+        window.location.href = res.payUrl;
+      } else {
+        toast("Payment error — please try again.");
+        console.error("Worker error:", res);
+      }
+    })
+    .catch(function(err) {
+      confGo.disabled = false;
+      confGo.textContent = "Confirm & Pay";
+      toast("Connection error — please try again.");
+      console.error("Worker fetch error:", err);
+    });
   });
 
   /* ═══════════════════════════════════════════════════
@@ -7621,7 +7665,11 @@
 
       var fd    = getFormData(form);
       var price = getPrice(form);
-      var items = [{ id: 1, name: fd.name, meta: fd.meta }];
+      var nF    = form.querySelector('[name="name"]');
+      var phnF  = form.querySelector('[name="phone"]');
+      var items = [{ id: 1, name: fd.name, meta: fd.meta,
+        billTo:    nF   ? nF.value.trim()   : "",
+        billPhone: phnF ? phnF.value.trim() : "" }];
 
       /* Close booking dialog first so it doesn't overlap */
       var dlg = form.closest("dialog");
